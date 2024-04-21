@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useState } from "react";
+import Link from "next/link";
 import {
   Box,
   Menu,
@@ -8,22 +8,29 @@ import {
   Divider,
   Button,
   IconButton,
-} from '@mui/material';
-import * as dropdownData from './data';
+} from "@mui/material";
+import Cookies from "js-cookie";
+import * as dropdownData from "./data";
 
-import { IconMail } from '@tabler/icons-react';
-import { Stack } from '@mui/system';
-import Image from 'next/image';
-
+import { IconMail } from "@tabler/icons-react";
+import { Stack } from "@mui/system";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
+  const router = useRouter();
+
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
+
+  function handleLogout() {
+    Cookies.remove("token");
+    router.push("/auth/login");
+  }
 
   return (
     <Box>
@@ -34,15 +41,15 @@ const Profile = () => {
         aria-controls="msgs-menu"
         aria-haspopup="true"
         sx={{
-          ...(typeof anchorEl2 === 'object' && {
-            color: 'primary.main',
+          ...(typeof anchorEl2 === "object" && {
+            color: "primary.main",
           }),
         }}
         onClick={handleClick2}
       >
         <Avatar
           src={"/images/profile/user-1.jpg"}
-          alt={'ProfileImg'}
+          alt={"ProfileImg"}
           sx={{
             width: 35,
             height: 35,
@@ -58,20 +65,28 @@ const Profile = () => {
         keepMounted
         open={Boolean(anchorEl2)}
         onClose={handleClose2}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
         sx={{
-          '& .MuiMenu-paper': {
-            width: '360px',
+          "& .MuiMenu-paper": {
+            width: "360px",
             p: 4,
           },
         }}
       >
         <Typography variant="h5">User Profile</Typography>
         <Stack direction="row" py={3} spacing={2} alignItems="center">
-        <Avatar src={"/images/profile/user-1.jpg"} alt={"ProfileImg"} sx={{ width: 95, height: 95 }} />
+          <Avatar
+            src={"/images/profile/user-1.jpg"}
+            alt={"ProfileImg"}
+            sx={{ width: 95, height: 95 }}
+          />
           <Box>
-            <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
+            <Typography
+              variant="subtitle2"
+              color="textPrimary"
+              fontWeight={600}
+            >
               Mathew Anderson
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
@@ -101,7 +116,8 @@ const Profile = () => {
                     bgcolor="primary.light"
                     display="flex"
                     alignItems="center"
-                    justifyContent="center" flexShrink="0"
+                    justifyContent="center"
+                    flexShrink="0"
                   >
                     <Avatar
                       src={profile.icon}
@@ -121,7 +137,7 @@ const Profile = () => {
                       className="text-hover"
                       noWrap
                       sx={{
-                        width: '240px',
+                        width: "240px",
                       }}
                     >
                       {profile.title}
@@ -130,7 +146,7 @@ const Profile = () => {
                       color="textSecondary"
                       variant="subtitle2"
                       sx={{
-                        width: '240px',
+                        width: "240px",
                       }}
                       noWrap
                     >
@@ -143,7 +159,12 @@ const Profile = () => {
           </Box>
         ))}
         <Box mt={2}>
-          <Button href="/auth/auth1/login" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button
+            onClick={() => handleLogout()}
+            variant="outlined"
+            color="primary"
+            fullWidth
+          >
             Logout
           </Button>
         </Box>

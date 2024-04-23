@@ -1,6 +1,7 @@
 "use client";
-
 import { createSlice } from '@reduxjs/toolkit';
+
+export const API_URL = "http://127.0.0.1:8000/api";
 
 const initialState = {
   activeDir: 'ltr',

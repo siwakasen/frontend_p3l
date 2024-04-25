@@ -17,6 +17,7 @@ const FormField = styled((props) => <OutlinedInput {...props} />)(
       color: theme.palette.text.secondary,
       opacity: "1",
     },
+    width: "100%",
   })
 );
 

@@ -33,7 +33,6 @@ const SidebarItems = () => {
     checkAtuhorize();
   }, [token]);
 
-  console.log(role);
   return (
     <Box sx={{ px: 3 }}>
       <List sx={{ pt: 0 }} className="sidebarNav">

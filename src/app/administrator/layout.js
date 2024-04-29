@@ -18,7 +18,8 @@ const PageWrapper = styled(Box)(({ theme }) => ({
     paddingBottom: "60px",
     flexDirection: "column",
     zIndex: 1,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    overflowX: "auto",
 }));
 
 const AdminLayout = ({ children }) => {

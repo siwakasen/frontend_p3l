@@ -56,7 +56,7 @@ export const FormLogin = ({ title, subtitle, subtext }) => {
           }
         />
         <Stack direction="row" alignItems="end" justifyContent="end" my={2}>
-          <Link href="/auth/lupa-password">
+          <Link href="/auth/forgot-password/verify">
             <Typography color="primary" variant="subtitle2">
               Forgot Password?
             </Typography>

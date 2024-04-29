@@ -36,3 +36,38 @@ export async function checkToken(authToken = null) {
     return error;
   }
 }
+
+export async function requestForgot(email) {
+  try {
+    const response = await fetch(`${API_URL}/customer/reset-password/create-token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+    return { data, status: response.status };
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function submitForgotPassword(email, password, confirm_password) {
+  try{
+    const res  = await fetch(`${API_URL}/customer/reset-password/submit-reset`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({  email, password, confirm_password }),
+    });
+    const data = await res.json();
+    return { data, status: res.status };
+  }catch(error){
+    return error;
+  }
+}

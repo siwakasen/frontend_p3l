@@ -71,3 +71,19 @@ export async function submitForgotPassword(email, password, confirm_password) {
     return error;
   }
 }
+
+export async function validateToken(token) {
+  try{
+    const res  = await fetch(`${API_URL}/customer/reset-password/validate/${token}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const data = await res.json();
+    return { data, status: res.status };
+  }catch(error){
+    return error;
+  }
+}

@@ -74,5 +74,6 @@ export const {
 } = CustomizerSlice.actions;
 
 export const API_URL = "http://localhost:8000/api";
+export const API_URL_IMAGE = "http://127.0.0.1:8000/storage/";
 
 export default CustomizerSlice.reducer;

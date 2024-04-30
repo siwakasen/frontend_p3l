@@ -12,6 +12,7 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getAllHampers();
+      console.log(response.data);
       setData(response.data);
     };
     fetchData();

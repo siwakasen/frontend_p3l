@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Typography, Box, Breadcrumbs } from "@mui/material";
 import NextLink from "next/link";
 
-import breadcrumbImg from "public/images/breadcrumb/ChatBc.png";
+import breadcrumbImg from "@/../public/images/breadcrumb/ChatBc.png";
 import { IconCircle } from "@tabler/icons-react";
 import Image from "next/image";
 

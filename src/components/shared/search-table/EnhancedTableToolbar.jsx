@@ -13,16 +13,6 @@ import { alpha } from "@mui/material/styles";
 import { IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
 import CustomBoxModal from "../CustomBoxModalConfirm";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 3,
-};
 
 export default function EnhancedTableToolbar(props) {
   const {
@@ -101,20 +91,22 @@ export default function EnhancedTableToolbar(props) {
         </Tooltip>
       )}
       <Modal open={open} onClose={handleOpen}>
-        <CustomBoxModal
-          title="Hapus Pembelian Bahan Baku"
-          description="Data yang dihapus tidak dapat dikembalikan!"
-          footer={
-            <Button
-              color="error"
-              size="small"
-              sx={{ mt: 2 }}
-              onClick={handleDelete}
-            >
-              Hapus
-            </Button>
-          }
-        />
+        <div>
+          <CustomBoxModal
+            title="Hapus Pembelian Bahan Baku"
+            description="Data yang dihapus tidak dapat dikembalikan!"
+            footer={
+              <Button
+                color="error"
+                size="small"
+                sx={{ mt: 2 }}
+                onClick={handleDelete}
+              >
+                Hapus
+              </Button>
+            }
+          />
+        </div>
       </Modal>
     </Toolbar>
   );

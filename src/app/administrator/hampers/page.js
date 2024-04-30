@@ -1,9 +1,9 @@
 "use client";
 import PageContainer from "@/components/container/PageContainer";
-import { getAllPembelianBahanBaku } from "@/services/pembelian-bahan-baku/pembelianBahanBaku";
-import { PembelianTableSearch } from "@/components/administrator/pembelian-bahan-baku/PembelianSearchTable";
+import React, { useState, useEffect } from "react";
+import { getAllHampers } from "@/services/hampers/hampers";
+import { HampersSearchTable } from "@/components/administrator/hampers/HampersSearchTable";
 import Breadcrumb from "@/layouts/administrator/Shared/breadcrumb/Breadcrumb";
-import { useState, useEffect } from "react";
 
 export default function Page() {
   const [data, setData] = useState([]);
@@ -11,7 +11,7 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getAllPembelianBahanBaku();
+      const response = await getAllHampers();
       setData(response.data);
     };
     fetchData();
@@ -19,25 +19,25 @@ export default function Page() {
 
   const headCells = [
     {
-      id: "nama_bahan_baku",
+      id: "nama_hampers",
       numeric: false,
       disablePadding: false,
-      label: "Bahan Baku",
+      label: "Hampers",
     },
     {
-      id: "tanggal_pembelian",
+      id: "deskripsi_hampers",
       numeric: false,
       disablePadding: false,
-      label: "Tanggal Pembelian",
+      label: "Deskripsi",
     },
     {
-      id: "jumlah",
+      id: "isi_produk",
       numeric: false,
       disablePadding: false,
-      label: "Jumlah",
+      label: "Isi Hampers",
     },
     {
-      id: "harga",
+      id: "harga_hampers",
       numeric: false,
       disablePadding: false,
       label: "Harga",
@@ -52,18 +52,15 @@ export default function Page() {
 
   const BCrumb = [
     {
-      title: "Pembelian Bahan Baku",
+      title: "Hampers",
     },
   ];
 
   return (
-    <PageContainer
-      title="Pembelian Bahan Baku"
-      description="Data Pembelian Bahan Baku"
-    >
-      <Breadcrumb title="Pembelian Bahan Baku" items={BCrumb} />
-      <PembelianTableSearch
-        data={data.reverse()}
+    <PageContainer title="Hampers" description="Data Hampers">
+      <Breadcrumb title="Hampers" items={BCrumb} />
+      <HampersSearchTable
+        data={data.filter((item) => item.status_hampers === 1)}
         headCells={headCells}
         setLoading={setLoading}
         loading={loading}

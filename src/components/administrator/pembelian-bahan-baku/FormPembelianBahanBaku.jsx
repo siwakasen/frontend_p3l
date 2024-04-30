@@ -49,20 +49,22 @@ export const FormPembelianBahanBaku = ({
               Submit
             </Button>
             <Modal open={open} onClose={handleOpen}>
-              <CustomBoxModal
-                title={modalText.title}
-                description={modalText.description}
-                footer={
-                  <Button
-                    color="primary"
-                    size="small"
-                    sx={{ mt: 2 }}
-                    onClick={handleSubmit}
-                  >
-                    {modalText.btnText}
-                  </Button>
-                }
-              />
+              <div>
+                <CustomBoxModal
+                  title={modalText.title}
+                  description={modalText.description}
+                  footer={
+                    <Button
+                      color="primary"
+                      size="small"
+                      sx={{ mt: 2 }}
+                      onClick={handleSubmit}
+                    >
+                      {modalText.btnText}
+                    </Button>
+                  }
+                />
+              </div>
             </Modal>
           </>
         }

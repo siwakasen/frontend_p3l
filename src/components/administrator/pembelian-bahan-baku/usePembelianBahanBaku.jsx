@@ -9,7 +9,7 @@ import Toast from "@/components/shared/Toast";
 import { useRouter } from "next/navigation";
 
 const useDelete = ({ setLoading, loading }) => {
-  const { toastSuccess, toastError, toastWarning } = Toast();
+  const { toastSuccess, toastError } = Toast();
 
   async function handleDelete(id) {
     try {

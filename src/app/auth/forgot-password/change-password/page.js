@@ -7,7 +7,7 @@ import { FormForgotPassword } from "@/components/auth/forgot-password/FormForgot
 import { useSearchParams } from 'next/navigation'
 import { useValidateToken } from '@/components/auth/forgot-password/useValidateToken';
 import { useEffect, useState } from 'react';
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation'
 import LoadingAnimation from '@/components/loading-animation/circular-loading';
 
 export default function Page() {
@@ -145,9 +145,7 @@ export default function Page() {
                         color="primary" 
                         variant="contained" 
                         size="large" 
-                        onClick={() => {
-                          router.push('/auth/login')
-                        }}
+                        onClick={() => router.push('/auth/login')}
                     >
                         Back to Login
                     </Button>

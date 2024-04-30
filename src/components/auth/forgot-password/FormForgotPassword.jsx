@@ -5,8 +5,11 @@ import FormField from "../shared/OutlineTextFormField";
 import { Link } from 'next/link';
 import { useChangePassword } from './useChangePassword';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'
+
 
 export const FormForgotPassword = (props) => {
+  const router = useRouter();
   const { handleInput, handleChangePassword, loading } = useChangePassword();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

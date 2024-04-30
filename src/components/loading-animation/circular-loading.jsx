@@ -11,7 +11,7 @@ const LoadingAnimation = () => {
   
     return (
       <div style={containerStyle}>
-        <CircularProgress color='secondary' size={200} thickness={4} />
+        <CircularProgress color='secondary' size={100} thickness={4} />
       </div>
     );
   };

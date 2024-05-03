@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Toast from "@/components/shared/Toast";
 import  {submitForgotPassword}  from "@/services/auth/auth";
-import { set } from "lodash";
 
 export const useChangePassword = () => {
     const [password, setPassword] = useState("");

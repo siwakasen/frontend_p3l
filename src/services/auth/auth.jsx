@@ -72,7 +72,7 @@ export async function submitForgotPassword(email, password, confirm_password) {
   }
 }
 
-export async function validateToken(token) {
+export async function validateToken(token) {  
   try{
     const res  = await fetch(`${API_URL}/customer/reset-password/validate/${token}`, {
       method: "GET",

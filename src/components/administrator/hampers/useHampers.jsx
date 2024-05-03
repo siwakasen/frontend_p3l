@@ -66,10 +66,12 @@ export const useInsert = () => {
           router.push("/administrator/hampers");
           break;
         default:
+          console.log(data);
           toastError("Data gagal ditambahkan");
           break;
       }
     } catch (error) {
+      console.log(data);
       toastError("Data gagal ditambahkan");
     }
   }

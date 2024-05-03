@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { checkToken } from "@/services/auth/auth";
 
 export async function middleware(request) {
@@ -11,6 +11,8 @@ export async function middleware(request) {
   if (path.startsWith("/administrator/") && !token) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
+
+  
 
   if (path.startsWith("/administrator/") && data.data.role === "User") {
     return NextResponse.redirect(new URL("/", request.url));

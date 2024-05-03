@@ -27,7 +27,9 @@ export default function Page() {
       .catch(error => {
         console.error('Error checking token:', error);
       }).finally(() => {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       });
   }, []);
 

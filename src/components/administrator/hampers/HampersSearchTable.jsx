@@ -85,6 +85,7 @@ export const HampersSearchTable = ({
 
   // This is for the sorting
   const handleRequestSort = (event, property) => {
+    console.log(orderBy);
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);

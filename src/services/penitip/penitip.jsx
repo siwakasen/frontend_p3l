@@ -61,7 +61,7 @@ export async function insertPenitip(formData){
       body: formData,
     });
     const data = await response.json();
-    return data;
+    return { data, code: response.status };
   } catch (error) {
     return error;
   }
@@ -103,7 +103,7 @@ export async function deletePenitip(id){
       },
     });
     const data = await response.json();
-    return data;
+    return {data, code: response.status};
   } catch (error) {
     return error;
   }

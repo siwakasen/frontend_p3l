@@ -46,6 +46,7 @@ export default function Page() {
   ];
   const BCrumb = [
     {
+      to: "/administrator/dashboard",
       title: "Administrator",
     },
     {

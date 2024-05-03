@@ -56,15 +56,15 @@ export const useInsert = () => {
 
     function handleOpen() {
         setOpen(!open);
-      }
+    }
 
-      return {
+    return {
         bahanBakuInput,
         open,
         handleSubmit,
         handleOpen,
         setBahanBakuInput,
-      };
+    };
 }
 
 export const useUpdate = (id) => {
@@ -107,6 +107,7 @@ export const useUpdate = (id) => {
 
         if(bahanBakuInput.stok < 0){
             toastWarning("Stok tidak boleh kurang dari 0");
+            setOpen(!open);
             return;
         }
 
@@ -146,24 +147,24 @@ export const useDelete = ({loading, setLoading}) => {
     const { toastSuccess, toastError } = Toast();
 
     async function handleDelete(id){
-    try {
-     Array.from(id).forEach(async (id) => {
-        const { data, code } = await deleteBahanBaku(id);
-        console.log(data.message);
-            if(code === 200){
-                toastSuccess('Berhasil menghapus data bahan baku');
-                setLoading(!loading);
-                return;
-            }else if(data.message.includes('used in other tables')){
-                toastError('Bahan Baku tidak dapat dihapus karena masih digunakan di produk/hampers');
-            }else{
-                toastError('Gagal menghapus data bahan baku');
-            }
-        });
-     } catch (error) {
-        toastError('Gagal menghapus data bahan baku');
-     }
-     setLoading(!loading);
+        try {
+        Array.from(id).forEach(async (id) => {
+            const { data, code } = await deleteBahanBaku(id);
+            console.log(data.message);
+                if(code === 200){
+                    toastSuccess('Berhasil menghapus data bahan baku');
+                    setLoading(!loading);
+                    return;
+                }else if(data.message.includes('used in other tables')){
+                    toastError('Bahan Baku tidak dapat dihapus karena masih digunakan di produk/hampers');
+                }else{
+                    toastError('Gagal menghapus data bahan baku');
+                }
+            });
+        } catch (error) {
+            toastError('Gagal menghapus data bahan baku');
+        }
+        setLoading(!loading);
     }
 
     return {handleDelete};

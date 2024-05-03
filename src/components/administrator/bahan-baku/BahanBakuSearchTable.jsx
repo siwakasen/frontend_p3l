@@ -212,7 +212,7 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
                 <Modal open={open} onClose={handleOpen}>
                     <div>
                     <CustomBoxModal
-                        title="Hapus Pembelian Bahan Baku"
+                        title="Hapus Bahan Baku"
                         description="Data yang dihapus tidak dapat dikembalikan!"
                         footer={
                         <Button

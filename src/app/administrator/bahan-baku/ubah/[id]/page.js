@@ -16,6 +16,10 @@ export default function Page({params}) {
   } = useUpdate(id);
   const BCrumb = [
     {
+      to: "/administrator/dashboard",
+      title: "Administrator",
+    },
+    {
       to: "/administrator/bahan-baku",
       title: "Bahan Baku",
     },

@@ -21,6 +21,10 @@ export default function Page() {
 
   const BCrumb = [
     {
+        to: "/administrator/dashboard",
+        title: "Administrator",
+    },
+    {
       to: "/administrator/bahan-baku",
       title: "Bahan Baku",
     },
@@ -29,8 +33,8 @@ export default function Page() {
     },
   ];
   return (
-    <PageContainer title="Tambah Hampers" description="Tambah Data Hampers">
-      <Breadcrumb title="Hampers" items={BCrumb} />
+    <PageContainer title="Tambah Bahan baku" description="Tambah Data Bahan baku">
+      <Breadcrumb title="Bahan baku" items={BCrumb} />
       <FormBahanBaku
         bahanBakuInput={bahanBakuInput}
         handleSubmit={handleSubmit}

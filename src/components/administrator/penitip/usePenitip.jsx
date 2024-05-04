@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {insertPenitip, getPenitip, updatePenitip, deletePenitip} from "@/services/penitip/penitip";
 import Toast from "@/components/shared/Toast";
 import {useRouter} from "next/navigation";
-import { toast } from "react-toastify";
 
 export const useInsert = () => {
     const { toastSuccess, toastError, toastWarning } = Toast();

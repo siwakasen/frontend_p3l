@@ -1,47 +1,67 @@
 "use client"
 import PageContainer from "@/components/container/PageContainer";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Breadcrumb from "@/layouts/administrator/Shared/breadcrumb/Breadcrumb";
-import { FormPenitip } from "@/components/administrator/penitip/FormPenitip";
-import { useInsert } from "@/components/administrator/penitip/usePenitip";
+import { getAllPengeluaranLain } from "@/services/pengeluaran-lain/pengeluaran-lain";
+import { PengeluaranLainSearchTable } from "@/components/administrator/pengeluaran-lain/PengeluaranLainSearchTable";
+
 export default function Page() {
-  const {
-    penitipInput,
-    open,
-    handleSubmit,
-    handleOpen,
-    setPenitipInput,
-  } = useInsert();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const modalText ={
-    title: "Tambah Penitip",
-    description: "Apakah ingin menambahkan data ini?",
-    btnText: "Tambah",
-  }
-
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getAllPengeluaranLain();
+      console.log(response.data);
+      setData(response.data);
+    };
+    fetchData();
+  }, [loading]);
+  
+  const headCells = [
+    {
+      id: "nama_pengeluaran",
+      numeric: false,
+      disablePadding: false,
+      label: "Nama Pengeluaran",
+    },
+    {
+      id: "nominal_pengeluaran",
+      numeric: false,
+      disablePadding: false,
+      label: "Nominal Pengeluaran",
+    },
+    {
+      id: "tanggal_pengeluaran",
+      numeric: false,
+      disablePadding: false,
+      label: "Tanggal Pengeluaran",
+    },
+    {
+      id: "action",
+      numeric: false,
+      disablePadding: false,
+      label: "Action",
+    },
+  ];
   const BCrumb = [
     {
         to: "/administrator/dashboard",
         title: "Administrator",
     },
     {
-      to: "/administrator/penitip",
-      title: "Penitip",
-    },
-    {
-      title: "Tambah",
+      title: "Pengeluaran Lain",
     },
   ];
+
   return (
-    <PageContainer title="Tambah Penitip" description="Tambah Data Penitip">
-      <Breadcrumb title="Penitip" items={BCrumb} />
-      <FormPenitip
-        penitipInput={penitipInput}
-        handleSubmit={handleSubmit}
-        handleOpen={handleOpen}
-        setPenitipInput={setPenitipInput}
-        open={open}
-        modalText={modalText}
+    <PageContainer title="Pengeluaran Lain" description="Data Pengeluaran Lain">
+      <Breadcrumb title="Pengeluaran Lain" items={BCrumb} />
+      <PengeluaranLainSearchTable
+        data={data}
+        headCells={headCells}
+        setLoading={setLoading}
+        loading={loading}
       />
     </PageContainer>
   );

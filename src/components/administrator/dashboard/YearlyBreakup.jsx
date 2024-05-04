@@ -8,14 +8,14 @@ import { IconArrowUpLeft, IconArrowDownRight } from '@tabler/icons-react';
 import DashboardCard from '../shared/DashboardCard';
 import SkeletonYearlyBreakupCard from "./skeleton/YearlyBreakupCard";
 
-import { getDashboardData } from "@/services/administrator/dashboard/getData";
+import { getDefaultData } from "@/services/administrator/dashboard/getData";
 
 
 const YearlyBreakup = ({ isLoading }) => {
   const [data, setData] = React.useState({});
 
   React.useEffect(() => {
-    getDashboardData().then((response) => {
+    getDefaultData().then((response) => {
       setData(response.data.ppTahunan);
     });
   }, []);

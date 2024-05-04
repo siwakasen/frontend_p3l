@@ -1,37 +1,28 @@
 import Image from "next/image";
 import { Box, CardContent, Grid, Typography } from "@mui/material";
 
-import icon2 from "/public/images/svgs/icon-user-male.svg";
-import icon3 from "/public/images/svgs/icon-briefcase.svg";
-import icon4 from "/public/images/svgs/icon-mailbox.svg";
-import icon5 from "/public/images/svgs/icon-favorites.svg";
-
 import { useEffect, useState } from "react";
 
 // api services
-import { getDashboardData } from "@/services/administrator/dashboard/getData";
+import { getDefaultData } from "@/services/administrator/dashboard/getData";
 
 const topcards = [
   {
-    icon: icon2,
     title: "Karyawan",
     digits: "0",
     bgcolor: "primary",
   },
   {
-    icon: icon3,
     title: "Penitip",
     digits: "0",
     bgcolor: "warning",
   },
   {
-    icon: icon4,
     title: "Produk",
     digits: "0",
     bgcolor: "secondary",
   },
   { 
-    icon: icon5,
     title: "Pesanan",
     digits: "0",
     bgcolor: "error",
@@ -39,7 +30,7 @@ const topcards = [
 ];
 
 const TopCards = () => {
-  const fetchData = getDashboardData();
+  const fetchData = getDefaultData();
   const [dashboardData, setDashboardData] = useState({});
 
   useEffect(() => {

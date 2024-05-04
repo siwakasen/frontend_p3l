@@ -3,12 +3,11 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from '@mui/material/styles';
 import { MenuItem, Grid, Stack, Typography, Button, Avatar, Box } from '@mui/material';
-import { IconGridDots } from '@tabler/icons-react';
 import DashboardCard from '../shared/DashboardCard';
-import CustomSelect from '../forms/theme-elements/CustomSelect';
+import CustomSelect from '../forms/CustomSelect';
 import SkeletonRevenueUpdatesTwoCard from './skeleton/RevenueUpdatesTwoCard';
 
-import { getDashboardData } from '@/services/administrator/dashboard/getData';
+import { getDefaultData } from '@/services/administrator/dashboard/getData';
 
 const RevenueUpdates = ({isLoading}) => {
   const [defaultMonth, setdefaultMonth] = React.useState(
@@ -18,7 +17,7 @@ const RevenueUpdates = ({isLoading}) => {
   const [month, setMonth] = React.useState([]);
 
   React.useEffect(() => {
-    getDashboardData().then((response) => {
+    getDefaultData().then((response) => {
       setMonth(response.data.ppBulanan);
     });
   }, []);
@@ -31,7 +30,7 @@ const RevenueUpdates = ({isLoading}) => {
   const [date, setDate] = React.useState([]);
 
   React.useEffect(() => {
-    getDashboardData().then((response) => {
+    getDefaultData().then((response) => {
       setData(response.data.ppHarian);
       setDate(response.data.ppHarian.map((item) => item.tanggal));
     });
@@ -139,14 +138,19 @@ const RevenueUpdates = ({isLoading}) => {
                 labelId="month-dd"
                 id="month-dd"
                 size="small"
-                value={defaultMonth}
+                value={month.length > 0 ? defaultMonth : 0 }
                 onChange={handleChange}
               >
-                {month.map((item, index) => (
-                  <MenuItem key={index + 1} value={index + 1}>
-                    {item.bulan}
-                  </MenuItem>
-                ))}
+                {
+                month.length > 0 ?
+                  month.map((item, index) => (
+                    <MenuItem key={index + 1} value={index + 1}>
+                      {item.bulan}
+                    </MenuItem>
+                  ))
+                  : 
+                  <MenuItem value={0}>No Data</MenuItem>
+                }
               </CustomSelect>
             }
           >
@@ -170,7 +174,7 @@ const RevenueUpdates = ({isLoading}) => {
                     <Box>
                       <Typography variant="h3" fontWeight="700">
                         {
-                          month.length > 0 ? 
+                          month.length > 0 && month[defaultMonth - 1] !== undefined ?
                             (month[defaultMonth - 1].total_pendapatan - month[defaultMonth - 1].total_pengeluaran) > 0 ?
                               new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(month[defaultMonth - 1].total_pendapatan - month[defaultMonth - 1].total_pengeluaran) 
                             : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(0)
@@ -194,7 +198,7 @@ const RevenueUpdates = ({isLoading}) => {
                       </Typography>
                       <Typography variant="h5">
                         {
-                          month.length > 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(month[defaultMonth - 1].total_pendapatan) 
+                          month.length > 0 && month[defaultMonth - 1] !== undefined ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(month[defaultMonth - 1].total_pendapatan) 
                           : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(0)
                         }
                       </Typography>
@@ -210,7 +214,7 @@ const RevenueUpdates = ({isLoading}) => {
                       </Typography>
                       <Typography variant="h5">
                         {
-                          month.length > 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(month[defaultMonth - 1].total_pengeluaran) 
+                          month.length > 0 && month[defaultMonth - 1] !== undefined ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(month[defaultMonth - 1].total_pengeluaran) 
                           : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(0)
                         }
                       </Typography>

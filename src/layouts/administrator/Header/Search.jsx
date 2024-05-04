@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IconButton,
   Dialog,
@@ -13,13 +13,26 @@ import {
   ListItemButton,
 } from '@mui/material';
 import { IconSearch, IconX } from '@tabler/icons-react';
-import MenuItem from '../Sidebar/menuItems';
+import MenuItem from '../Sidebar/MenuItems';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
+import { checkToken } from '@/services/auth/auth';
 
 const Search = () => {
   // drawer top
   const [showDrawer2, setShowDrawer2] = useState(false);
   const [search, setSerach] = useState('');
+  const [role, setRole] = useState();
+  const token = Cookies.get("token");
+  
+  React.useEffect(() => {
+    async function checkAuthorize() {
+      if (!token) return;
+      const response = await checkToken(token);
+      setRole(response.data.role);
+    }
+    checkAuthorize();
+  }, [token]);
 
   const handleDrawerClose2 = () => {
     setShowDrawer2(false);
@@ -33,6 +46,7 @@ const Search = () => {
 
     return rotr;
   };
+  
   const searchData = filterRoutes(MenuItem, search);
 
   return (
@@ -80,7 +94,7 @@ const Search = () => {
               {searchData.map((menu) => {
                 return (
                   <Box key={menu.title ? menu.id : menu.subheader}>
-                    {menu.title && !menu.children ? (
+                    {menu.title && !menu.children && role === menu.access ? (
                       <ListItemButton sx={{ py: 0.5, px: 1 }} href={menu?.href} component={Link}>
                         <ListItemText
                           primary={menu.title}

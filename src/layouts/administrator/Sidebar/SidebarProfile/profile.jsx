@@ -1,13 +1,32 @@
-import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery } from '@mui/material';
+import React from 'react';
+import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery, Button } from '@mui/material';
 import { IconPower } from '@tabler/icons-react';
-import Link from 'next/link';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { checkToken } from '@/services/auth/auth';
+import { useRouter } from 'next/navigation';
 
-export const Profile = () => {
+const Profile = () => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const customizer = useSelector((state) => state.customizer);
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
-
+  const [data, setData] = React.useState({});
+  const token = Cookies.get("token");
+  const router = useRouter();
+  
+  React.useEffect(() => {
+    async function checkAuthorize() {
+      if (!token) return;
+      const response = await checkToken(token);
+      setData(response.data);
+    }
+    checkAuthorize();
+  }, [token]);
+  
+  function handleLogout() {
+    Cookies.remove("token");
+    router.push("/auth/login");
+  }
 
   return (
     <Box
@@ -22,15 +41,14 @@ export const Profile = () => {
           <Avatar alt="Remy Sharp" src={"/images/profile/user-1.jpg"} sx={{height: 40, width: 40}} />
 
           <Box>
-            <Typography variant="h6">Mathew</Typography>
-            <Typography variant="caption">Designer</Typography>
+            <Typography variant="h6">{data.nama_karyawan}</Typography>
+            <Typography variant="caption">{data.role}</Typography>
           </Box>
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
               <IconButton
                 color="primary"
-                component={Link}
-                href="/auth/auth1/login"
+                onClick={() => handleLogout()}
                 aria-label="logout"
                 size="small"
               >
@@ -45,3 +63,5 @@ export const Profile = () => {
     </Box>
   );
 };
+
+export default Profile;

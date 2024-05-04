@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
-import CustomizerReducer from "./constants";
+import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
+import { CustomizerReducer, userReducer } from './constants';
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
@@ -11,6 +11,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     customizer: CustomizerReducer,
+    user: userReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

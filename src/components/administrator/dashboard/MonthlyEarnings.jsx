@@ -7,14 +7,14 @@ import { IconArrowDownRight, IconCurrencyDollar, IconArrowUpLeft } from '@tabler
 
 import DashboardCard from '../shared/DashboardCard';
 import SkeletonMonthlyEarningsTwoCard from "./skeleton/MonthlyEarningsTwoCard";
-import { getDashboardData } from "@/services/administrator/dashboard/getData";
+import { getDefaultData } from "@/services/administrator/dashboard/getData";
 
 
 const MonthlyEarnings = ({isLoading}) => {
   const [data, setData] = React.useState({});
 
   React.useEffect(() => {
-    getDashboardData().then((response) => {
+    getDefaultData().then((response) => {
       setData(response.data);
     });
   }, []);
@@ -52,14 +52,15 @@ const MonthlyEarnings = ({isLoading}) => {
       size: 0,
     },
     tooltip: {
-      theme: theme.palette.mode === 'dark' ? 'dark' : 'light',
+      // theme: theme.palette.mode === 'dark' ? 'dark' : 'light',
+      enabled: false,
     },
   };
   const seriescolumnchart = [
     {
       name: '',
       color: secondary,
-      data: [25, 66, 20, 40, 12, 58, 20],
+      data: [25, 66, 20, 40, 12, 58, 20]
     },
   ];
 

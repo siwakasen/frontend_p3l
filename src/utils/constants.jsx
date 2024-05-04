@@ -1,26 +1,27 @@
 "use client";
-import { createSlice } from '@reduxjs/toolkit';
+
+import { createSlice } from "@reduxjs/toolkit";
 
 export const API_URL = "http://127.0.0.1:8000/api";
 
 const initialState = {
-  activeDir: 'ltr',
-  activeMode: 'light', 
+  activeDir: "ltr",
+  activeMode: "light",
   SidebarWidth: 270,
   MiniSidebarWidth: 87,
   TopbarHeight: 70,
-  isLayout: 'boxed',
-  isCollapse: false, 
+  isLayout: "boxed",
+  isCollapse: false,
   isSidebarHover: false,
   isMobileSidebar: false,
   isHorizontal: false,
-  isLanguage: 'id',
+  isLanguage: "id",
   isCardShadow: true,
   borderRadius: 7,
 };
 
 const CustomizerSlice = createSlice({
-  name: 'customizer',
+  name: "customizer",
   initialState: initialState,
   reducers: {
     setTheme: (state, action) => {
@@ -60,6 +61,22 @@ const CustomizerSlice = createSlice({
   },
 });
 
+const user = createSlice({
+  name: "user",
+  initialState: {
+    user: null,
+  },
+  reducers: {
+    setUserLogin: (state, action) => {
+      state.user = action.payload;
+    },
+  },
+});
+
+export const { setUserLogin } = user.actions;
+
+export const userReducer = user.reducer;
+
 export const {
   setTheme,
   setDarkMode,
@@ -74,4 +91,4 @@ export const {
   setCardShadow,
 } = CustomizerSlice.actions;
 
-export default CustomizerSlice.reducer;
+export const CustomizerReducer = CustomizerSlice.reducer;

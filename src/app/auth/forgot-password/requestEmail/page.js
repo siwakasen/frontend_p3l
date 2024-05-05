@@ -1,5 +1,5 @@
 "use client"
-import { Grid, Box, Card, Typography,Button, Stack,TextField } from '@mui/material';
+import { Grid, Box, Card, Typography,Button, Stack,TextField, Divider } from '@mui/material';
 import Image from "next/image";
 import PageContainer from "@/components/container/PageContainer";
 import Logo from '@/../public/images/landingpage/favicon.png';
@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import Toast from "@/components/shared/Toast";
 import  {requestForgot}  from "@/services/auth/auth";
+import { toast } from 'react-toastify';
 
 export default function Page(){
   const router = useRouter();
@@ -53,6 +54,11 @@ export default function Page(){
       }
       setLoading(false);
   }
+
+  function handleResendEmail(){
+    toastSuccess("Please wait a few seconds!");
+    handleRequestForgot();
+  }
   
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -90,7 +96,6 @@ export default function Page(){
           >
             <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px'}}>
               <Box display="flex" alignItems="center" justifyContent="center" sx={{ mb: 1 }}>
-                <Image src={Logo} alt='logo' priority={true} />
                 <Typography
                   color="textSecondary"
                   textAlign="center"
@@ -160,15 +165,43 @@ export default function Page(){
                   </Stack>
                   </>
                 ): //if email is sent
-                <Typography
-                      color="textSecondary"
-                      textAlign="center"
-                      variant="subtitle2"
-                      fontWeight="400"
-                      sx={{ mt: 2 }}
+                <>
+                  <Typography
+                        color="textSecondary"
+                        textAlign="center"
+                        variant="subtitle2"
+                        fontWeight="400"
+                        sx={{ mt: 2 }}
+                  >
+                  Verification to reset password has been sent to your email.
+                  </Typography>
+                  <Divider sx={{mt: 2}}/>
+                  <Typography
+                        color="textSecondary"
+                        textAlign="justify"
+                        variant="subtitle2"
+                        fontWeight="400"
+                        sx={{ mt: 2}}
+                  >
+                  {'Not received the email? Check your spam filter, or '}
+                  <Typography
+                    fontWeight="500"
+                    sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                    cursor: "pointer",
+                    display: "inline",
+                    
+                    }}
+                    onClick={() => {
+                      handleRequestForgot();
+                    }}
                 >
-                Verification to reset password has been sent to your email.
+                    resend the email
                 </Typography>
+                  </Typography>
+                </>
+                
               }
 
 

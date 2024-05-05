@@ -28,7 +28,7 @@ export const FormLogin = ({ title, subtitle, subtext }) => {
 
       {subtext}
       <Stack>
-        <LabelForm htmlFor="email">Username</LabelForm>
+        <LabelForm htmlFor="email">Email</LabelForm>
         <FormField
           type="email"
           name="email"

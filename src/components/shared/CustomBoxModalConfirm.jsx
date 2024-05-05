@@ -18,7 +18,7 @@ const CustomBoxModal = ({ title, children, description, footer }) => {
       <Typography id="modal-modal-title" variant="h6" component="h2">
         {title}
       </Typography>
-      <Divider sx={{ mt: 2 }} />
+      <Divider sx={{ my: 1 }} />
       {children ? (
         children
       ) : (

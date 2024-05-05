@@ -6,6 +6,7 @@ import {
   updateProduk,
   getSingleProduk,
 } from "@/services/produk/produk";
+import { insertLimit, updateLimit } from "@/services/limit/limit";
 
 export const useInsert = () => {
   const { toastSuccess, toastError, toastWarning } = Toast();
@@ -17,9 +18,10 @@ export const useInsert = () => {
     setOpen(!open);
   }
 
-  function handleInsert(formData) {
+  async function handleInsert(formData) {
     try {
-      const { data, code } = insertProduk(formData);
+      const { data, code } = await insertProduk(formData);
+
       switch (code) {
         case 201:
           toastSuccess("Data berhasil ditambahkan");
@@ -33,6 +35,7 @@ export const useInsert = () => {
           break;
       }
     } catch (error) {
+
       toastError("Data gagal ditambahkan");
     }
   }
@@ -64,6 +67,7 @@ export const useInsert = () => {
     for (let key in input) {
       formData.append(key, input[key]);
     }
+
 
     handleInsert(formData);
   }
@@ -173,4 +177,81 @@ export const useUpdate = (id) => {
   }
 
   return { input, setInput, open, handleOpen, handleSubmit };
+};
+
+export const useAddLimit = () => {
+  const { toastSuccess, toastError } = Toast();
+  const [input, setInput] = useState([]);
+
+  function handleChange(event) {
+    setInput({ ...input, [event.target.name]: event.target.value });
+  }
+
+  async function handleSubmit() {
+    if (
+      !input.limit ||
+      input.limit === "" ||
+      input.limit <= 0 ||
+      !input.tanggal
+    ) {
+      toastError("Silahkan inputkan limit dan/atau tanggal dengan benar");
+      return;
+    }
+
+    handleAddLimit(input);
+  }
+
+  async function handleAddLimit(inputData) {
+    try {
+      const { data, code } = await insertLimit(inputData);
+      switch (code) {
+        case 201:
+          toastSuccess("Data limit berhasil ditambahkan");
+          break;
+        default:
+          toastError("Data limit gagal ditambahkan");
+          break;
+      }
+    } catch (error) {
+      toastError("Data limit gagal ditambahkan");
+    }
+    setInput({});
+  }
+
+  return { input, handleChange, handleSubmit, setInput };
+};
+
+export const useUpdateLimit = () => {
+  const { toastSuccess, toastError } = Toast();
+
+  async function handleSubmit(input, id) {
+    if (
+      !input.limit ||
+      input.limit === "" ||
+      input.limit <= 0 ||
+      !input.tanggal
+    ) {
+      toastError("Silahkan inputkan limit dan/atau tanggal dengan benar");
+      return;
+    }
+
+    handleUpdate(input, id);
+  }
+
+  async function handleUpdate(inputData, id) {
+    try {
+      const { data, code } = await updateLimit(inputData, id);
+      switch (code) {
+        case 200:
+          toastSuccess("Data limit berhasil diubah");
+          break;
+        default:
+          toastError("Data limit gagal diubah");
+          break;
+      }
+    } catch (error) {
+      toastError("Data limit gagal diubah");
+    }
+  }
+  return { handleUpdateLimit: handleSubmit };
 };

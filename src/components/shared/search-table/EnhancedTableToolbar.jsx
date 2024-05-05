@@ -8,11 +8,19 @@ import {
   InputAdornment,
   Button,
   Modal,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import { IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
+import {
+  IconPlus,
+  IconSearch,
+  IconTrash,
+  IconCheckbox,
+  IconFilter,
+} from "@tabler/icons-react";
 import CustomBoxModal from "../CustomBoxModalConfirm";
-
+import { useState } from "react";
 
 export default function EnhancedTableToolbar(props) {
   const {
@@ -25,10 +33,31 @@ export default function EnhancedTableToolbar(props) {
     addAction,
     open,
     handleOpen,
+    useFilter,
+    filter,
+    setFilter,
+    handleUpdate,
   } = props;
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isFilter = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   async function handleDelete() {
     await deleteAction(indexSelected);
+    setSelected([]);
+    handleOpen(!open);
+  }
+
+  async function handleAktif() {
+    await handleUpdate(indexSelected);
     setSelected([]);
     handleOpen(!open);
   }
@@ -78,31 +107,96 @@ export default function EnhancedTableToolbar(props) {
 
       {/* Filter icon / delete icon */}
       {numSelected > 0 ? (
-        <Tooltip title="Hapus data">
-          <IconButton onClick={handleOpen}>
-            <IconTrash width="18" className="text-red-400" />
-          </IconButton>
-        </Tooltip>
+        filter === 1 || filter === undefined ? (
+          <Tooltip title="Hapus data">
+            <IconButton disableRipple onClick={handleOpen}>
+              <IconTrash width="18" className="text-red-400" />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Aktifkan data">
+            <IconButton disableRipple onClick={handleOpen}>
+              <IconCheckbox width="18" className="text-red-400" />
+            </IconButton>
+          </Tooltip>
+        )
       ) : (
-        <Tooltip title="Tambah data">
-          <Button onClick={addAction}>
-            <IconPlus width="18" /> Tambah
-          </Button>
-        </Tooltip>
+        <>
+          {useFilter && (
+            <>
+              <Tooltip title="Filter data" sx={{ marginRight: "1rem" }}>
+                <IconButton
+                  disableRipple
+                  id="basic-button"
+                  aria-controls={isFilter ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={isFilter ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  <IconFilter width="18" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={isFilter}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setFilter(1);
+                    handleClose();
+                  }}
+                >
+                  Aktif
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setFilter(0);
+                    handleClose();
+                  }}
+                >
+                  Tidak Aktif
+                </MenuItem>
+              </Menu>
+            </>
+          )}
+
+          <Tooltip title="Tambah data">
+            <Button onClick={addAction}>
+              <IconPlus width="18" /> Tambah
+            </Button>
+          </Tooltip>
+        </>
       )}
       <Modal open={open} onClose={handleOpen}>
         <div>
           <CustomBoxModal
-            title="Hapus Pembelian Bahan Baku"
-            description="Data yang dihapus tidak dapat dikembalikan!"
+            title={
+              filter === 1 || filter === undefined
+                ? "Hapus Data"
+                : "Aktifkan Data"
+            }
+            description={
+              filter === 1 || filter === undefined
+                ? "Yakin menghapus data ini?"
+                : "Yakin mengaktifkan data ini?"
+            }
             footer={
               <Button
-                color="error"
+                color={filter === 1 || filter === undefined ? "error" : "info"}
                 size="small"
                 sx={{ mt: 2 }}
-                onClick={handleDelete}
+                onClick={
+                  filter === 1 || filter === undefined
+                    ? handleDelete
+                    : handleAktif
+                }
               >
-                Hapus
+                {filter === 1 || filter === undefined ? "Hapus" : "Aktifkan"}
               </Button>
             }
           />

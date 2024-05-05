@@ -11,6 +11,7 @@ import {
   FormControlLabel,
   Typography,
   Paper,
+  Chip,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import CustomCheckbox from "../../shared/CustomCheckbox";
@@ -26,14 +27,41 @@ import {
 import { useRouter } from "next/navigation";
 import { useDelete } from "./useHampers";
 import { API_URL_IMAGE } from "@/utils/constants";
+import { updateHampers } from "@/services/hampers/hampers";
+import Toast from "@/components/shared/Toast";
 
 export const HampersSearchTable = ({
   data,
   headCells,
   setLoading,
   loading,
+  setFilter,
+  filter,
 }) => {
   const { handleDelete } = useDelete({ setLoading, loading });
+
+  const handleUpdateStatus = async (selectedIndex) => {
+    const { toastSuccess, toastError } = Toast();
+    try {
+      const formData = new FormData();
+      formData.append("status_hampers", 1);
+      formData.append("_method", "PUT");
+      Array.from(selectedIndex).map(async (id) => {
+        const { code } = await updateHampers(formData, id);
+        switch (code) {
+          case 200:
+            toastSuccess("Data berhasil diaktifkan");
+            break;
+          default:
+            toastError("Data gagal diaktifkan");
+            break;
+        }
+      });
+    } catch (error) {
+      toastError("Data gagal diaktifkan");
+    }
+    setLoading(!loading);
+  };
 
   // order asc/desc
   const [order, setOrder] = useState("asc");
@@ -152,6 +180,10 @@ export const HampersSearchTable = ({
           open={open}
           handleOpen={handleOpen}
           handleSearch={(event) => handleSearch(event)}
+          useFilter={true}
+          filter={filter}
+          setFilter={setFilter}
+          handleUpdate={handleUpdateStatus}
         />
 
         <Paper variant="outlined" sx={{ mx: 2, mt: 1 }}>
@@ -185,7 +217,6 @@ export const HampersSearchTable = ({
                     const isiBahanBaku = row.detail.bahan_baku.map(
                       (item) => item.nama_bahan_baku
                     );
-
                     return (
                       <TableRow
                         hover
@@ -242,7 +273,7 @@ export const HampersSearchTable = ({
                             </Box>
                           </Box>
                         </TableCell>
-
+                        {/* 
                         <TableCell>
                           <Typography
                             color="textSecondary"
@@ -250,13 +281,13 @@ export const HampersSearchTable = ({
                             sx={{
                               lineClamp: 2,
                               maxHeight: "3.6em",
-                              maxWidth: "25rem",
+                              maxWidth: "25rem",tab
                               overflow: "scroll",
                             }}
                           >
                             {row.deskripsi_hampers}
                           </Typography>
-                        </TableCell>
+                        </TableCell> */}
 
                         <TableCell>
                           <Typography
@@ -282,6 +313,28 @@ export const HampersSearchTable = ({
                               row.harga_hampers
                             )}
                           </Typography>
+                        </TableCell>
+
+                        <TableCell>
+                          <Chip
+                            sx={{
+                              bgcolor:
+                                row.status_hampers == "1"
+                                  ? (theme) => theme.palette.primary.light
+                                  : (theme) => theme.palette.error.light,
+                              color:
+                                row.status_hampers == "1"
+                                  ? (theme) => theme.palette.primary.main
+                                  : (theme) => theme.palette.error.main,
+                              borderRadius: "8px",
+                            }}
+                            size="small"
+                            label={
+                              row.status_hampers == "1"
+                                ? "Aktif"
+                                : "Tidak Aktif"
+                            }
+                          />
                         </TableCell>
 
                         <TableCell>

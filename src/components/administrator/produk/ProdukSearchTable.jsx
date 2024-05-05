@@ -12,21 +12,35 @@ import {
   Typography,
   Paper,
   Chip,
+  Modal,
+  Button,
+  Grid,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+const { format } = require("date-fns");
+import FormField from "@/components/auth/shared/OutlineTextFormField";
+import LabelForm from "@/components/auth/shared/LabelFormField";
+import CustomBoxModal from "@/components/shared/CustomBoxModalConfirm";
+import { useState, useEffect, use } from "react";
 import CustomCheckbox from "../../shared/CustomCheckbox";
 import CustomSwitch from "../../shared/CustomSwitch";
 import EnhancedTableHead from "../../shared/search-table/EnhancedTableHead";
 import EnhancedTableToolbar from "../../shared/search-table/EnhancedTableToolbar";
-import { IconEdit } from "@tabler/icons-react";
+import { IconEdit, IconCalendarPlus } from "@tabler/icons-react";
 import Image from "next/image";
 import {
   getComparator,
   stableSort,
 } from "@/components/shared/search-table/SearchTableFunction";
 import { useRouter } from "next/navigation";
-import { useDelete } from "./useProduk";
+import {
+  useDelete,
+  useAddLimit,
+  useUpdateLimit,
+} from "@/components/administrator/produk/useProduk";
 import { API_URL_IMAGE } from "@/utils/constants";
+import Toast from "@/components/shared/Toast";
+import { updateProduk } from "@/services/produk/produk";
+import { getLimitById } from "@/services/limit/limit";
 
 export const ProdukSearchTable = ({
   data,
@@ -34,8 +48,44 @@ export const ProdukSearchTable = ({
   headCells,
   setLoading,
   loading,
+  filter,
+  setFilter,
 }) => {
   const { handleDelete } = useDelete({ setLoading, loading });
+  const { input, handleChange, handleSubmit, setInput } = useAddLimit();
+  const { handleUpdateLimit } = useUpdateLimit();
+
+  const handleUpdateStatus = async (selectedIndex) => {
+    const { toastSuccess, toastError } = Toast();
+    try {
+      const formData = new FormData();
+      formData.append("status_produk", 1);
+      formData.append("_method", "PUT");
+      Array.from(selectedIndex).map(async (id) => {
+        const { code } = await updateProduk(formData, id);
+        switch (code) {
+          case 200:
+            toastSuccess("Data berhasil diaktifkan");
+            break;
+          default:
+            toastError("Data gagal diaktifkan");
+            break;
+        }
+      });
+    } catch (error) {
+      toastError("Data gagal diaktifkan");
+    }
+    setLoading(!loading);
+  };
+
+  function handleAddLimit(id) {
+    handleOpenModalLimit();
+    setInput((prev) => ({
+      ...prev,
+      id_produk: id,
+      tanggal: format(new Date(), "yyyy-MM-dd"),
+    }));
+  }
 
   // order asc/desc
   const [order, setOrder] = useState("asc");
@@ -45,8 +95,10 @@ export const ProdukSearchTable = ({
   // want order by ?
   const [orderBy, setOrderBy] = useState("id_penitip");
 
-  // modal open
+  // modal open delete/activete
   const [open, setOpen] = useState(false);
+
+  const [openModalLimit, setOpenModalLimit] = useState(false);
 
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
@@ -56,6 +108,12 @@ export const ProdukSearchTable = ({
   // useState for data
   const [rows, setRows] = useState(data);
 
+  // useState for limit
+  const [openModalLimitHarian, setOpenModalLimitHarian] = useState(false);
+  const [dataLimit, setDataLimit] = useState([]);
+  const [hasLimit, setHasLimit] = useState();
+  const [isCheck, setIsCheck] = useState(false);
+
   // useState for search
   const [search, setSearch] = useState("");
 
@@ -63,8 +121,48 @@ export const ProdukSearchTable = ({
     setRows(data);
   }, [data]);
 
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getLimitById(input.id_produk);
+      setDataLimit(response.data);
+    }
+    fetchData();
+  }, [input.id_produk]);
+
+  function handleCheckLimit(date, data) {
+    const dataLimit = data.filter((item) => item.tanggal == date);
+    if (dataLimit.length > 0) {
+      setInput((prev) => ({
+        ...prev,
+        id_limit_produk: dataLimit[0].id_limit_produk,
+        tanggal: dataLimit[0].tanggal,
+        limit: dataLimit[0].limit,
+        message: "Limit produk tanggal tersebut sudah ada, silahkan update",
+        isUpdate: true,
+      }));
+    } else {
+      setInput((prev) => ({
+        ...prev,
+        message: "Limit produk tanggal tersebut belum ada",
+        isUpdate: false,
+      }));
+    }
+    setHasLimit(true);
+    setIsCheck(true);
+  }
+
   function handleOpen() {
     setOpen(!open);
+  }
+
+  function handleOpenModalLimit() {
+    setOpenModalLimit(!openModalLimit);
+    setHasLimit(false);
+    setIsCheck(false);
+  }
+
+  function handleOpenModalLimitHarian() {
+    setOpenModalLimitHarian(!openModalLimitHarian);
   }
 
   function handleEdit(id) {
@@ -154,6 +252,10 @@ export const ProdukSearchTable = ({
           open={open}
           handleOpen={handleOpen}
           handleSearch={(event) => handleSearch(event)}
+          useFilter={true}
+          filter={filter}
+          setFilter={setFilter}
+          handleUpdate={handleUpdateStatus}
         />
 
         <Paper variant="outlined" sx={{ mx: 2, mt: 1 }}>
@@ -181,6 +283,11 @@ export const ProdukSearchTable = ({
                   .map((row, index) => {
                     const isItemSelected = isSelected(row.id_produk);
                     const labelId = `enhanced-table-checkbox-${index}`;
+                    let nama_kategori;
+                    kategori.map((item) => {
+                      if (item.id_kategori == row.id_kategori)
+                        nama_kategori = item.nama_kategori;
+                    });
                     return (
                       <TableRow
                         hover
@@ -239,29 +346,10 @@ export const ProdukSearchTable = ({
                                 color="textSecondary"
                                 variant="subtitle2"
                               >
-                                {kategori.map((item) => {
-                                  if (item.id_kategori == row.id_kategori) {
-                                    return item.nama_kategori;
-                                  }
-                                })}
+                                {nama_kategori}
                               </Typography>
                             </Box>
                           </Box>
-                        </TableCell>
-
-                        <TableCell>
-                          <Typography
-                            color="textSecondary"
-                            variant="subtitle2"
-                            sx={{
-                              lineClamp: 2,
-                              maxHeight: "3.6em",
-                              maxWidth: "25rem",
-                              overflow: "scroll",
-                            }}
-                          >
-                            {row.deskripsi_produk}
-                          </Typography>
                         </TableCell>
 
                         <TableCell>
@@ -309,7 +397,35 @@ export const ProdukSearchTable = ({
                         </TableCell>
 
                         <TableCell>
-                          <Tooltip title="Edit">
+                          {nama_kategori != "Titipan" && (
+                            <Chip
+                              sx={{
+                                bgcolor: (theme) => theme.palette.success.light,
+                                color: (theme) => theme.palette.success.main,
+                                borderRadius: "8px",
+                                border: "1px solid #13DEB9",
+                                "&:hover": {
+                                  bgcolor: (theme) =>
+                                    theme.palette.success.dark,
+                                  color: (theme) => theme.palette.common.white,
+                                  cursor: "pointer",
+                                },
+                              }}
+                              size="small"
+                              label="Limit Harian"
+                              onClick={() => {
+                                handleOpenModalLimitHarian();
+                                setInput((prev) => ({
+                                  ...prev,
+                                  id_produk: row.id_produk,
+                                }));
+                              }}
+                            />
+                          )}
+                        </TableCell>
+
+                        <TableCell>
+                          <Tooltip title="Edit data">
                             <IconButton
                               size="small"
                               onClick={() => {
@@ -319,6 +435,16 @@ export const ProdukSearchTable = ({
                               <IconEdit size="1.1rem" />
                             </IconButton>
                           </Tooltip>
+                          {nama_kategori != "Titipan" && (
+                            <Tooltip title="Tambah Limit">
+                              <IconButton
+                                size="small"
+                                onClick={() => handleAddLimit(row.id_produk)}
+                              >
+                                <IconCalendarPlus size="1.1rem" />
+                              </IconButton>
+                            </Tooltip>
+                          )}
                         </TableCell>
                       </TableRow>
                     );
@@ -353,6 +479,137 @@ export const ProdukSearchTable = ({
             label="Remove padding"
           />
         </Box>
+        <Modal open={openModalLimitHarian} onClose={handleOpenModalLimitHarian}>
+          <div>
+            <CustomBoxModal
+              title="Limit Produk Harian"
+              footer={
+                <Button
+                  color="primary"
+                  size="small"
+                  sx={{ mt: 2 }}
+                  onClick={handleOpenModalLimitHarian}
+                >
+                  Close
+                </Button>
+              }
+            >
+              <Box component="div" sx={{ maxHeight: "25%" }}>
+                {dataLimit.length > 0 ? (
+                  dataLimit.map((item, index) => {
+                    return (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          borderBottom: "1px solid #ccc",
+                          padding: "8px 0",
+                        }}
+                      >
+                        <Typography variant="subtitle2">
+                          {format(new Date(item.tanggal), "eeee, dd MMM yyyy")}
+                        </Typography>
+                        <Typography variant="subtitle2">
+                          {item.limit}
+                        </Typography>
+                      </Box>
+                    );
+                  })
+                ) : (
+                  <Typography variant="subtitle2" color="error">
+                    Tidak ada limit produk harian
+                  </Typography>
+                )}
+              </Box>
+            </CustomBoxModal>
+          </div>
+        </Modal>
+
+        <Modal open={openModalLimit} onClose={handleOpenModalLimit}>
+          <div>
+            <CustomBoxModal
+              title="Perbarui Limit Produk"
+              footer={
+                <Button
+                  color="primary"
+                  size="small"
+                  disabled={!isCheck}
+                  sx={{ mt: 2 }}
+                  onClick={() => {
+                    if (input.isUpdate) {
+                      handleUpdateLimit(input, input.id_limit_produk);
+                    } else {
+                      handleSubmit();
+                    }
+                    setInput({});
+                    handleOpenModalLimit();
+                  }}
+                >
+                  Simpan
+                </Button>
+              }
+            >
+              <Grid container columnSpacing={3} rowSpacing={1} className="mt-2">
+                <Grid item lg={8} md={8} sm={8} xs={8}>
+                  <LabelForm htmlFor="tanggal" sx={{ marginTop: "0px" }}>
+                    Tanggal Limit
+                  </LabelForm>
+                  <FormField
+                    type="date"
+                    name="tanggal"
+                    id="tanggal"
+                    value={input.tanggal || ""}
+                    onChange={(e) => {
+                      setHasLimit(false);
+                      setIsCheck(false);
+                      handleChange(e);
+                    }}
+                  />
+                </Grid>
+                <Grid item lg={4} md={4} sm={4} xs={4} alignSelf="end">
+                  <Button
+                    variant="outlined"
+                    color="warning"
+                    size="large"
+                    onClick={() => {
+                      setInput((prev) => ({
+                        ...prev,
+                        limit: "",
+                        isUpdate: false,
+                        id_limit_produk: "",
+                        message: "",
+                      }));
+                      handleCheckLimit(input.tanggal, dataLimit);
+                    }}
+                  >
+                    Check
+                  </Button>
+                </Grid>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  <LabelForm htmlFor="limit" sx={{ marginTop: "0px" }}>
+                    Jumlah Limit
+                  </LabelForm>
+                  <FormField
+                    type="number"
+                    name="limit"
+                    id="limit"
+                    value={input.limit || ""}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Grid>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  {hasLimit && (
+                    <Typography variant="caption" color="error">
+                      {input.message}
+                    </Typography>
+                  )}
+                </Grid>
+              </Grid>
+            </CustomBoxModal>
+          </div>
+        </Modal>
       </Box>
     </Box>
   );

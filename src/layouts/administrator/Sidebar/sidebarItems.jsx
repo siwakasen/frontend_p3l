@@ -1,4 +1,4 @@
-import Menuitems from "./MenuItems";
+import Menuitems from "./menuItems";
 import { usePathname } from "next/navigation";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";

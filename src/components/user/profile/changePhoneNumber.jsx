@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, TextField, Typ
 import React from 'react';
 import { UseActions } from './useActions';
 
-export const changePhoneNumber = () => {
+export const ChangePhoneNumber = () => {
     const [open, setOpen] = React.useState(false);
     const { handleProfile } = UseActions();
 

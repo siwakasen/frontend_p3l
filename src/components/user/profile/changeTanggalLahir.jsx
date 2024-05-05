@@ -6,20 +6,27 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { set } from 'lodash';
 
-export const tanggalLahir = () => {
+export const TanggalLahir = () => {
     const [open, setOpen] = React.useState(false);
     const { handleProfile } = UseActions();
 
     const handleClickOpen = () => {
+        console.log(tanggal_lahir);
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+        console.log(tanggal_lahir);
     };
 
     const [tanggal_lahir, setTanggalLahir] = React.useState("");
-
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
     return (
         <>
@@ -39,9 +46,9 @@ export const tanggalLahir = () => {
                     }}>Tanggal Lahir</FormLabel>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                            value={tanggal_lahir}
+                            value={new Date(tanggal_lahir)}
                             id="tanggal_lahir"
-                            onChange={(date) => setTanggalLahir(date)}
+                            onChange={(date) => setTanggalLahir(new Date(date).toISOString().split('T')[0])}
                             renderInput={(params) => <TextField fullWidth 
                             margin="normal"
                             id="tanggal_lahir"
@@ -52,6 +59,7 @@ export const tanggalLahir = () => {
                                 },
                             }}
                             {...params} />}
+                            disableFuture
                         />
                     </LocalizationProvider>
                 </DialogContent>

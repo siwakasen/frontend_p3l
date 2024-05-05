@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, TextField, Typ
 import React from 'react';
 import { UseActions } from './useActions';
 
-export const changeName = () => {
+export const ChangeName = () => {
     const [open, setOpen] = React.useState(false);
     const { handleProfile } = UseActions();
 

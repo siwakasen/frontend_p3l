@@ -7,7 +7,7 @@ import Logo from '../Shared/logo/Logo';
 import { useDispatch, useSelector } from 'react-redux';
 import { hoverSidebar, toggleMobileSidebar } from '@/utils/constants';
 import Scrollbar from '@/components/custom-scroll/Scrollbar';
-import { Profile } from './SidebarProfile/profile';
+import Profile from './SidebarProfile/profile';
 
 const Sidebar = () => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));

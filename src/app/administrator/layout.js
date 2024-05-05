@@ -1,12 +1,10 @@
 "use client";
 import { styled, Box, useTheme } from "@mui/material";
 import Container from "@mui/material/Container";
-import Sidebar from "@/layouts/administrator/Sidebar";
-import Header from "@/layouts/administrator/Header";
-import React, { useState, useEffect, createContext } from "react";
-import Cookies from "js-cookie";
-import { useSelector, useDispatch } from "react-redux";
-import { checkToken } from "@/services/auth/auth";
+import Sidebar from '@/layouts/administrator/Sidebar';
+import Header from '@/layouts/administrator/Header';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const MainWrapper = styled(Box)(({ theme }) => ({
   display: "flex",

@@ -2,6 +2,9 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
+export const API_URL = "http://127.0.0.1:8000/api";
+export const API_URL_IMAGE = "http://127.0.0.1:8000/storage/";
+
 const initialState = {
   activeDir: "ltr",
   activeMode: "light",
@@ -59,6 +62,22 @@ const CustomizerSlice = createSlice({
   },
 });
 
+const user = createSlice({
+  name: "user",
+  initialState: {
+    user: null,
+  },
+  reducers: {
+    setUserLogin: (state, action) => {
+      state.user = action.payload;
+    },
+  },
+});
+
+export const { setUserLogin } = user.actions;
+
+export const userReducer = user.reducer;
+
 export const {
   setTheme,
   setDarkMode,
@@ -73,7 +92,6 @@ export const {
   setCardShadow,
 } = CustomizerSlice.actions;
 
-export const API_URL = "http://localhost:8000/api";
-export const API_URL_IMAGE = "http://127.0.0.1:8000/storage/";
 
 export default CustomizerSlice.reducer;
+export const CustomizerReducer = CustomizerSlice.reducer;

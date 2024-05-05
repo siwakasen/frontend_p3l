@@ -1,6 +1,7 @@
 
 import { createTheme } from '@mui/material/styles';
 import typography from './Typography';
+import { shadows } from './Shadows';
 import { baseDarkTheme, baselightTheme } from './defaultColors';
 import components from './Components';
 import { store } from '@/utils/store';
@@ -14,6 +15,7 @@ export const BuildTheme = () => {
             mode: customizer.activeMode
         },
         typography: typography,
+        shadows: shadows,
         shape: {
             borderRadius: 7,
         }

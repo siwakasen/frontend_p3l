@@ -428,7 +428,7 @@ const RecipesTableList = () => {
               setGetKaryawan(response.data);
             };
             fetchData();
-            if (getKaryawan.length % rowsPerPage === 1) {
+            if (getKaryawan.length % rowsPerPage === 1 && page !== 0) {
               setPage(page - 1);
             }
           },

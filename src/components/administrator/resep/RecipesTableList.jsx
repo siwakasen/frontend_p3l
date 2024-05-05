@@ -328,7 +328,7 @@ const RecipesTableList = () => {
               setGetResep(response.data);
             };
             fetchData();
-            if (getResep.length % rowsPerPage === 1) {
+            if (getResep.length % rowsPerPage === 1 && page !== 0) {
               setPage(page - 1);
             }
           },

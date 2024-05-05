@@ -2,7 +2,7 @@
 import { createTheme } from '@mui/material/styles';
 import typography from './Typography';
 import { shadows } from './Shadows';
-import { baseDarkTheme, baselightTheme } from './DefaultColors';
+import { baseDarkTheme, baselightTheme } from './defaultColors';
 import components from './Components';
 import { store } from '@/utils/store';
 

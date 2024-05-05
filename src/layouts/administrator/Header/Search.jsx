@@ -13,7 +13,7 @@ import {
   ListItemButton,
 } from '@mui/material';
 import { IconSearch, IconX } from '@tabler/icons-react';
-import MenuItem from '../Sidebar/MenuItems';
+import MenuItem from '../Sidebar/menuItems';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { checkToken } from '@/services/auth/auth';

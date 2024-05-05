@@ -30,21 +30,25 @@ const Profile = () => {
 
   return (
     <Box
-      display={'flex'}
+      display={"flex"}
       alignItems="center"
       gap={2}
-      sx={{ m: 3, p: 2, bgcolor: `${'secondary.light'}` }}
+      sx={{ m: 3, p: 2, bgcolor: `${"secondary.light"}` }}
       borderRadius={`${customizer.borderRadius}px`}
     >
       {!hideMenu ? (
         <>
-          <Avatar alt="Remy Sharp" src={"/images/profile/user-1.jpg"} sx={{height: 40, width: 40}} />
+          <Avatar
+            alt="Remy Sharp"
+            src={"/images/profile/user-1.jpg"}
+            sx={{ height: 40, width: 40 }}
+          />
 
           <Box>
             <Typography variant="h6">{data.nama_karyawan}</Typography>
             <Typography variant="caption">{data.role}</Typography>
           </Box>
-          <Box sx={{ ml: 'auto' }}>
+          <Box sx={{ ml: "auto" }}>
             <Tooltip title="Logout" placement="top">
               <IconButton
                 color="primary"
@@ -58,7 +62,7 @@ const Profile = () => {
           </Box>
         </>
       ) : (
-        ''
+        ""
       )}
     </Box>
   );

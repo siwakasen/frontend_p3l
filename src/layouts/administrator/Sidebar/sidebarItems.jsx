@@ -1,4 +1,4 @@
-import Menuitems from "./menuItems";
+import Menuitems from "./MenuItems";
 import { usePathname } from "next/navigation";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { checkToken } from "@/services/auth/auth";
+import { toggleMobileSidebar } from "@/utils/constants";
 
 const SidebarItems = () => {
   const customizer = useSelector((state) => state.customizer);
@@ -33,7 +34,6 @@ const SidebarItems = () => {
     checkAtuhorize();
   }, [token]);
 
-  console.log(role);
   return (
     <Box sx={{ px: 3 }}>
       <List sx={{ pt: 0 }} className="sidebarNav">

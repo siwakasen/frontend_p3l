@@ -2,12 +2,12 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import SidebarItems from './sidebarItems';
+import SidebarItems from './SidebarItems';
 import Logo from '../Shared/logo/Logo';
 import { useDispatch, useSelector } from 'react-redux';
 import { hoverSidebar, toggleMobileSidebar } from '@/utils/constants';
 import Scrollbar from '@/components/custom-scroll/Scrollbar';
-import { Profile } from './SidebarProfile/Profile';
+import Profile from './SidebarProfile/Profile';
 
 const Sidebar = () => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Box,
@@ -15,6 +15,8 @@ import * as dropdownData from "./data";
 import { IconMail } from "@tabler/icons-react";
 import { Stack } from "@mui/system";
 import { useRouter } from "next/navigation";
+import { checkToken } from "@/services/auth/auth";
+
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -22,6 +24,17 @@ const Profile = () => {
     setAnchorEl2(event.currentTarget);
   };
   const router = useRouter();
+
+  const [data, setData] = React.useState({});
+  const token = Cookies.get("token");
+  React.useEffect(() => {
+    async function checkAuthorize() {
+      if (!token) return;
+      const response = await checkToken(token);
+      setData(response.data);
+    }
+    checkAuthorize();
+  }, [token]);
 
   const handleClose2 = () => {
     setAnchorEl2(null);
@@ -74,7 +87,7 @@ const Profile = () => {
           },
         }}
       >
-        <Typography variant="h5">User Profile</Typography>
+        <Typography variant="h5">Profil Karyawan</Typography>
         <Stack direction="row" py={3} spacing={2} alignItems="center">
           <Avatar
             src={"/images/profile/user-1.jpg"}
@@ -87,10 +100,10 @@ const Profile = () => {
               color="textPrimary"
               fontWeight={600}
             >
-              Mathew Anderson
+              {data.nama_karyawan}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Designer
+              {data.role}
             </Typography>
             <Typography
               variant="subtitle2"
@@ -100,7 +113,7 @@ const Profile = () => {
               gap={1}
             >
               <IconMail width={15} height={15} />
-              info@modernize.com
+              {data.email}
             </Typography>
           </Box>
         </Stack>

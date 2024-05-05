@@ -3,8 +3,8 @@ import { styled, Box, useTheme } from '@mui/material';
 import Container from "@mui/material/Container";
 import Sidebar from '@/layouts/administrator/Sidebar';
 import Header from '@/layouts/administrator/Header';
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const MainWrapper = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -18,7 +18,8 @@ const PageWrapper = styled(Box)(({ theme }) => ({
     paddingBottom: "60px",
     flexDirection: "column",
     zIndex: 1,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    overflowY: "auto",
 }));
 
 const AdminLayout = ({ children }) => {

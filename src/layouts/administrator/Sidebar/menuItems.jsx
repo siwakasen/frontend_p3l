@@ -40,14 +40,14 @@ const MenuItem = [
     title: "Karyawan",
     icon: IconUsersGroup,
     href: "/administrator/karyawan",
-    access: "Manajer Operasional",
+    access: "Manajer Operasional, Owner",
   },
   {
     id: uniqueId(),
     title: "Jabatan",
     icon: IconUserCircle,
     href: "/administrator/jabatan",
-    access: "Manajer Operasional",
+    access: "Manajer Operasional, Owner",
   },
   {
     id: uniqueId(),

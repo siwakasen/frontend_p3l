@@ -22,49 +22,36 @@ const PageWrapper = styled(Box)(({ theme }) => ({
   overflow: "auto",
 }));
 
-export const DataContext = createContext();
 
 const AdminLayout = ({ children }) => {
-  const [token, _] = useState(Cookies.get("token"));
-  const [userData, setUserData] = useState({ nama_karyawan: "", role: "" });
-  useEffect(() => {
-    async function getUserData() {
-      const response = await checkToken(token);
-      setUserData(response.data);
-    }
-    getUserData();
-  }, [token]);
+    const theme = useTheme();
+    const customizer = useSelector((state) => state.customizer);
 
-  const theme = useTheme();
-  const customizer = useSelector((state) => state.customizer);
-
-  return (
-    <MainWrapper>
-      <DataContext.Provider value={{ userData }}>
-        <Sidebar />
-        <PageWrapper
-          className="page-wrapper"
-          sx={{
-            ...(customizer.isCollapse && {
-              [theme.breakpoints.up("lg")]: {
-                ml: `${customizer.MiniSidebarWidth}px`,
-              },
-            }),
-          }}
-        >
-          <Header />
-          <Container
-            sx={{
-              maxWidth:
-                customizer.isLayout === "boxed" ? "lg" : "100%!important",
-            }}
-          >
-            <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-          </Container>
-        </PageWrapper>
-      </DataContext.Provider>
-    </MainWrapper>
-  );
+    return (
+        <MainWrapper>
+            <Sidebar />
+            <PageWrapper className="page-wrapper"
+                sx={{
+                ...(customizer.isCollapse && {
+                    [theme.breakpoints.up("lg")]: {
+                    ml: `${customizer.MiniSidebarWidth}px`,
+                    },
+                }),
+                }}
+            >
+                <Header />
+                <Container
+                    sx={{
+                        maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important",
+                    }}
+                >
+                    <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
+                        {children}
+                    </Box>
+                </Container>
+            </PageWrapper>
+        </MainWrapper>
+    );
 };
 
 export default AdminLayout;

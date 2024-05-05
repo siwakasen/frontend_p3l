@@ -115,7 +115,7 @@ export const DataCustomerHistoryTable = ({ data, headCells }) => {
                                             tabIndex={-1}
                                             key={row.id_pesanan}
                                         >
-                                            <TableCell component="th" id={labelId} scope="row" padding="none" >
+                                            <TableCell  id={labelId} scope="row" padding="none" >
                                                 <Typography
                                                     color="textSecondary"
                                                     variant="subtitle2"

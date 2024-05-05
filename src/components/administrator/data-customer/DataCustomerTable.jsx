@@ -186,7 +186,7 @@ export const DataCustomerSearchTable = ({data, headCells, handleSelectedId}) => 
                                                 inputProps={{ "aria-labelledby": labelId }}
                                             />
                                         </TableCell>
-                                        <TableCell component="th" id={labelId} scope="row" padding="none" >
+                                        <TableCell id={labelId} scope="row" padding="none" >
                                             <Typography
                                                 color="textSecondary"
                                                 variant="subtitle2"

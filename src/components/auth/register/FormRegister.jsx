@@ -78,7 +78,7 @@ export const FormRegister = ({ title, subtitle, subtext }) => {
                         }}
                         renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
                         error={formik.touched.tanggal_lahir && Boolean(formik.errors.tanggal_lahir)}
-                        helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir}/>}
+                        helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir} />}
                     />
                 </LocalizationProvider>
                 <CustomFormLabel htmlFor="no_hp">Nomor Handphone</CustomFormLabel>

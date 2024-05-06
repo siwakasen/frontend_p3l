@@ -13,23 +13,9 @@ export const useInsert = () => {
 
     function handleSubmit(){
         let formData = new FormData();
-        const isEmptyBahanBaku =
-            !bahanBakuInput.nama_bahan_baku ||
-            !bahanBakuInput.satuan;
-
-        if(isEmptyBahanBaku){
-            toastWarning("Data bahan baku tidak boleh kosong");
-            setOpen(!open);
-            return;
-        }
         if(!bahanBakuInput.stok){
             bahanBakuInput.stok = 0;
         }
-
-        if(bahanBakuInput.stok < 0){
-            toastWarning("Stok tidak boleh kurang dari 0");
-            return;
-        }2
 
         for(let key in bahanBakuInput){
             formData.append(key, bahanBakuInput[key]);
@@ -39,18 +25,21 @@ export const useInsert = () => {
     }
 
     async function handleInsert(formData){
-        console.log(formData);
         try {
             const { data, code } = await insertBahanBaku(formData);
             if(code === 200){
-                toastSuccess('Berhasil menambahkan data bahan baku');
+                toastSuccess(data.message);
                 router.push('/administrator/bahan-baku');
                 return;
             }else{
-                toastError('Gagal menambahkan data bahan baku');
+                for(let key in data.message){
+                    toastWarning(`${data.message[key]}`);
+                    setOpen(!open);
+                    return;
+                }
             }
         } catch (error) {
-            toastError('Gagal menambahkan data bahan baku');
+            toastError(data.message);
         }
     }
 
@@ -92,41 +81,28 @@ export const useUpdate = (id) => {
     }
 
     function handleSubmit(){
-        const isEmptyBahanBaku =
-            !bahanBakuInput.nama_bahan_baku ||
-            !bahanBakuInput.satuan;
-        
-        if(isEmptyBahanBaku){
-            toastWarning("Data bahan baku tidak boleh kosong");
-            setOpen(!open);
-            return;
-        }
         if(!bahanBakuInput.stok){
             bahanBakuInput.stok = 0;
         }
-
-        if(bahanBakuInput.stok < 0){
-            toastWarning("Stok tidak boleh kurang dari 0");
-            setOpen(!open);
-            return;
-        }
-
         handleUpdate(bahanBakuInput);
     }
 
     async function handleUpdate(formData){
-        console.log(formData);
         try {
             const { data, code } = await updateBahanBaku(id, formData);
             if(code === 200){
-                toastSuccess('Berhasil mengubah data bahan baku');
+                toastSuccess(data.message);
                 router.push('/administrator/bahan-baku');
                 return;
             }else{
-                toastError('Gagal mengubah data bahan baku');
+                for(let key in data.message){
+                    toastWarning(`${data.message[key]}`);
+                    setOpen(!open);
+                    return;
+                }
             }
         } catch (error) {
-            toastError('Gagal mengubah data bahan baku');
+            toastError(data.message);
         }
     }
 
@@ -150,19 +126,16 @@ export const useDelete = ({loading, setLoading}) => {
         try {
         Array.from(id).forEach(async (id) => {
             const { data, code } = await deleteBahanBaku(id);
-            console.log(data.message);
                 if(code === 200){
-                    toastSuccess('Berhasil menghapus data bahan baku');
+                    toastSuccess(data.message);
                     setLoading(!loading);
                     return;
-                }else if(data.message.includes('used in other tables')){
-                    toastError('Bahan Baku tidak dapat dihapus karena masih digunakan di produk/hampers');
                 }else{
-                    toastError('Gagal menghapus data bahan baku');
+                    toastError(data.message);
                 }
             });
         } catch (error) {
-            toastError('Gagal menghapus data bahan baku');
+            toastError(data.message);
         }
         setLoading(!loading);
     }

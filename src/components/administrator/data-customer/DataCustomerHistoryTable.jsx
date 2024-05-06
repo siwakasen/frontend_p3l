@@ -22,10 +22,6 @@ import {
   } from "@mui/material";
   import { useState, useEffect } from "react";
   import CustomSwitch from "../../shared/CustomSwitch";
-  import EnhancedTableHead from "../../shared/search-table/EnhancedTableHead";
-  import { alpha } from "@mui/material/styles";
-  import { IconEdit, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
-  import CustomBoxModal from "../../shared/CustomBoxModalConfirm";
   import {
     getComparator,
     stableSort,
@@ -139,7 +135,7 @@ export const DataCustomerHistoryTable = ({ data, headCells }) => {
                                                         maxHeight: "3.6em",
                                                         maxWidth: "16rem",
                                                         overflow: "scroll",
-                                                        width: "10rem",
+                                                        width: "16rem",
                                                     }}
                                                 >
                                                 {
@@ -147,7 +143,7 @@ export const DataCustomerHistoryTable = ({ data, headCells }) => {
                                                         return (
                                                             <div key={index}>
                                                                 {
-                                                                    item.id_produk !== null ? `${item.jumlah} x ${item.produk.nama_produk} = Rp ${Intl.NumberFormat("id-ID").format(item.produk.harga_produk)}` : `${item.jumlah} x ${item.hampers.nama_hampers} = Rp ${Intl.NumberFormat("id-ID").format(item.hampers.harga_hampers)}`
+                                                                    item.id_produk !== null ? `${item.jumlah} x ${item.produk.nama_produk} = Rp ${Intl.NumberFormat("id-ID").format(item.subtotal)}` : `${item.jumlah} x ${item.hampers.nama_hampers} = Rp ${Intl.NumberFormat("id-ID").format(item.subtotal)}`
                                                                 }
                                                             </div>
                                                         );

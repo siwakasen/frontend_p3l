@@ -11,21 +11,6 @@ export const useInsert = () => {
 
     function handleSubmit(){
         let formData = new FormData();
-        const isEmptyPengeluaranLain =
-            !pengeluaranLainInput.nama_pengeluaran ||
-            !pengeluaranLainInput.tanggal_pengeluaran ||
-            !pengeluaranLainInput.nominal_pengeluaran;
-
-        if(isEmptyPengeluaranLain){
-            toastWarning("Data pengeluaran lain tidak boleh kosong");
-            setOpen(!open);
-            return;
-        }
-        if(pengeluaranLainInput.nominal_pengeluaran.length < 0){
-            toastWarning("Nominal pengeluaran tidak boleh kurang dari 0");
-            setOpen(!open);
-            return;
-        }
 
         for(let key in pengeluaranLainInput){
             formData.append(key, pengeluaranLainInput[key]);
@@ -38,11 +23,15 @@ export const useInsert = () => {
         try{
             const { data, code } = await insertPengeluaranLain(formData);
             if(code === 200){
-                toastSuccess('Berhasil menambahkan data pengeluaran lain');
+                toastSuccess(data.message);
                 router.push('/administrator/pengeluaran-lain');
                 return;
             }else{
-                toastError('Gagal menambahkan data pengeluaran lain');
+                for(let key in data.message){
+                    toastWarning(`${data.message[key]}`);
+                    setOpen(!open);
+                    return;
+                }
             }
         }catch (error){
             toastError(`${data.message}`);
@@ -87,22 +76,6 @@ export const useUpdate = (id) => {
     },[]);
 
     function handleSubmit(){
-        const isEmptyPengeluaranLain =
-            !pengeluaranLainInput.nama_pengeluaran ||
-            !pengeluaranLainInput.tanggal_pengeluaran ||
-            !pengeluaranLainInput.nominal_pengeluaran;
-        
-        if(isEmptyPengeluaranLain){
-            toastWarning("Data pengeluaran lain tidak boleh kosong");
-            setOpen(!open);
-            return;
-        }
-        if(pengeluaranLainInput.nominal_pengeluaran.length < 0){
-            toastWarning("Nominal pengeluaran tidak boleh kurang dari 0");
-            setOpen(!open);
-            return;
-        }
-
         handleUpdate(pengeluaranLainInput);
     }
 
@@ -110,14 +83,18 @@ export const useUpdate = (id) => {
         try{
             const { data, code } = await updatePengeluaranLain(id, formData);
             if(code === 200){
-                toastSuccess('Berhasil mengubah data pengeluaran lain');
+                toastSuccess(data.message);
                 router.push('/administrator/pengeluaran-lain');
                 return;
             }else{
-                toastError(`${data.message}`);
+                for(let key in data.message){
+                    toastWarning(`${data.message[key]}`);
+                    setOpen(!open);
+                    return;
+                }
             }
         }catch (error){
-            toastError(`${data.error}`);
+            toastError(`${data.message}`);
         }
     }
 
@@ -141,16 +118,15 @@ export const useDelete = ({loading, setLoading}) => {
         try{
             Array.from(id).forEach(async (id) => {
                 const {data, code} = await deletePengeluaranLain(id);
-                console.log(data);
                 if(code === 200){
-                    toastSuccess('Berhasil menghapus data pengeluaran lain');
+                    toastSuccess(data.message);
                     return;
                 }else{
-                    toastError('Gagal menghapus data pengeluaran lain');
+                    toastError(data.message);
                 }
             });
         }catch (error){
-            toastError(`${data.message}`);
+            toastError(`${data.error}`);
         }
         setLoading(!loading);
     }

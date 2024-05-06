@@ -19,8 +19,6 @@ export const tanggalLahir = () => {
     };
 
     const [tanggal_lahir, setTanggalLahir] = React.useState("");
-
-
     return (
         <>
             <Typography component={"button"} color="primary" variant="subtitle1" fontWeight={"400"} onClick={handleClickOpen}>Ubah Tanggal Lahir</Typography>

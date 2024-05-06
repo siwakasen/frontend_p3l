@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { insertBahanBaku, updateBahanBaku, getBahanBaku, deleteBahanBaku} from "@/services/bahan-baku/bahanBaku";
 import Toast from "@/components/shared/Toast";
 import { useRouter } from "next/navigation";
-import { data } from "autoprefixer";
 
 
 export const useInsert = () => {

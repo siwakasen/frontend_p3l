@@ -11,26 +11,6 @@ export const useInsert = () => {
 
     function handleSubmit(){
         let formData = new FormData();
-        const isEmptyPenitip =
-            !penitipInput.nama_penitip ||
-            !penitipInput.email ||
-            !penitipInput.no_hp;
-
-        if(isEmptyPenitip){
-            toastWarning("Data penitip tidak boleh kosong");
-            setOpen(!open);
-            return;
-        }
-        if(!penitipInput.email.includes('@')){
-            toastWarning("Email tidak valid");
-            setOpen(!open);
-            return;
-        }
-        if(penitipInput.no_hp.length < 10 || penitipInput.no_hp.length > 13){
-            toastWarning("Nomor HP tidak valid");
-            setOpen(!open);
-            return;
-        }
 
         for(let key in penitipInput){
             formData.append(key, penitipInput[key]);
@@ -43,11 +23,16 @@ export const useInsert = () => {
         try{
             const { data, code } = await insertPenitip(formData);
             if(code === 200){
-                toastSuccess('Berhasil menambahkan data penitip');
+                toastSuccess(data.message);
                 router.push('/administrator/penitip');
                 return;
-            }else{
-                toastError('Gagal menambahkan data penitip');
+            }
+            else{
+                for(let key in data.message){
+                    toastWarning(`${data.message[key]}`);
+                    setOpen(!open);
+                    return;
+                }
             }
         }catch (error){
             toastError(`${data.message}`);
@@ -92,27 +77,6 @@ export const useUpdate = (id) => {
     },[]);
 
     function handleSubmit(){
-        const isEmptyPenitip =
-            !penitipInput.nama_penitip ||
-            !penitipInput.email ||
-            !penitipInput.no_hp;
-        
-        if(isEmptyPenitip){
-            toastWarning("Data penitip tidak boleh kosong");
-            setOpen(!open);
-            return;
-        }
-        if(!penitipInput.email.includes('@')){
-            toastWarning("Email tidak valid");
-            setOpen(!open);
-            return;
-        }
-        if(penitipInput.no_hp.length < 10 || penitipInput.no_hp.length > 13){
-            toastWarning("Nomor HP tidak valid");
-            setOpen(!open);
-            return;
-        }
-
         handleUpdate(penitipInput);
     }
 
@@ -120,14 +84,18 @@ export const useUpdate = (id) => {
         try{
             const { data, code } = await updatePenitip(id, formData);
             if(code === 200){
-                toastSuccess('Berhasil mengubah data penitip');
+                toastSuccess(data.message);
                 router.push('/administrator/penitip');
                 return;
             }else{
-                toastError(`${data.message}`);
+                for(let key in data.message){
+                    toastWarning(`${data.message[key]}`);
+                    setOpen(!open);
+                    return;
+                }
             }
         }catch (error){
-            toastError(`${data.error}`);
+            toastError(`${data.message}`);
         }
     }
 
@@ -151,18 +119,15 @@ export const useDelete = ({loading, setLoading}) => {
         try{
             Array.from(id).forEach(async (id) => {
                 const {data, code} = await deletePenitip(id);
-                console.log(data);
                 if(code === 200){
-                    toastSuccess('Berhasil menghapus data penitip');
+                    toastSuccess(data.message);
                     return;
-                }else if(data.message.includes('have registered product')){
-                    toastError('Gagal menghapus data penitip karena masih memiliki produk terdaftar');
                 }else{
-                    toastError('Gagal menghapus data penitip');
+                    toastError(data.message);
                 }
             });
         }catch (error){
-            toastError(`${data.message}`);
+            toastError(`${data.error}`);
         }
         setLoading(!loading);
     }

@@ -22,10 +22,6 @@ import {
   } from "@mui/material";
   import { useState, useEffect } from "react";
   import CustomSwitch from "../../shared/CustomSwitch";
-  import EnhancedTableHead from "../../shared/search-table/EnhancedTableHead";
-  import { alpha } from "@mui/material/styles";
-  import { IconEdit, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
-  import CustomBoxModal from "../../shared/CustomBoxModalConfirm";
   import {
     getComparator,
     stableSort,

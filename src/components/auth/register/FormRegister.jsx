@@ -72,15 +72,13 @@ export const FormRegister = ({ title, subtitle, subtext }) => {
                 <CustomFormLabel htmlFor="tanggal_lahir">Tanggal Lahir</CustomFormLabel>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
-                        disableFuture
                         value={formik.values.tanggal_lahir}
                         onChange={(value) => {
                             formik.setFieldValue("tanggal_lahir", value);
                         }}
                         renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
                         error={formik.touched.tanggal_lahir && Boolean(formik.errors.tanggal_lahir)}
-                        helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir}
-                         />}
+                        helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir}/>}
                     />
                 </LocalizationProvider>
                 <CustomFormLabel htmlFor="no_hp">Nomor Handphone</CustomFormLabel>

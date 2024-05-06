@@ -1,9 +1,9 @@
 import { Button, Chip, Grid, List, ListItem, ListItemText, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { ChangeName } from '../changeName';
-import { TanggalLahir } from '../changeTanggalLahir';
-import { ChangePhoneNumber } from '../changePhoneNumber';
+import { changeName } from '../changeName';
+import { tanggalLahir } from '../changeTanggalLahir';
+import { changePhoneNumber } from '../changePhoneNumber';
 
 const Biodata = () => {
     const data = useSelector((state) => state.user);
@@ -36,7 +36,7 @@ const Biodata = () => {
                                         padding: 0,
                                         textAlign: "right"
                                     }}>
-                                        {ChangeName()}
+                                        {changeName()}
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
@@ -70,7 +70,7 @@ const Biodata = () => {
                                         padding: 0,
                                         textAlign: "right"
                                     }}>
-                                        {TanggalLahir()}
+                                        {tanggalLahir()}
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
@@ -132,7 +132,7 @@ const Biodata = () => {
                                         textAlign: "right"
                                     }}>
                                         <Typography variant="subtitle1" color={"primary"} fontWeight={"400"}>
-                                            {ChangePhoneNumber()}
+                                            {changePhoneNumber()}
                                         </Typography>
                                     </TableCell>
                                 </TableRow>

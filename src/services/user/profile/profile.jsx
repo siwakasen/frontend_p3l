@@ -21,8 +21,6 @@ export async function getProfile() {
 
 export async function changeProfile(data) {
     try {
-        console.log(JSON.stringify(data));
-        
         const response = await fetch(`${API_URL}/customer/profile`, {
         method: "PUT",
         headers: {

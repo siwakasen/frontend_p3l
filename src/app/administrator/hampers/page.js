@@ -25,12 +25,6 @@ export default function Page() {
       disablePadding: false,
       label: "Hampers",
     },
-    // {
-    //   id: "deskripsi_hampers",
-    //   numeric: false,
-    //   disablePadding: false,
-    //   label: "Deskripsi",
-    // },
     {
       id: "isi_produk",
       numeric: false,

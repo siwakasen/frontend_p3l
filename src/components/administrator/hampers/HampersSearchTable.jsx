@@ -273,22 +273,7 @@ export const HampersSearchTable = ({
                             </Box>
                           </Box>
                         </TableCell>
-                        {/* 
-                        <TableCell>
-                          <Typography
-                            color="textSecondary"
-                            variant="subtitle2"
-                            sx={{
-                              lineClamp: 2,
-                              maxHeight: "3.6em",
-                              maxWidth: "25rem",tab
-                              overflow: "scroll",
-                            }}
-                          >
-                            {row.deskripsi_hampers}
-                          </Typography>
-                        </TableCell> */}
-
+                        
                         <TableCell>
                           <Typography
                             color="textSecondary"

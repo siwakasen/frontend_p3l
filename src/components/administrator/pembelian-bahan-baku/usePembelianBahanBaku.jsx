@@ -17,7 +17,7 @@ const useDelete = ({ setLoading, loading }) => {
         const response = await deletePembelianBahanBaku(id);
         const { message, data, status } = response;
         if (status) {
-          toastSuccess("Data berhasil dihapus");
+          toastSuccess(message);
         } else {
           toastError(message);
         }
@@ -48,41 +48,24 @@ const useAdd = () => {
   }
 
   async function handleSubmit() {
-    try {
-      await handleAdd();
-    } catch (error) {
-      console.log(error);
-    }
+    await handleAdd();
     handleOpen();
   }
 
   async function handleAdd() {
     try {
-      if (
-        !input.id_bahan_baku ||
-        !input.jumlah ||
-        !input.harga ||
-        !input.tanggal_pembelian
-      ) {
-        toastWarning("Form tidak boleh kosong");
-        return;
-      }
-
-      if (input.jumlah < 0 || input.harga < 0) {
-        toastWarning("Jumlah dan harga tidak boleh kurang dari 0");
-        return;
-      }
-
       const response = await addPembelianBahanBaku(input);
       const { data, code } = response;
       switch (code) {
         case 201:
-          toastSuccess("Data berhasil diubah");
+          toastSuccess(data.message);
           setInput({});
           router.push("/administrator/pembelian-bahan-baku");
           break;
         default:
-          toastError("Data gagal ditambahkan");
+          for (let key in data.errors) {
+            toastError(data.errors[key][0]);
+          }
           break;
       }
     } catch (error) {
@@ -118,31 +101,12 @@ const useEdit = (id) => {
   }
 
   async function handleSubmit() {
-    try {
-      await handleEdit();
-    } catch (error) {
-      console.log(error);
-    }
+    await handleEdit();
     handleOpen();
   }
 
   async function handleEdit() {
     try {
-      if (
-        !input.id_bahan_baku ||
-        !input.jumlah ||
-        !input.harga ||
-        !input.tanggal_pembelian
-      ) {
-        toastWarning("Form tidak boleh kosong");
-        return;
-      }
-
-      if (input.jumlah < 0 || input.harga < 0) {
-        toastWarning("Jumlah dan harga tidak boleh kurang dari 0");
-        return;
-      }
-
       const response = await updatePembelianBahanBaku(input);
       const { data, code } = response;
       switch (code) {
@@ -152,7 +116,9 @@ const useEdit = (id) => {
           router.push("/administrator/pembelian-bahan-baku");
           break;
         default:
-          toastError("Data gagal diubah");
+          for (let key in data.errors) {
+            toastError(data.errors[key][0]);
+          }
           break;
       }
     } catch (error) {

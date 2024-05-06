@@ -35,7 +35,6 @@ export const useInsert = () => {
           break;
       }
     } catch (error) {
-
       toastError("Data gagal ditambahkan");
     }
   }
@@ -67,7 +66,6 @@ export const useInsert = () => {
     for (let key in input) {
       formData.append(key, input[key]);
     }
-
 
     handleInsert(formData);
   }
@@ -133,38 +131,24 @@ export const useUpdate = (id) => {
           toastSuccess("Data berhasil diubah");
           router.push("/administrator/produk");
           break;
-        case 400:
-          toastWarning(data.message);
-          break;
         default:
-          toastError(data.message);
+          for (let key in data.errors) {
+            toastError(data.errors[key][0]);
+          }
           break;
       }
     } catch (error) {
       toastError("Data gagal diubah");
     }
+    setOpen(!open);
   }
 
   function handleSubmit() {
     let formData = new FormData();
 
-    const isEmptyProduk =
-      !input.nama_produk ||
-      !input.harga_produk ||
-      !input.id_kategori ||
-      !input.foto_produk ||
-      !input.deskripsi_produk ||
-      !input.stok_produk ||
-      !input.id_kategori;
-
-    if (isEmptyProduk || input.length === 0) {
+    if (!input.foto_produk) {
       toastWarning("Data produk tidak boleh kosong");
       setOpen(!open);
-      return;
-    }
-
-    if (input.harga_produk < 0 || input.stok_produk < 0) {
-      toastWarning("Input data tidak boleh kurang dari 0");
       return;
     }
 

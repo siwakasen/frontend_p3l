@@ -139,7 +139,7 @@ export const DataCustomerHistoryTable = ({ data, headCells }) => {
                                                         maxHeight: "3.6em",
                                                         maxWidth: "16rem",
                                                         overflow: "scroll",
-                                                        width: "10rem",
+                                                        width: "16rem",
                                                     }}
                                                 >
                                                 {

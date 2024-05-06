@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, TextField, Typ
 import React from 'react';
 import { UseActions } from './useActions';
 
-export const changeName = () => {
+export const ChangeName = () => {
     const [open, setOpen] = React.useState(false);
     const { handleProfile } = UseActions();
 
@@ -11,6 +11,7 @@ export const changeName = () => {
     };
 
     const handleClose = () => {
+        setNama("");
         setOpen(false);
     };
 
@@ -46,7 +47,9 @@ export const changeName = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Batal</Button>
-                    <Button onClick={() => {
+                    <Button 
+                    disabled={nama === ""}
+                    onClick={() => {
                         handleProfile({ nama });
                         handleClose();
                     }} color="primary">Simpan</Button>

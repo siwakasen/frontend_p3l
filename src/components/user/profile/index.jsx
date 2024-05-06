@@ -13,6 +13,7 @@ import Balance from '../../../assets/icons/balance.png';
 import Poin from '../../../assets/icons/poin.svg';
 import Image from 'next/image';
 import ContainerProfile from './ContainerProfile';
+import Link from 'next/link';
 
   const UserProfile = () => {
     const data = useSelector((state) => state.user);
@@ -66,7 +67,9 @@ import ContainerProfile from './ContainerProfile';
                   <Typography fontWeight={400} variant="subtitle2">Menunggu Pembayaran</Typography>
                 </ListItem>
                 <ListItem>
-                  <Typography fontWeight={400} variant="subtitle2">Histori Pemesanan</Typography>
+                  <Link href="/user/histori-pesanan">
+                    <Typography fontWeight={400} variant="subtitle2">Histori Pesanan</Typography>
+                  </Link>
                 </ListItem>
               </List>
             </Box>

@@ -215,7 +215,7 @@ const RolesTableList = () => {
 
   const handleSearch = (event) => {
     const filteredRows = getJabatan.filter((row) => {
-      return row.nama_role.toLowerCase().includes(event.target.value);
+      return row.nama_role.toLowerCase().includes(event.target.value.toLowerCase());
     });
     setPage(0);
     setSearch(event.target.value);

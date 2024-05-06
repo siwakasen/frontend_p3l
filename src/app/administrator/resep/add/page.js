@@ -3,7 +3,7 @@ import React from 'react'
 import PageContainer from '@/components/container/PageContainer';
 import Breadcrumb from '@/layouts/administrator/Shared/breadcrumb/Breadcrumb';
 import { Box } from '@mui/material';
-import AddResepForm from '@/components/administrator/resep/addResepForm';
+import AddResepForm from '@/components/administrator/resep/AddResepForm';
 
 const BCrum = [
     { title: 'Dashboard', to: '/administrator/dashboard'},

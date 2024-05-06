@@ -220,7 +220,7 @@ const RecipesTableList = () => {
 
   const handleSearch = (event) => {
     const filteredRows = getKaryawan.filter((row) => {
-      return row.nama_resep.toLowerCase().includes(event.target.value);
+      return row.nama_resep.toLowerCase().includes(event.target.value.toLowerCase());
     });
     setPage(0);
     setSearch(event.target.value);

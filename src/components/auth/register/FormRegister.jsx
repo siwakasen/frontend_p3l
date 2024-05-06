@@ -77,6 +77,7 @@ export const FormRegister = ({ title, subtitle, subtext }) => {
                             formik.setFieldValue("tanggal_lahir", value);
                         }}
                         renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
+                        disableFuture
                         error={formik.touched.tanggal_lahir && Boolean(formik.errors.tanggal_lahir)}
                         helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir} />}
                     />

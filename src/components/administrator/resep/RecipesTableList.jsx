@@ -188,7 +188,7 @@ const RecipesTableList = () => {
 
   const handleSearch = (event) => {
     const filteredRows = getResep.filter((row) => {
-      return row.nama_resep.toLowerCase().includes(event.target.value);
+      return row.nama_resep.toLowerCase().includes(event.target.value.toLowerCase());
     });
     setPage(0);
     setSearch(event.target.value);
@@ -264,7 +264,11 @@ const RecipesTableList = () => {
                             </Box>
                           </TableCell>
                           <TableCell>
-                            <Typography>{format(new Date(row.created_at), 'EEEE, MMMM d yyyy')}</Typography>
+                            <Typography>{new Date(row.created_at).toLocaleDateString('id-ID', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })}</Typography>
                           </TableCell>
                           <TableCell>
                             <Box display="flex" alignItems="center">

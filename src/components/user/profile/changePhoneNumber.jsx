@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, TextField, Typ
 import React from 'react';
 import { UseActions } from './useActions';
 
-export const changePhoneNumber = () => {
+export const ChangePhoneNumber = () => {
     const [open, setOpen] = React.useState(false);
     const { handleProfile } = UseActions();
 
@@ -11,6 +11,7 @@ export const changePhoneNumber = () => {
     };
 
     const handleClose = () => {
+        setNoHp("");
         setOpen(false);
     };
 
@@ -46,7 +47,9 @@ export const changePhoneNumber = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Batal</Button>
-                    <Button onClick={() => {
+                    <Button 
+                    disabled={no_hp === "" || no_hp.length < 10 || no_hp.length > 13}
+                    onClick={() => {
                         handleProfile({ no_hp });
                         handleClose();
                     }} color="primary">Simpan</Button>

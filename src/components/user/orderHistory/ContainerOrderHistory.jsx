@@ -30,7 +30,7 @@ const ContainerOrderHistory = () => {
 
     const [data, setData] = useState([]);
 
-    const searchPesananByNamaProduk = (setData, query) => {
+    const searchPesananByNamaProduk = (query) => {
         if(query === '') {
             getOrderHistory().then((data) => {
                 setData(data.data);
@@ -51,7 +51,7 @@ const ContainerOrderHistory = () => {
         }
     }
 
-    const searchPesananByKategori = (setData, query) => {
+    const searchPesananByKategori = (query) => {
         if(query === 'all') {
             getOrderHistory().then((data) => {
                 setData(data.data);
@@ -72,7 +72,7 @@ const ContainerOrderHistory = () => {
         }
     }
 
-    const searchPesananByTanggal = (setData, query) => {
+    const searchPesananByTanggal = (query) => {
         if(data === ''){
             getOrderHistory().then((data) => {
                 setData(data.data);
@@ -91,23 +91,29 @@ const ContainerOrderHistory = () => {
         }
     }
 
-    const handleChangeDate = (setDate, setData, query) => {
+    const handleChangeDate = (query) => {
         setDate(query);
-        searchPesananByTanggal(setData, new Date(query).toLocaleDateString("id-ID", {
+        setFilter('all');
+        setSearch('');
+        searchPesananByTanggal(new Date(query).toLocaleDateString("id-ID", {
             year: "numeric",
             month: "long",
             day: "numeric"
         }));
     }
 
-    const handleChangeKategori = (setFilter, setData, query) => {
+    const handleChangeKategori = (query) => {
         setFilter(query);
-        searchPesananByKategori(setData, query);
+        setSearch('');
+        setDate('');
+        searchPesananByKategori(query);
     }
 
-    const handleChangeInputSearch = (setSearch, setData, query) => {
+    const handleChangeInputSearch = (query) => {
         setSearch(query);
-        searchPesananByNamaProduk(setData, query);
+        setFilter('all');
+        setDate('');
+        searchPesananByNamaProduk(query);
     }
 
     return (
@@ -122,7 +128,7 @@ const ContainerOrderHistory = () => {
                             fullWidth
                             placeholder="Cari Pesananmu di sini"
                             value={search}
-                            onChange={(e) => handleChangeInputSearch(setSearch, setData, e.target.value)}
+                            onChange={(e) => handleChangeInputSearch(e.target.value)}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -136,7 +142,7 @@ const ContainerOrderHistory = () => {
                         <CustomSelect
                             fullWidth
                             value={filter}
-                            onChange={(e) => handleChangeKategori(setFilter, setData, e.target.value)}
+                            onChange={(e) => handleChangeKategori(e.target.value)}
                         >
                             <MenuItem value="all">Semua Produk</MenuItem>
                             {kategori.map((data) => (
@@ -149,7 +155,7 @@ const ContainerOrderHistory = () => {
                             <DatePicker
                                 value={date === '' ? null : new Date(date)}
                                 onChange={(newValue) => {
-                                    handleChangeDate(setDate, setData, newValue);
+                                    handleChangeDate(newValue);
                                 }}
                                 fullWidth
                                 disableFuture

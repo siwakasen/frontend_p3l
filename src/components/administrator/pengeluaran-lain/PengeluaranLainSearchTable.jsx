@@ -16,14 +16,16 @@ import {
     Modal,
     Button,
     InputAdornment,
-    
+    Chip,
+    MenuItem,
+    Menu,
   } from "@mui/material";
 import { useState, useEffect } from "react";
 import CustomCheckbox from "../../shared/CustomCheckbox";
 import CustomSwitch from "../../shared/CustomSwitch";
 import EnhancedTableHead from "../../shared/search-table/EnhancedTableHead";
 import { alpha } from "@mui/material/styles";
-import { IconEdit, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
+import { IconEdit, IconPlus, IconSearch, IconTrash, IconFilter, IconCheckbox } from "@tabler/icons-react";
 import CustomBoxModal from "../../shared/CustomBoxModalConfirm";
 import {
 getComparator,
@@ -31,10 +33,18 @@ stableSort,
 } from "@/components/shared/search-table/SearchTableFunction";
 import { useRouter } from "next/navigation";
 import { useDelete } from "./usePengeluaranLain";
-import { searchPengeluaranLain } from "@/services/pengeluaran-lain/pengeluaran-lain";
+import { searchPengeluaranLain, updateStatusPengeluaranLain } from "@/services/pengeluaran-lain/pengeluaran-lain";
+import Toast from "@/components/shared/Toast";
 
+export const PengeluaranLainSearchTable = ({ 
+    data, 
+    headCells, 
+    setLoading, 
+    loading,
+    setFilter,
+    filter,
+}) => {
 
-export const PengeluaranLainSearchTable = ({ data, headCells, setLoading, loading }) => {
     const { handleDelete } = useDelete({setLoading, loading});
     const router = useRouter();
     const [orderBy, setOrderBy] = useState("id_pengeluaran");
@@ -47,6 +57,31 @@ export const PengeluaranLainSearchTable = ({ data, headCells, setLoading, loadin
     const [rows, setRows] = useState([]);
     const [search, setSearch] = useState("");
     const [thisData, setData] = useState(data);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const isFilter = Boolean(anchorEl);
+
+    const handleUpdateStatus = async (selected) => {
+        const { toastSuccess, toastError } = Toast();
+        try {
+          Array.from(selected).map(async (id) => {
+            const { data,code } = await updateStatusPengeluaranLain(id);
+            switch (code) {
+              case 200:
+                toastSuccess(data.message);
+                break;
+              default:
+                toastError(data.message);
+                break;
+            }
+          });
+        } catch (error) {
+          toastError(data.message);
+        }
+        setLoading(!loading);
+        setSelected([]);
+        handleOpen();
+        setPage(0);
+      };
 
     useEffect(() => {
         setRows(data);
@@ -132,6 +167,13 @@ export const PengeluaranLainSearchTable = ({ data, headCells, setLoading, loadin
         setSelected(newSelected);
     };
 
+    const handleClickAnchorEl = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    const handleCloseAnchorEl = () => {
+        setAnchorEl(null);
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         };
@@ -197,31 +239,90 @@ export const PengeluaranLainSearchTable = ({ data, headCells, setLoading, loadin
                 
                 {/* Filter icon / delete icon */}
                 {selected.length > 0 ? (
-                    <Tooltip title="Hapus data">
-                    <IconButton onClick={handleOpen}>
-                        <IconTrash width="18" className="text-red-400" />
-                    </IconButton>
-                    </Tooltip>
+                    filter === 1 || filter === undefined ? (
+                        <Tooltip title="Hapus data">
+                          <IconButton disableRipple onClick={handleOpen}>
+                            <IconTrash width="18" className="text-red-400" />
+                          </IconButton>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="Aktifkan data">
+                          <IconButton disableRipple onClick={handleOpen}>
+                            <IconCheckbox width="18" className="text-red-400" />
+                          </IconButton>
+                        </Tooltip>
+                      )
                 ) : (
-                    <Tooltip title="Tambah data">
-                    <Button onClick={handleAdd}>
-                        <IconPlus width="18" /> Tambah
-                    </Button>
-                    </Tooltip>
+                    <>
+                        <Tooltip title="Filter data" sx={{ marginRight: "1rem" }}>
+                            <IconButton
+                            disableRipple
+                            id="basic-button"
+                            aria-controls={isFilter ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={isFilter ? "true" : undefined}
+                            onClick={handleClickAnchorEl}
+                            >
+                            <IconFilter width="18" />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={isFilter}
+                            onClose={handleCloseAnchorEl}
+                            MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                            }}
+                        >
+                            <MenuItem
+                            onClick={() => {
+                                setFilter(1);
+                                handleCloseAnchorEl();
+                            }}
+                            >
+                            Aktif
+                            </MenuItem>
+                            <MenuItem
+                            onClick={() => {
+                                setFilter(0);
+                                handleCloseAnchorEl();
+                            }}
+                            >
+                            Tidak Aktif
+                            </MenuItem>
+                        </Menu>
+                        <Tooltip title="Tambah data">
+                            <Button onClick={handleAdd}>
+                            <IconPlus width="18" /> Tambah
+                            </Button>
+                        </Tooltip>
+                        </>
                 )}
                 <Modal open={open} onClose={handleOpen}>
                     <div>
                     <CustomBoxModal
-                        title="Hapus Pengeluaran Lain"
-                        description="Data yang dihapus tidak dapat dikembalikan!"
+                        title={
+                            filter === 1 || filter === undefined
+                              ? "Hapus Data"
+                              : "Aktifkan Data"
+                          }
+                          description={
+                            filter === 1 || filter === undefined
+                              ? "Yakin menghapus data ini?"
+                              : "Yakin mengaktifkan data ini?"
+                          }
                         footer={
                         <Button
-                            color="error"
+                            color={filter === 1 || filter === undefined ? "error" : "info"}
                             size="small"
                             sx={{ mt: 2 }}
-                            onClick={()=>handleDeleteAction(selected)}
+                            onClick={()=>filter === 1 || filter === undefined
+                                ? handleDeleteAction(selected)
+                                : handleUpdateStatus(selected)
+                            }
                         >
-                            Hapus
+                           {filter === 1 || filter === undefined ? "Hapus" : "Aktifkan"}
                         </Button>
                         }
                     />
@@ -302,6 +403,27 @@ export const PengeluaranLainSearchTable = ({ data, headCells, setLoading, loadin
                                                     >
                                                     Rp {Intl.NumberFormat("id-ID").format(row.nominal_pengeluaran)}
                                                     </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Chip
+                                                        sx={{
+                                                        bgcolor:
+                                                            row.status_pengeluaran_lain == "1"
+                                                            ? (theme) => theme.palette.primary.light
+                                                            : (theme) => theme.palette.error.light,
+                                                        color:
+                                                            row.status_pengeluaran_lain == "1"
+                                                            ? (theme) => theme.palette.primary.main
+                                                            : (theme) => theme.palette.error.main,
+                                                        borderRadius: "8px",
+                                                        }}
+                                                        size="small"
+                                                        label={
+                                                        row.status_pengeluaran_lain == "1"
+                                                            ? "Aktif"
+                                                            : "Tidak Aktif"
+                                                        }
+                                                    />
                                                 </TableCell>
                                                 <TableCell >
                                                     <Tooltip title="Edit">

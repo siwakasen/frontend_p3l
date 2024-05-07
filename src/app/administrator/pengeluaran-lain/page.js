@@ -8,6 +8,7 @@ import { PengeluaranLainSearchTable } from "@/components/administrator/pengeluar
 export default function Page() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +39,12 @@ export default function Page() {
       label: "Tanggal Pengeluaran",
     },
     {
+      id: "status_pengeluaran_lain",
+      numeric: false,
+      disablePadding: false,
+      label: "Status",
+    },
+    {
       id: "action",
       numeric: false,
       disablePadding: false,
@@ -58,10 +65,12 @@ export default function Page() {
     <PageContainer title="Pengeluaran Lain" description="Data Pengeluaran Lain">
       <Breadcrumb title="Pengeluaran Lain" items={BCrumb} />
       <PengeluaranLainSearchTable
-        data={data}
+        data={data.filter((item) => item.status_pengeluaran_lain === filter)}
         headCells={headCells}
         setLoading={setLoading}
         loading={loading}
+        setFilter={setFilter}
+        filter={filter}
       />
     </PageContainer>
   );

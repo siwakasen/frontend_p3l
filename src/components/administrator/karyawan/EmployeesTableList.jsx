@@ -425,7 +425,7 @@ const RecipesTableList = () => {
           refreshData: () => {
             const fetchData = async () => {
               const response = await getAllKaryawanData();
-              setGetKaryawan(response.data);
+              setGetKaryawan(response.data.filter((item) => item.role.nama_role !== 'Owner'));
             };
             fetchData();
             if (getKaryawan.length % rowsPerPage === 1 && page !== 0) {

@@ -45,7 +45,6 @@ export const useInsert = () => {
     const isEmptyProduk =
       !input.nama_produk ||
       !input.harga_produk ||
-      !input.id_resep ||
       !input.id_kategori ||
       !input.foto_produk ||
       !input.deskripsi_produk ||
@@ -156,6 +155,8 @@ export const useUpdate = (id) => {
       if (key === "foto_produk" && typeof input[key] !== "object") continue;
       formData.append(key, input[key]);
     }
+
+    if (input.id_kategori == "4") formData.delete("id_resep");
 
     handleUpdate(formData, id);
   }

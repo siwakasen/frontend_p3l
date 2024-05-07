@@ -32,23 +32,30 @@ export const useLogin = () => {
 
     setLoading(true);
 
+    const karyawan = "Manajer Operasional, Admin, Owner";
+
     const response = await login(email, password);
     const { message, token, data, key } = response.data;
     switch (response.status) {
       case 200:
-        Cookies.set("token", token);
-        toastSuccess(message);
-        if (data.role != "User") router.push("/administrator/dashboard");
-        else {
+        if (data.role != "User" && karyawan.includes(data.role)) {
+          Cookies.set("token", token);
+          toastSuccess(message);
+          router.push("/administrator/dashboard");
+        } else if (data.role === "User") {
+          Cookies.set("token", token);
+          toastSuccess(message);
           dispatch(setUserLogin(data));
           router.push("/");
+        } else {
+          toastError("Unauthorized account!");
         }
         break;
       case 401:
         if (key === "email_not_verified") {
           toastWarning(message);
           router.push("/auth/email-verification/" + token);
-        }else{
+        } else {
           toastError(message);
         }
         break;

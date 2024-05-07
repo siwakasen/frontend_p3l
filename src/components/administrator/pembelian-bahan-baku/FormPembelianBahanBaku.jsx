@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, MenuItem, Select, Modal } from "@mui/material";
+import {
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  Modal,
+  InputAdornment,
+} from "@mui/material";
 import FormCard from "@/components/shared/FormCard";
 import LabelForm from "@/components/auth/shared/LabelFormField";
 import FormField from "@/components/auth/shared/OutlineTextFormField";
@@ -104,6 +111,21 @@ export const FormPembelianBahanBaku = ({
                 Jumlah
               </LabelForm>
               <FormField
+                {...(input.id_bahan_baku != undefined &&
+                data.find((item) => item.id_bahan_baku == input.id_bahan_baku)
+                  ? {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {
+                            data.find(
+                              (item) =>
+                                item.id_bahan_baku == input.id_bahan_baku
+                            ).satuan
+                          }
+                        </InputAdornment>
+                      ),
+                    }
+                  : {})}
                 type="number"
                 name="jumlah"
                 id="jumlah"

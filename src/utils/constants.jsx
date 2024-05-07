@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const API_URL = "http://127.0.0.1:8000/api";
+export const API_URL_IMAGE = "http://127.0.0.1:8000/storage/";
 
 const initialState = {
   activeDir: "ltr",
@@ -91,4 +92,6 @@ export const {
   setCardShadow,
 } = CustomizerSlice.actions;
 
+
+export default CustomizerSlice.reducer;
 export const CustomizerReducer = CustomizerSlice.reducer;

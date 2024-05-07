@@ -1,24 +1,23 @@
 import React from "react";
 import Link from "next/link";
 
-import Chip from '@mui/material/Chip';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { styled, useTheme } from '@mui/material/styles';
+import Chip from "@mui/material/Chip";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { styled, useTheme } from "@mui/material/styles";
 
 import { useSelector } from "react-redux";
-
 
 export default function NavItem({
   item,
   level,
   pathDirect,
   hideMenu,
-  onClick
+  onClick,
 }) {
   const customizer = useSelector((state) => state.customizer);
   const lgDown = useMediaQuery((theme) => theme.breakpoints.down("lg"));

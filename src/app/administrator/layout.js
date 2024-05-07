@@ -1,5 +1,5 @@
-'use client';
-import { styled, Box, useTheme } from '@mui/material';
+"use client";
+import { styled, Box, useTheme } from "@mui/material";
 import Container from "@mui/material/Container";
 import Sidebar from '@/layouts/administrator/Sidebar';
 import Header from '@/layouts/administrator/Header';
@@ -7,20 +7,21 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const MainWrapper = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    minHeight: '100vh',
-    width: '100%'
+  display: "flex",
+  minHeight: "100vh",
+  width: "100%",
 }));
 
 const PageWrapper = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexGrow: 1,
-    paddingBottom: "60px",
-    flexDirection: "column",
-    zIndex: 1,
-    backgroundColor: "transparent",
-    overflowY: "auto",
+  display: "flex",
+  flexGrow: 1,
+  paddingBottom: "60px",
+  flexDirection: "column",
+  zIndex: 1,
+  backgroundColor: "transparent",
+  overflow: "auto",
 }));
+
 
 const AdminLayout = ({ children }) => {
     const theme = useTheme();
@@ -51,6 +52,6 @@ const AdminLayout = ({ children }) => {
             </PageWrapper>
         </MainWrapper>
     );
-}
+};
 
 export default AdminLayout;

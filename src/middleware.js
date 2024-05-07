@@ -1,6 +1,5 @@
-"use client";
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { checkToken } from "@/services/auth/auth";
 
 export async function middleware(request) {

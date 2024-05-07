@@ -28,7 +28,7 @@ export const FormLogin = ({ title, subtitle, subtext }) => {
 
       {subtext}
       <Stack>
-        <LabelForm htmlFor="email">Username</LabelForm>
+        <LabelForm htmlFor="email">Email</LabelForm>
         <FormField
           type="email"
           name="email"
@@ -56,7 +56,7 @@ export const FormLogin = ({ title, subtitle, subtext }) => {
           }
         />
         <Stack direction="row" alignItems="end" justifyContent="end" my={2}>
-          <Link href="/auth/lupa-password">
+          <Link href="/forgot-password/requestEmail">
             <Typography color="primary" variant="subtitle2">
               Forgot Password?
             </Typography>

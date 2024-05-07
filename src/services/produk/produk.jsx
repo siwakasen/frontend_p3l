@@ -43,6 +43,7 @@ export async function insertProduk(formData) {
       },
       body: formData,
     });
+
     const data = await response.json();
     return { data, code: response.status };
   } catch (error) {

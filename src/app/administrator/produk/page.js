@@ -10,6 +10,7 @@ export default function Page() {
   const [data, setData] = useState([]);
   const [kategori, setKategori] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,12 +28,6 @@ export default function Page() {
       numeric: false,
       disablePadding: false,
       label: "Produk",
-    },
-    {
-      id: "deskripsi_hampers",
-      numeric: false,
-      disablePadding: false,
-      label: "Deskripsi",
     },
     {
       id: "stok_produk",
@@ -53,6 +48,12 @@ export default function Page() {
       label: "Status",
     },
     {
+      id: "limit_produk",
+      numeric: false,
+      disablePadding: false,
+      label: "Limit",
+    },
+    {
       id: "action",
       numeric: false,
       disablePadding: false,
@@ -70,11 +71,13 @@ export default function Page() {
     <PageContainer title="Produk" description="Data Produk">
       <Breadcrumb title="Produk" items={BCrumb} />
       <ProdukSearchTable
-        data={data}
+        data={data.filter((item) => item.status_produk === filter)}
         kategori={kategori}
         headCells={headCells}
         loading={loading}
         setLoading={setLoading}
+        setFilter={setFilter}
+        filter={filter}
       />
     </PageContainer>
   );

@@ -16,13 +16,6 @@ export const useInsert = () => {
 
   function handleSubmit() {
     let formData = new FormData();
-
-    const isEmptyHampers =
-      !hampersInput.nama_hampers ||
-      !hampersInput.harga_hampers ||
-      !hampersInput.foto_hampers ||
-      !hampersInput.deskripsi_hampers;
-
     let isEmptyDetail;
     detailInput.forEach((item) => {
       if (!item.value || !item.jenis) {
@@ -31,14 +24,9 @@ export const useInsert = () => {
       }
     });
 
-    if (isEmptyHampers || isEmptyDetail || detailInput.length === 0) {
+    if (isEmptyDetail || detailInput.length === 0) {
       toastWarning("Data hampers atau detail tidak boleh kosong");
       setOpen(!open);
-      return;
-    }
-
-    if (hampersInput.harga_hampers < 0) {
-      toastWarning("Harga tidak boleh kurang dari 0");
       return;
     }
 
@@ -52,6 +40,7 @@ export const useInsert = () => {
         formData.append(`detail_hampers[][${key}]`, item[key]);
       }
     });
+
     handleInsert(formData);
   }
 
@@ -60,20 +49,22 @@ export const useInsert = () => {
       const { data, code } = await insertHampers(formData);
       switch (code) {
         case 201:
-          toastSuccess("Data berhasil ditambahkan");
+          toastSuccess(data.message);
           setDetailInput([]);
           setHampersInput({});
           router.push("/administrator/hampers");
           break;
         default:
-          console.log(data);
-          toastError("Data gagal ditambahkan");
+          for (let key in data.errors) {
+            toastError(data.errors[key][0]);
+          }
           break;
       }
     } catch (error) {
       console.log(data);
       toastError("Data gagal ditambahkan");
     }
+    setOpen(!open);
   }
 
   function convertDetail() {
@@ -176,12 +167,6 @@ export const useUpdate = (id) => {
   function handleSubmit() {
     let formData = new FormData();
 
-    const isEmptyHampers =
-      !hampersInput.nama_hampers ||
-      !hampersInput.harga_hampers ||
-      !hampersInput.foto_hampers ||
-      !hampersInput.deskripsi_hampers;
-
     let isEmptyDetail;
     detailInput.forEach((item) => {
       if (!item.value || !item.jenis) {
@@ -190,14 +175,13 @@ export const useUpdate = (id) => {
       }
     });
 
-    if (isEmptyHampers || isEmptyDetail || detailInput.length === 0) {
+    if (
+      isEmptyDetail ||
+      detailInput.length === 0 ||
+      !hampersInput.foto_hampers
+    ) {
       toastWarning("Data hampers atau detail tidak boleh kosong");
       setOpen(!open);
-      return;
-    }
-
-    if (hampersInput.harga_hampers < 0) {
-      toastWarning("Harga tidak boleh kurang dari 0");
       return;
     }
 
@@ -224,16 +208,19 @@ export const useUpdate = (id) => {
       const { data, code } = response;
       switch (code) {
         case 200:
-          toastSuccess("Data berhasil diubah");
+          toastSuccess(data.message);
           router.push("/administrator/hampers");
           break;
         default:
-          toastError("Data gagal diubah");
+          for (let key in data.errors) {
+            toastError(data.errors[key][0]);
+          }
           break;
       }
     } catch (error) {
       toastError("Data gagal diubah");
     }
+    setOpen(!open);
   }
 
   function convertDetail() {

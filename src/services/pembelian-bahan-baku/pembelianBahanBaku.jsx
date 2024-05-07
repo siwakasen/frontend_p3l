@@ -16,7 +16,9 @@ export async function addPembelianBahanBaku(inputData) {
         body: JSON.stringify(inputData),
       }
     );
+
     const data = await response.json();
+
     return { data, code: response.status };
   } catch (error) {
     return error;

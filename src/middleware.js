@@ -18,14 +18,14 @@ export async function middleware(request) {
   }
 
   if (path.startsWith("/administrator/") && token) {
-    if (data.role == "User")
+    if (data.data.role == "User")
       return NextResponse.redirect(new URL("/", request.url));
 
     return NextResponse.next();
   }
 
   if (path.startsWith("/auth/") && token) {
-    if (data.role == "User")
+    if (data.data.role == "User")
       return NextResponse.redirect(new URL("/", request.url));
 
     return NextResponse.redirect(

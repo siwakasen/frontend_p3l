@@ -71,7 +71,6 @@ export async function updatePengeluaranLain(id, input){
   console.log(input);
   try {
     const token = Cookies.get("token");
-    console.log(token);
     const response = await fetch(`${API_URL}/administrator/pengeluaran-lain/${id}`, {
       method: "PUT",
       headers: {  
@@ -89,6 +88,26 @@ export async function updatePengeluaranLain(id, input){
     console.log(data.data);
     return { data, code: response.status };
   }catch (error){
+    return error;
+  }
+}
+
+export async function updateStatusPengeluaranLain(id){
+  try {
+
+    const token = Cookies.get("token");
+    const response = await fetch(`${API_URL}/administrator/pengeluaran-lain/status/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    return { data, code: response.status };
+  } catch (error) {
     return error;
   }
 }

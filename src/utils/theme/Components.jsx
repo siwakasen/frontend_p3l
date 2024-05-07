@@ -1,5 +1,5 @@
 // project imports
-import './DefaultColors';
+import './defaultColors';
 
 const components = (theme) => {
   return {

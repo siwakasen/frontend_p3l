@@ -1,4 +1,4 @@
-import Menuitems from "./MenuItems";
+import Menuitems from "./menuItems";
 import { usePathname } from "next/navigation";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -14,6 +14,7 @@ import { toggleMobileSidebar } from "@/utils/constants";
 
 const SidebarItems = () => {
   const customizer = useSelector((state) => state.customizer);
+  
   const dispatch = useDispatch();
   const pathname = usePathname();
   const pathDirect = pathname;

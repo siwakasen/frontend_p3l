@@ -1,9 +1,9 @@
 import { Button, Chip, Grid, List, ListItem, ListItemText, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { ChangeName } from '../ChangeName';
-import { TanggalLahir } from '../ChangeTanggalLahir';
-import { ChangePhoneNumber } from '../ChangePhoneNumber';
+import { ChangeName } from '../changeName';
+import { TanggalLahir } from '../changeTanggalLahir';
+import { ChangePhoneNumber } from '../changePhoneNumber';
 import { useRouter } from 'next/navigation';
 
 const Biodata = () => {

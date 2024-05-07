@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { ChangeName } from '../ChangeName';
 import { TanggalLahir } from '../ChangeTanggalLahir';
 import { ChangePhoneNumber } from '../ChangePhoneNumber';
+import { useRouter } from 'next/navigation';
 
 const Biodata = () => {
     const router = useRouter();

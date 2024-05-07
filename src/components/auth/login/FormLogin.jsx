@@ -56,7 +56,7 @@ export const FormLogin = ({ title, subtitle, subtext }) => {
           }
         />
         <Stack direction="row" alignItems="end" justifyContent="end" my={2}>
-          <Link href="/auth/forgot-password/requestEmail">
+          <Link href="/forgot-password/requestEmail">
             <Typography color="primary" variant="subtitle2">
               Forgot Password?
             </Typography>

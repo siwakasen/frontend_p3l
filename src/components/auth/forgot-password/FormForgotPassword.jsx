@@ -1,6 +1,5 @@
 import { Button, Stack, Typography,TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
 import FormField from "../shared/OutlineTextFormField";
 import { Link } from 'next/link';
 import { useChangePassword } from './useChangePassword';
@@ -87,16 +86,17 @@ export const FormForgotPassword = (props) => {
       >
         Change Password
       </Button>
-      
-      <Button 
-        color="primary" 
-        size="large"
-        fullWidth 
-        onClick={() => router.push('/auth/login')}
-        onKeyDown={handleKeyDown}
-        >
-        Back to Login
+        <Button 
+          color="primary" 
+          size="large"
+          fullWidth 
+          onClick={() => router.push('/auth/login')}
+          onKeyDown={handleKeyDown}
+          >
+          Back to Login
       </Button>
+
+      
     </Stack>
   );
 }

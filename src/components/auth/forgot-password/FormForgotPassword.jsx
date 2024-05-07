@@ -86,23 +86,16 @@ export const FormForgotPassword = (props) => {
       >
         Change Password
       </Button>
-      {
-        !props.isFromProfile ?
-        (
-          <Button 
-            color="primary" 
-            size="large"
-            fullWidth 
-            onClick={() => router.push('/auth/login')}
-            onKeyDown={handleKeyDown}
-            >
-            Back to Login
-        </Button>
-        ) :
-        (
-          <></>
-        )
-      }
+        <Button 
+          color="primary" 
+          size="large"
+          fullWidth 
+          onClick={() => router.push('/auth/login')}
+          onKeyDown={handleKeyDown}
+          >
+          Back to Login
+      </Button>
+
       
     </Stack>
   );

@@ -42,6 +42,10 @@ export const FormProduk = ({
 
   function handleInput(event) {
     const { name, value } = event.target;
+    if (name === "id_kategori" && value == 4) {
+      delete input.id_resep;
+      setInput((prev) => ({ ...prev }));
+    }
     if (name === "foto_produk")
       setInput((prev) => ({ ...prev, [name]: event.target.files[0] }));
     else setInput((prev) => ({ ...prev, [name]: value }));
@@ -137,6 +141,7 @@ export const FormProduk = ({
                 Resep
               </LabelForm>
               <Select
+                {...(input.id_kategori == 4 && { disabled: true })}
                 id="id_resep"
                 name="id_resep"
                 value={input.id_resep || ""}

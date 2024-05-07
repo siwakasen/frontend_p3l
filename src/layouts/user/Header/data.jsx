@@ -9,9 +9,9 @@ const profile = [
     icon: "/images/svgs/icon-account.svg",
   },
   {
-    href: "/user/histori",
-    title: "Histori Pembelian",
-    subtitle: "Aktivitas Pesanan",
+    href: "/user/histori-pesanan",
+    title: "Histori Pesanan",
+    subtitle: "Aktivitas Histori Pesanan",
     icon: "/images/svgs/icon-inbox.svg",
   },
   {

@@ -215,7 +215,7 @@ const RolesTableList = () => {
 
   const handleSearch = (event) => {
     const filteredRows = getJabatan.filter((row) => {
-      return row.nama_role.toLowerCase().includes(event.target.value);
+      return row.nama_role.toLowerCase().includes(event.target.value.toLowerCase());
     });
     setPage(0);
     setSearch(event.target.value);
@@ -391,7 +391,7 @@ const RolesTableList = () => {
           refreshData: () => {
             const fetchData = async () => {
               const response = await getAllRoleData();
-              setGetJabatan(response.data);
+              setGetJabatan(response.data.filter((item) => item.nama_role !== 'Owner'));
             };
             fetchData();
           },
@@ -499,10 +499,10 @@ const RolesTableList = () => {
           refreshData: () => {
             const fetchData = async () => {
               const response = await getAllRoleData();
-              setGetJabatan(response.data);
+              setGetJabatan(response.data.filter((item) => item.nama_role !== 'Owner'));
             };
             fetchData();
-            if (getJabatan.length % rowsPerPage === 1) {
+            if (getJabatan.length % rowsPerPage === 1 && page !== 0) {
               setPage(page - 1);
             }
           },

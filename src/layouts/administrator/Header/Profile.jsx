@@ -121,7 +121,7 @@ const Profile = () => {
         {dropdownData.profile.map((profile) => (
           <Box key={profile.title}>
             <Box sx={{ py: 2, px: 0 }} className="hover-text-primary">
-              <Link href={profile.href}>
+              <Link href={profile.href} onClick={handleClose2}>
                 <Stack direction="row" spacing={2}>
                   <Box
                     width="45px"

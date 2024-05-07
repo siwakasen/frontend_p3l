@@ -4,9 +4,8 @@ import { UseActions } from './useActions';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { set } from 'lodash';
 
-export const tanggalLahir = () => {
+export const TanggalLahir = () => {
     const [open, setOpen] = React.useState(false);
     const { handleProfile } = UseActions();
 
@@ -15,6 +14,7 @@ export const tanggalLahir = () => {
     };
 
     const handleClose = () => {
+        setTanggalLahir("");
         setOpen(false);
     };
 
@@ -37,9 +37,14 @@ export const tanggalLahir = () => {
                     }}>Tanggal Lahir</FormLabel>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                            value={tanggal_lahir}
+                            value={tanggal_lahir === "" ? null : new Date(tanggal_lahir)}
                             id="tanggal_lahir"
-                            onChange={(date) => setTanggalLahir(date)}
+                            disableFuture
+                            onChange={(date) => setTanggalLahir(
+                                new Date(date).getFullYear() + "-" + 
+                                (new Date(date).getMonth() + 1) + "-" + 
+                                new Date(date).getDate())
+                            }
                             renderInput={(params) => <TextField fullWidth 
                             margin="normal"
                             id="tanggal_lahir"
@@ -55,11 +60,12 @@ export const tanggalLahir = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Batal</Button>
-                    <Button onClick={() => {
-                        setTanggalLahir(new Date(tanggal_lahir).toISOString().split('T')[0]);
-                        handleProfile({ tanggal_lahir });
-                        handleClose();
-                    }} color="primary">Simpan</Button>
+                    <Button 
+                        disabled={tanggal_lahir === ""}
+                        onClick={() => {
+                            handleProfile({ tanggal_lahir });
+                            handleClose();
+                        }} color="primary">Simpan</Button>
                 </DialogActions>
             </Dialog>
         </>

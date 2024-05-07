@@ -1,9 +1,9 @@
 import { Button, Chip, Grid, List, ListItem, ListItemText, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { changeName } from '../changeName';
-import { tanggalLahir } from '../changeTanggalLahir';
-import { changePhoneNumber } from '../changePhoneNumber';
+import { ChangeName } from '../ChangeName';
+import { TanggalLahir } from '../ChangeTanggalLahir';
+import { ChangePhoneNumber } from '../ChangePhoneNumber';
 import { useRouter } from 'next/navigation';
 
 const Biodata = () => {
@@ -38,7 +38,7 @@ const Biodata = () => {
                                         padding: 0,
                                         textAlign: "right"
                                     }}>
-                                        {changeName()}
+                                        {ChangeName()}
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
@@ -72,7 +72,7 @@ const Biodata = () => {
                                         padding: 0,
                                         textAlign: "right"
                                     }}>
-                                        {tanggalLahir()}
+                                        {TanggalLahir()}
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
@@ -134,7 +134,7 @@ const Biodata = () => {
                                         textAlign: "right"
                                     }}>
                                         <Typography variant="subtitle1" color={"primary"} fontWeight={"400"}>
-                                            {changePhoneNumber()}
+                                            {ChangePhoneNumber()}
                                         </Typography>
                                     </TableCell>
                                 </TableRow>

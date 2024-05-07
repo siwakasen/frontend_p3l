@@ -10,9 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { checkToken } from "@/services/auth/auth";
+import { toggleMobileSidebar } from "@/utils/constants";
 
 const SidebarItems = () => {
   const customizer = useSelector((state) => state.customizer);
+  
   const dispatch = useDispatch();
   const pathname = usePathname();
   const pathDirect = pathname;

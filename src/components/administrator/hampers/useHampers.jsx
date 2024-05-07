@@ -61,6 +61,7 @@ export const useInsert = () => {
           break;
       }
     } catch (error) {
+      console.log(data);
       toastError("Data gagal ditambahkan");
     }
     setOpen(!open);

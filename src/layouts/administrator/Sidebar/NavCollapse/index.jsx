@@ -13,6 +13,8 @@ import NavItem from "../NavItem";
 import { isNull } from "lodash";
 import { useSelector } from "react-redux";
 
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+
 
 export default function NavCollapse({
   menu,
@@ -118,7 +120,7 @@ export default function NavCollapse({
           {menuIcon}
         </ListItemIcon>
         <ListItemText color="inherit">
-          {hideMenu ? "" : <>{t(`${menu.title}`)}</>}
+          {hideMenu ? "" : <>{menu.title}</>}
         </ListItemText>
         {!open ? (
           <IconChevronDown size="1rem" />

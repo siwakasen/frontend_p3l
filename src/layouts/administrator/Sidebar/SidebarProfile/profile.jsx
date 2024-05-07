@@ -1,24 +1,32 @@
-import {
-  Box,
-  Avatar,
-  Typography,
-  IconButton,
-  Tooltip,
-  useMediaQuery,
-} from "@mui/material";
-import { IconPower } from "@tabler/icons-react";
-import Link from "next/link";
-import { useSelector } from "react-redux";
-import { useContext } from "react";
-import { DataContext } from "@/app/administrator/layout";
+import React from 'react';
+import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery, Button } from '@mui/material';
+import { IconPower } from '@tabler/icons-react';
+import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { checkToken } from '@/services/auth/auth';
+import { useRouter } from 'next/navigation';
 
-export const Profile = () => {
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+const Profile = () => {
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const customizer = useSelector((state) => state.customizer);
-  const hideMenu = lgUp
-    ? customizer.isCollapse && !customizer.isSidebarHover
-    : "";
-  let { userData } = useContext(DataContext);
+  const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
+  const [data, setData] = React.useState({});
+  const token = Cookies.get("token");
+  const router = useRouter();
+  
+  React.useEffect(() => {
+    async function checkAuthorize() {
+      if (!token) return;
+      const response = await checkToken(token);
+      setData(response.data);
+    }
+    checkAuthorize();
+  }, [token]);
+  
+  function handleLogout() {
+    Cookies.remove("token");
+    router.push("/auth/login");
+  }
 
   return (
     <Box
@@ -37,21 +45,14 @@ export const Profile = () => {
           />
 
           <Box>
-            <Typography variant="h6">
-              {userData.nama_karyawan == undefined
-                ? ""
-                : userData.nama_karyawan}
-            </Typography>
-            <Typography sx={{ fontWeight: 400, fontSize: "0.5rem" }}>
-              {userData.role == undefined ? "" : userData.role}
-            </Typography>
+            <Typography variant="h6">{data.nama_karyawan}</Typography>
+            <Typography variant="caption">{data.role}</Typography>
           </Box>
           <Box sx={{ ml: "auto" }}>
             <Tooltip title="Logout" placement="top">
               <IconButton
                 color="primary"
-                component={Link}
-                href="/auth/auth1/login"
+                onClick={() => handleLogout()}
                 aria-label="logout"
                 size="small"
               >
@@ -66,3 +67,5 @@ export const Profile = () => {
     </Box>
   );
 };
+
+export default Profile;

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { checkToken } from "@/services/auth/auth";
 
 export async function middleware(request) {
@@ -12,12 +12,19 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  if (path.startsWith("/administrator/") && data.data.role === "User") {
-    return NextResponse.redirect(new URL("/", request.url));
+  if (path.startsWith("/user/") && !token) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
+
+  if (path.startsWith("/administrator/") && token) {
+    if (data.role == "User")
+      return NextResponse.redirect(new URL("/", request.url));
+
+    return NextResponse.next();
   }
 
   if (path.startsWith("/auth/") && token) {
-    if (data.data.role === "User")
+    if (data.role == "User")
       return NextResponse.redirect(new URL("/", request.url));
 
     return NextResponse.redirect(
@@ -26,5 +33,5 @@ export async function middleware(request) {
   }
 }
 export const config = {
-  matcher: ["/administrator/:path*", "/auth/:path*"],
+  matcher: ["/administrator/:path*", "/auth/:path*", "/:path*", "/:user/:path*"],
 };

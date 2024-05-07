@@ -57,13 +57,15 @@ const ContainerOrderHistory = () => {
                 setData(data.data);
             });
         } else {
+            console.log(query);
             getOrderHistory().then((data) => {
+                console.log(data);
                 const result = data.data.filter((data) => {
                     return data.detail_pesanan.filter((detail) => {
                         if(detail.produk !== null) {
                             return detail.produk.id_kategori === query;
                         } else {
-                            if (detail.hampers !== null) {
+                            if (detail.hampers !== null && detail.hampers.id_kategori === query) {
                                 return true;
                             } else {
                                 return false;
@@ -179,21 +181,32 @@ const ContainerOrderHistory = () => {
                         <Box key={data.id_pesanan} mt={2} p={2} sx={{
                             boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.1)",
                         }}>
-                            <Stack direction="row" spacing={2}>
-                                <Image src={Purchase} width={25} height={25} alt="purchase" />
-                                <Typography variant="body1" fontWeight={600}>
-                                    Belanja
-                                </Typography>
-                                <Typography variant="body1" fontWeight={500}>
-                                    {new Date(data.tanggal_pesanan).toLocaleDateString("id-ID", {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric"
-                                    })}
-                                </Typography>
-                                <Chip label={data.status_transaksi} size="small" color="primary" sx={{
-                                    borderRadius: "5px",
-                                }} />
+                            <Stack direction="row" spacing={2} {...smDown && { alignItems:"center", justifyContent:"space-between"}}>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <Image src={Purchase} width={25} height={25} alt="purchase" />
+                                    <Typography variant="body1" fontWeight={600}>
+                                        Belanja
+                                    </Typography>
+                                </Stack>
+                                <Stack diraction="column" spacing={1} {...smDown && { alignItems:"flex-end"}}>
+                                    <Typography variant="body1" fontWeight={500}>
+                                        {new Date(data.tanggal_pesanan).toLocaleDateString("id-ID", {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric"
+                                        })}
+                                    </Typography>
+                                    { smDown && (
+                                        <Chip label={data.status_transaksi} size="small" color="primary" sx={{
+                                            borderRadius: "5px",
+                                        }} />
+                                    )}
+                                </Stack>
+                                { !smDown && (
+                                    <Chip label={data.status_transaksi} size="small" color="primary" sx={{
+                                        borderRadius: "5px",
+                                    }} />
+                                )}
                             </Stack>
                             {data.detail_pesanan.map((detail) => {
                                 if(detail.produk !== null) 

@@ -1,36 +1,29 @@
 "use client"
 import { Grid, Box, Card, Typography,Button, Stack,TextField, Divider } from '@mui/material';
-import Image from "next/image";
-import PageContainer from "@/components/container/PageContainer";
-import Logo from '@/../public/images/landingpage/favicon.png';
 import { Link } from 'next/link';
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import Toast from "@/components/shared/Toast";
 import  {requestForgot}  from "@/services/auth/auth";
-import { toast } from 'react-toastify';
+import { FormForgotPassword } from "@/components/auth/forgot-password/FormForgotPassword";
+import { useSelector } from 'react-redux';
 
-export default function Page(){
+
+export default function Page(props){
+    const data = useSelector((state) => state.user);
   const router = useRouter();
   const [isEmailSent, setIsEmailSent] = useState(false);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(data.user.email);
   const [loading, setLoading] = useState(false);
   const { toastSuccess, toastError, toastWarning } = Toast();
-    
-  function handleInput(event) {
-      const { name, value } = event.target;
-      if (name === "email") {
-      setEmail(value);
-      }
-  }
   
   async function handleRequestForgot() {
       if (!email) {
-      toastWarning("Please fill all the fields!");
+      toastWarning("Email tidak boleh kosong!");
           return;
       }else 
       if(!email.includes('@')){
-          toastWarning("Please enter a valid email address!");
+          toastWarning("Email tidak valid!");
           return;
       }
 
@@ -49,14 +42,14 @@ export default function Page(){
               toastError(message);
               break;
           default:
-              toastError("Something went wrong!");
+              toastError("Gagal mengirimkan email!");
               break;
       }
       setLoading(false);
   }
 
   function handleResendEmail(){
-    toastSuccess("Please wait a few seconds!");
+    toastSuccess("Mohon tunggu beberapa saat!");
     handleRequestForgot();
   }
   
@@ -67,15 +60,11 @@ export default function Page(){
   };
 
     return (
-      <PageContainer title="Forgot Password" description="this is Forgot Password page">
       <Box
         sx={{
           position: 'relative',
           '&:before': {
             content: '""',
-            background: 'radial-gradient(#d2f1df, #d3d7fa, #bad8f4)',
-            backgroundSize: '400% 400%',
-            animation: 'gradient 15s ease infinite',
             position: 'absolute',
             height: '100%',
             width: '100%',
@@ -83,31 +72,28 @@ export default function Page(){
           },
         }}
       >
-        <Grid container spacing={0} justifyContent="center" sx={{ height: '100vh' }}>
+        <Grid container spacing={0} justifyContent="center" sx={{ height: '65vh' }}>
           <Grid
             item
             xs={12}
             sm={12}
-            lg={4}
-            xl={3}
+            lg={8}
+            xl={6}
             display="flex"
             justifyContent="center"
             alignItems="center"
           >
-            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px'}}>
+            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)'}}>
               <Box display="flex" alignItems="center" justifyContent="center" sx={{ mb: 1 }}>
                 <Typography
                   color="textSecondary"
                   textAlign="center"
-                  variant="h3"
+                  variant="h4"
                   fontWeight="bold"
                   sx={{ ml: 2 }}
                 >
                   {
-                    !isEmailSent ? (
-                      "Forgot Password"
-                    ):
-                    "Email Sent"
+                    !isEmailSent ? 'Pilih metode verifikasi' : 'Verifikasi terkirim'
                   }
                 </Typography>
               </Box>
@@ -120,30 +106,15 @@ export default function Page(){
                         color="textSecondary"
                         textAlign="center"
                         variant="subtitle2"
-                        fontWeight="400"
+                        fontWeight="300"
                   >
-                  Please enter the email address associated with your account and We will email you a
-                  link to reset your password.
+                  Pilih salah satu metode dibawah ini untuk melakukan ubah password.
                   </Typography>
-                  <Stack mt={4} spacing={2}>
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight={600}
-                      component="label"
-                      >
-                      Email Address
-                    </Typography>
-                    <TextField 
-                    type='email' 
-                    name='email' 
-                    id='email' 
-                    onChange={(e) =>handleInput(e)} 
-                    onKeyDown={handleKeyDown}/>
-
-                    <Button 
-                    color="primary" 
+                  <Button 
+                     color="primary"
                     variant="contained" 
-                    size="large" 
+                    size="large"
+                    sx={{ mt: 2 }} 
                     fullWidth component={Link} 
                     to="/" 
                     {...(loading && { disabled: true })}
@@ -151,18 +122,8 @@ export default function Page(){
                       handleRequestForgot();
                     }}
                     >
-                      Forgot Password
+                      {`Email ke: ${data.user.email}`} 
                     </Button>
-                    
-                    <Button 
-                      color="primary" 
-                      size="large"
-                      fullWidth 
-                      onClick={() => router.push('/auth/login')}
-                      >
-                      Back to Login
-                    </Button>
-                  </Stack>
                   </>
                 ): //if email is sent
                 <>
@@ -173,7 +134,7 @@ export default function Page(){
                         fontWeight="400"
                         sx={{ mt: 2 }}
                   >
-                  Verification to reset password has been sent to your email.
+                  Verifikasi telah dikirim ke email anda. Silahkan cek email anda untuk melanjutkan proses ubah password.
                   </Typography>
                   <Divider sx={{mt: 2}}/>
                   <Typography
@@ -183,7 +144,7 @@ export default function Page(){
                         fontWeight="400"
                         sx={{ mt: 2}}
                   >
-                  {'Not received the email? Check your spam filter, or '}
+                  {'Belum menerima email? '}
                   <Typography
                     fontWeight="500"
                     sx={{
@@ -194,10 +155,10 @@ export default function Page(){
                     
                     }}
                     onClick={() => {
-                      handleRequestForgot();
+                      handleResendEmail();
                     }}
                 >
-                    resend the email
+                    kirim ulang
                 </Typography>
                   </Typography>
                 </>
@@ -207,8 +168,7 @@ export default function Page(){
 
             </Card>
           </Grid>
-        </Grid>
-      </Box>
-    </PageContainer>
+         </Grid>
+       </Box>
     );
 }

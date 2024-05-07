@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux';
 import { changeName } from '../changeName';
 import { tanggalLahir } from '../changeTanggalLahir';
 import { changePhoneNumber } from '../changePhoneNumber';
+import { useRouter } from 'next/navigation';
 
 const Biodata = () => {
+    const router = useRouter();
     const data = useSelector((state) => state.user);
     return (
         <Grid container spacing={1}>
@@ -151,15 +153,24 @@ const Biodata = () => {
                     <ListItem sx={{
                         padding: 0,
                     }}>
-                        <Button fullWidth sx={{
-                            border: "2px solid #f0f0f0",
-                            backgroundColor: "transparent",
-                            color: "black",
-                            ":hover": {
+                        <Button 
+                            fullWidth 
+                            sx={{
+                                border: "2px solid #f0f0f0",
                                 backgroundColor: "transparent",
-                                color: "black"
+                                color: "black",
+                                ":hover": {
+                                    backgroundColor: "transparent",
+                                    color: "black"
+                                }
+                            }}
+                            onClick={
+                                () => {
+                                    router.push('/user/ubah-password');
+                                }
                             }
-                        }}>
+                        
+                        >
                             Ubah Kata Sandi
                         </Button>
                     </ListItem>

@@ -196,13 +196,18 @@ const ContainerOrderHistory = () => {
                                         })}
                                     </Typography>
                                     { smDown && (
-                                        <Chip label={data.status_transaksi} size="small" color="primary" sx={{
+                                        <Chip label={data.status_transaksi} size="small" color={
+                                            data.status_transaksi === "Pesanan Sudah Selesai" ? "primary" : "error"
+                                        }
+                                        sx={{
                                             borderRadius: "5px",
                                         }} />
                                     )}
                                 </Stack>
                                 { !smDown && (
-                                    <Chip label={data.status_transaksi} size="small" color="primary" sx={{
+                                    <Chip label={data.status_transaksi} size="small" color={
+                                        data.status_transaksi === "Pesanan Sudah Selesai" ? "primary" : "error"
+                                    } sx={{
                                         borderRadius: "5px",
                                     }} />
                                 )}

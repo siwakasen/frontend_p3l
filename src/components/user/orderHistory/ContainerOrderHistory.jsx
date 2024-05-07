@@ -63,7 +63,11 @@ const ContainerOrderHistory = () => {
                         if(detail.produk !== null) {
                             return detail.produk.id_kategori === query;
                         } else {
-                            return detail.hampers.id_kategori === query;
+                            if (detail.hampers !== null) {
+                                return true;
+                            } else {
+                                return false;
+                            }
                         }
                     }).length > 0;
                 });

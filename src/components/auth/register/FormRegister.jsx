@@ -74,7 +74,9 @@ export const FormRegister = ({ title, subtitle, subtext }) => {
                     <DatePicker
                         value={formik.values.tanggal_lahir}
                         onChange={(value) => {
-                            formik.setFieldValue("tanggal_lahir", value);
+                            formik.setFieldValue("tanggal_lahir", new Date(value).getFullYear() + "-" + 
+                                (new Date(value).getMonth() + 1) + "-" + 
+                                new Date(value).getDate())
                         }}
                         renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
                         disableFuture

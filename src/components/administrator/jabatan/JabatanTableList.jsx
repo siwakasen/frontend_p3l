@@ -477,7 +477,7 @@ const RolesTableList = () => {
           refreshData: () => {
             const fetchData = async () => {
               const response = await getAllRoleData();
-              setGetJabatan(response.data);
+              setGetJabatan(response.data.filter((item) => item.nama_role !== 'Owner'));
             };
             fetchData();
           },

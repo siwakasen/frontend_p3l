@@ -167,6 +167,15 @@ export const useBonus = (id) => {
     const { toastSuccess, toastError } = Toast();
 
     const handleUpdateBonus = async (data) => {
+        if(data.bonus_gaji === '') {
+            toastError('Bonus Gaji harus diisi');
+            return;
+        }
+        if(data.bonus_gaji <= 0) {
+            toastError('Bonus Gaji tidak boleh kurang dari 0');
+            return;
+        }
+
         const response = await updateKaryawan(id, data);
         if (response.status === 'success') {
             toastSuccess(response.message);

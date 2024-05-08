@@ -56,10 +56,11 @@ export const DataCustomerSearchTable = ({data, headCells, handleSelectedId}) => 
         const fetchData = async () => {
             const response = await searchDataCustomer(query);
             console.log(response.data);
-            setThisData(response.data);
+            setThisData(response.data); 
         };
         setPage(0);
         setSelected([]);
+        handleSelectedId(-1);
         fetchData();
     }
 

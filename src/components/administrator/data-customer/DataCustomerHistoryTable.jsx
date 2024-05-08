@@ -21,7 +21,7 @@ import {
     
   } from "@mui/material";
   import { useState, useEffect } from "react";
-  import CustomSwitch from "../../shared/CustomSwitch";
+  import CustomSwitch from "../../shared/CustomSwitch"; 
   import {
     getComparator,
     stableSort,

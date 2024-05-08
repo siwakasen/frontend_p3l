@@ -48,6 +48,14 @@ export const useUpdateSalary = () => {
 
     const handleUpdateSalary = async (id, data) => {
         data = { nominal_gaji: data };
+        if(data.nominal_gaji === '') {
+            toastError('Nominal Gaji harus diisi');
+            return;
+        }
+        if(data.nominal_gaji <= 0) {
+            toastError('Nominal Gaji tidak boleh kurang dari atau sama dengan 0');
+            return;
+        }
         const response = await updateRoleData(id, data);
         if (response.status === "success") {
             toastSuccess(response.message);

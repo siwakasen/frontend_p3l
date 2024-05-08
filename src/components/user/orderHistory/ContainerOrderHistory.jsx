@@ -9,6 +9,8 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { getAllKategori } from '@/services/shared/kategori/kategori';
 import { getOrderHistory } from '@/services/user/OrderHistory/orderHistory';
+import { API_URL_IMAGE } from '@/utils/constants';
+import { uniqueId } from 'lodash';
 
 const ContainerOrderHistory = () => {
     const [search, setSearch] = React.useState('');
@@ -176,8 +178,8 @@ const ContainerOrderHistory = () => {
                         </Typography>
                     </Box>
                 ) : (
-                    data.map((data) => (
-                        <Box key={data.id_pesanan} mt={2} p={2} sx={{
+                    data.map((data, index) => (
+                        <Box key={uniqueId()} mt={2} p={2} sx={{
                             boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.1)",
                         }}>
                             <Stack direction="row" spacing={2} {...smDown && { alignItems:"center", justifyContent:"space-between"}}>
@@ -214,10 +216,10 @@ const ContainerOrderHistory = () => {
                             </Stack>
                             {data.detail_pesanan.map((detail) => {
                                 if(detail.produk !== null) 
-                                    return <Box key={detail.id_produk}>
+                                    return <Box key={uniqueId()}>
                                         <Stack direction="row" spacing={2} mt={2} justifyContent="space-between">
                                             <Stack direction="row" spacing={2}>
-                                                <Image src={detail.foto_produk} width={80} height={80} alt="image-product" style={{
+                                                <Image src={`${API_URL_IMAGE}${detail.produk.foto_produk}`} width={80} height={80} alt="image-product" style={{
                                                     borderRadius: "5px",
                                                 }} />
                                                 <Box>
@@ -267,10 +269,10 @@ const ContainerOrderHistory = () => {
                                         )}
                                     </Box>
                                 else
-                                    return <Box key={detail.id_hampers}>
+                                    return <Box key={uniqueId()}>
                                         <Stack direction="row" spacing={2} mt={2} justifyContent="space-between">
                                             <Stack direction="row" spacing={2}>
-                                                <Image src={detail.foto_hampers} width={80} height={80} alt="image-product" style={{
+                                                <Image src={`${API_URL_IMAGE}${detail.hampers.foto_hampers}`} width={80} height={80} alt="image-product" style={{
                                                     borderRadius: "5px",
                                                 }} />
                                                 <Box>

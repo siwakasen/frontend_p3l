@@ -78,8 +78,8 @@ export const FormRegister = ({ title, subtitle, subtext }) => {
                                 (new Date(value).getMonth() + 1) + "-" + 
                                 new Date(value).getDate())
                         }}
-                        renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
                         disableFuture
+                        renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
                         error={formik.touched.tanggal_lahir && Boolean(formik.errors.tanggal_lahir)}
                         helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir} />}
                     />

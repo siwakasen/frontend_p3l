@@ -25,7 +25,7 @@ export const useInsert = () => {
         detail_resep: yup.array().of(
             yup.object().shape({
                 id_bahan_baku: yup.string().required('Bahan baku harus diisi'),
-                jumlah: yup.string().required('Jumlah harus diisi')
+                jumlah: yup.string().required('Jumlah harus diisi').min(1, 'Jumlah minimal 1')
             })
         )
     });
@@ -36,8 +36,8 @@ export const useInsert = () => {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            if (data.some((item) => !item.bahanBaku || !item.jumlah)) {
-                toastWarning('Detail resep tidak boleh kosong');
+            if (data.some((item) => !item.bahanBaku || !item.jumlah || item.jumlah <= 0)) {
+                toastWarning('Detail resep tidak boleh kosong atau jumlah tidak boleh kurang dari 1');
                 setLoading(false);
                 return;
             }
@@ -72,7 +72,11 @@ export const useInsert = () => {
     const handleCheck = () => {
         formik.setTouched({nama_resep: true});
         if (data.some((item) => !item.bahanBaku || !item.jumlah)) {
-            toastWarning('Detail resep tidak boleh kosong');
+            if (data.some((item) => !item.jumlah || item.jumlah <= 0)) {
+                toastWarning('Jumlah tidak boleh kosong atau kurang dari 1');
+            } else {
+                toastWarning('Detail resep tidak boleh kosong');
+            }
         }else return false;
         return true;
     }
@@ -142,7 +146,7 @@ export const useUpdate = (id) => {
         detail_resep: yup.array().of(
             yup.object().shape({
                 id_bahan_baku: yup.string().required('Bahan baku harus diisi'),
-                jumlah: yup.string().required('Jumlah harus diisi')
+                jumlah: yup.string().required('Jumlah harus diisi').min(1, 'Jumlah minimal 1')
             })
         )
     });
@@ -153,8 +157,8 @@ export const useUpdate = (id) => {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            if (data.some((item) => !item.bahanBaku || !item.jumlah)) {
-                toastWarning('Detail resep tidak boleh kosong');
+            if (data.some((item) => !item.bahanBaku || !item.jumlah || item.jumlah <= 0)) {
+                toastWarning('Detail resep tidak boleh kosong atau jumlah tidak boleh kurang dari 1');
                 return;
             }
 
@@ -187,7 +191,11 @@ export const useUpdate = (id) => {
     const handleCheck = () => {
         formik.setTouched({nama_resep: true});
         if (data.some((item) => !item.bahanBaku || !item.jumlah)) {
-            toastWarning('Detail resep tidak boleh kosong');
+            if (data.some((item) => !item.jumlah || item.jumlah <= 0)) {
+                toastWarning('Jumlah tidak boleh kosong atau kurang dari 1');
+            } else {
+                toastWarning('Detail resep tidak boleh kosong');
+            }
         }else return false;
         return true;
     }

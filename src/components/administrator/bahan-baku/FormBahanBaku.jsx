@@ -111,6 +111,7 @@ export const FormBahanBaku = ({
                                 type="number"
                                 name="stok"
                                 id="stok"
+                                placeholder="0"
                                 value={bahanBakuInput.stok || ""}
                                 onChange={(e) => handleInputBahanBaku(e)}
                             />

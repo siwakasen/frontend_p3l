@@ -19,96 +19,96 @@ export const FormRegister = ({ title, subtitle, subtext }) => {
         setShowPassword(!showPassword);
     }
 
-    return ( 
-    <>
-        {title ? (
-        <Typography fontWeight="700" variant="h3" mb={1}>
-            {title}
-        </Typography>
-        ) : null}
+    return (
+        <>
+            {title ? (
+                <Typography fontWeight="700" variant="h3" mb={1}>
+                    {title}
+                </Typography>
+            ) : null}
 
-        {subtext}
+            {subtext}
 
-        <Box>
-            <Stack mb={3}>
-                <CustomFormLabel htmlFor="nama">Nama</CustomFormLabel>
-                <TextFormField 
-                    id="nama" 
-                    variant="outlined" 
-                    placeholder="Masukkan Nama"
-                    fullWidth 
-                    onChange={(e) => handleInput(e)}
-                    error={formik.touched.nama && Boolean(formik.errors.nama)}
-                    helperText={formik.touched.nama && formik.errors.nama}
-                />
-                <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
-                <TextFormField 
-                    id="email" 
-                    variant="outlined" 
-                    placeholder="Masukkan Email"
-                    fullWidth 
-                    onChange={(e) => handleInput(e)}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                />
-                <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
-                <TextFormField
-                    id="password"
-                    placeholder="Masukkan Password"
-                    variant="outlined"
-                    fullWidth
-                    type={showPassword ? "text" : "password"}
-                    InputProps={{
-                        endAdornment: (
-                            <IconButton onClick={handleClickShowPassword} disableRipple>
-                                {showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                        )
-                    }}
-                    onChange={(e) => handleInput(e)}
-                    error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
-                />
-                <CustomFormLabel htmlFor="tanggal_lahir">Tanggal Lahir</CustomFormLabel>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
-                        value={formik.values.tanggal_lahir}
-                        onChange={(value) => {
-                            formik.setFieldValue("tanggal_lahir", new Date(value).getFullYear() + "-" + 
-                                (new Date(value).getMonth() + 1) + "-" + 
-                                new Date(value).getDate())
-                        }}
-                        disableFuture
-                        renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
-                        error={formik.touched.tanggal_lahir && Boolean(formik.errors.tanggal_lahir)}
-                        helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir} />}
+            <Box>
+                <Stack mb={3}>
+                    <CustomFormLabel htmlFor="nama">Nama</CustomFormLabel>
+                    <TextFormField
+                        id="nama"
+                        variant="outlined"
+                        placeholder="Masukkan Nama"
+                        fullWidth
+                        onChange={(e) => handleInput(e)}
+                        error={formik.touched.nama && Boolean(formik.errors.nama)}
+                        helperText={formik.touched.nama && formik.errors.nama}
                     />
-                </LocalizationProvider>
-                <CustomFormLabel htmlFor="no_hp">Nomor Handphone</CustomFormLabel>
-                <TextFormField 
-                    id="no_hp" 
-                    placeholder="Masukkan Nomor Handphone"
-                    variant="outlined" 
-                    fullWidth 
-                    type="number"
-                    onChange={(e) => handleInput(e)}
-                    error={formik.touched.no_hp && Boolean(formik.errors.no_hp)}
-                    helperText={formik.touched.no_hp && formik.errors.no_hp}
-                />
-            </Stack>
-            <Button
-                color="primary"
-                variant="contained"
-                size="large"
-                fullWidth
-                type="submit"
-                {...(loading && { disabled: true })}
-                onClick={(e) => handleSubmit(e)}
-            >
-                Register
-            </Button>
-        </Box>
-        {subtitle}
-    </>
+                    <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
+                    <TextFormField
+                        id="email"
+                        variant="outlined"
+                        placeholder="Masukkan Email"
+                        fullWidth
+                        onChange={(e) => handleInput(e)}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                    />
+                    <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
+                    <TextFormField
+                        id="password"
+                        placeholder="Masukkan Password"
+                        variant="outlined"
+                        fullWidth
+                        type={showPassword ? "text" : "password"}
+                        InputProps={{
+                            endAdornment: (
+                                <IconButton onClick={handleClickShowPassword} disableRipple>
+                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            )
+                        }}
+                        onChange={(e) => handleInput(e)}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                    />
+                    <CustomFormLabel htmlFor="tanggal_lahir">Tanggal Lahir</CustomFormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            value={formik.values.tanggal_lahir}
+                            onChange={(value) => {
+                                formik.setFieldValue("tanggal_lahir", new Date(value).getFullYear() + "-" +
+                                    (new Date(value).getMonth() + 1) + "-" +
+                                    new Date(value).getDate())
+                            }}
+                            disableFuture
+                            renderInput={(params) => <TextFormField {...params} id="tanggal_lahir"
+                                error={formik.touched.tanggal_lahir && Boolean(formik.errors.tanggal_lahir)}
+                                helperText={formik.touched.tanggal_lahir && formik.errors.tanggal_lahir} />}
+                        />
+                    </LocalizationProvider>
+                    <CustomFormLabel htmlFor="no_hp">Nomor Handphone</CustomFormLabel>
+                    <TextFormField
+                        id="no_hp"
+                        placeholder="Masukkan Nomor Handphone"
+                        variant="outlined"
+                        fullWidth
+                        type="number"
+                        onChange={(e) => handleInput(e)}
+                        error={formik.touched.no_hp && Boolean(formik.errors.no_hp)}
+                        helperText={formik.touched.no_hp && formik.errors.no_hp}
+                    />
+                </Stack>
+                <Button
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    fullWidth
+                    type="submit"
+                    {...(loading && { disabled: true })}
+                    onClick={(e) => handleSubmit(e)}
+                >
+                    Register
+                </Button>
+            </Box>
+            {subtitle}
+        </>
     );
 }

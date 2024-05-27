@@ -67,7 +67,7 @@ export default function Page(){
   };
 
     return (
-      <PageContainer title="Forgot Password" description="this is Forgot Password page">
+      <PageContainer title="Forgot Password" description="forgot myself">
       <Box
         sx={{
           position: 'relative',

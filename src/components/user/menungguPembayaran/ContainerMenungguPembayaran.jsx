@@ -366,7 +366,7 @@ const ContainerMenungguPembayaran = () => {
                                     </Stack>
                                     {!smDown && (
                                         <Chip label={data.status_transaksi} size="small" color={
-                                            data.status_transaksi === "Pesanan Sudah Selesai" ? "primary" : "error"
+                                            data.status_transaksi === "Pesanan Sudah Selesai" ? "primary" : "warning"
                                         } sx={{
                                             borderRadius: "5px",
                                         }} />

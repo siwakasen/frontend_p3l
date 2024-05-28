@@ -10,6 +10,7 @@ import {
   IconGift,
   IconCarrot,
   IconTruckLoading,
+  IconPackageImport,
 } from "@tabler/icons-react";
 
 const MenuItem = [
@@ -98,6 +99,17 @@ const MenuItem = [
     icon: IconUsersGroup,
     href: "/administrator/data-customer",
     access: "Admin",
+  },
+  {
+    navLabel: true,
+    subheader: "Operasional"
+  },
+  {
+    id: uniqueId(),
+    title: "Pesanan Masuk",
+    icon: IconPackageImport,
+    href: "/administrator/pesanan-masuk",
+    access: "Admin"
   }
 ];
 

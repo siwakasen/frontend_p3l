@@ -5,6 +5,27 @@ import { createSlice } from "@reduxjs/toolkit";
 export const API_URL = "http://127.0.0.1:8000/api";
 export const API_URL_IMAGE = "http://127.0.0.1:8000/storage/";
 
+export function convertToSlug(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/[\s\W-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function slugToRealName(slug) {
+  let query = slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  if (query.includes("1 2")) query = query.replace("1 2", "1/2");
+
+  return query;
+}
+
 const initialState = {
   activeDir: "ltr",
   activeMode: "light",
@@ -91,7 +112,6 @@ export const {
   setLanguage,
   setCardShadow,
 } = CustomizerSlice.actions;
-
 
 export default CustomizerSlice.reducer;
 export const CustomizerReducer = CustomizerSlice.reducer;

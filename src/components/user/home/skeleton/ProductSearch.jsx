@@ -1,9 +1,9 @@
 // material
-import { TextField, InputAdornment } from '@mui/material';
-import { IconSearch } from '@tabler/icons-react';
+import { TextField, InputAdornment } from "@mui/material";
+import { IconSearch } from "@tabler/icons-react";
 
 // ----------------------------------------------------------------------
-export default function ProductSearch() {
+export default function ProductSearch({ handleSearch }) {
   return (
     <>
       {/* ------------------------------------------- */}
@@ -14,6 +14,7 @@ export default function ProductSearch() {
         placeholder="Search Product"
         size="small"
         type="search"
+        onChange={handleSearch}
         variant="outlined"
         InputProps={{
           startAdornment: (

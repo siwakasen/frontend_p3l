@@ -38,6 +38,21 @@ export async function getLimitById(id) {
   }
 }
 
+export async function getLimitByDate(date) {
+  try {
+    const response = await fetch(
+      `${API_URL}/administrator/limit-produk/search?date=${date}`,
+      {
+        method: "GET",
+      }
+    );
+    const data = await response.json();
+    return { data: data.data, code: response.status };
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function updateLimit(inputData, id) {
   try {
     const token = Cookies.get("token");

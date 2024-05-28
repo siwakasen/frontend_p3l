@@ -26,6 +26,7 @@ export async function getSingleProduk(id) {
         Authorization: `Bearer ${token}`,
       },
     });
+
     const data = await response.json();
     return data;
   } catch (error) {
@@ -63,6 +64,21 @@ export async function updateProduk(formData, id) {
     });
     const data = await response.json();
     return { data, code: response.status };
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function searchProduk(name) {
+  try {
+    const response = await fetch(
+      `${API_URL}/administrator/produk/search?query=${name}`,
+      {
+        method: "GET",
+      }
+    );
+    const data = await response.json();
+    return data;
   } catch (error) {
     return error;
   }

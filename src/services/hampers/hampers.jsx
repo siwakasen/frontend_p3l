@@ -66,3 +66,20 @@ export async function getSingleHampers(id) {
     return error;
   }
 }
+
+export async function searchHampers(query, date = null) {
+  try {
+    const response = await fetch(
+      `${API_URL}/administrator/hampers/search?query=${query}${
+        date ? `&date=${date}` : ""
+      }`,
+      {
+        method: "GET",
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return error;
+  }
+}

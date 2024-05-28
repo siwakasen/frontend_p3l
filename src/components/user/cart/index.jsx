@@ -13,9 +13,9 @@ import Balance from "../../../assets/icons/balance.png";
 import Poin from "../../../assets/icons/poin.svg";
 import Image from "next/image";
 import Link from "next/link";
-import ContainerOrderHistory from "./ContainerOrderHistory";
+import { Cart } from "@/components/user/cart/Cart";
 
-const OrderHistory = () => {
+export const CartHistory = () => {
   const data = useSelector((state) => state.user);
   return (
     <Box mt={2}>
@@ -111,13 +111,6 @@ const OrderHistory = () => {
                 </Link>
               </ListItem>
               <ListItem>
-                <Link href="/user/pembayaran-valid">
-                  <Typography fontWeight={400} variant="subtitle2">
-                    Pembayaran Valid
-                  </Typography>
-                </Link>
-              </ListItem>
-              <ListItem>
                 <Link href="/user/histori-pesanan">
                   <Typography fontWeight={400} variant="subtitle2">
                     Histori Pesanan
@@ -127,10 +120,8 @@ const OrderHistory = () => {
             </List>
           </Box>
         </Grid>
-        <ContainerOrderHistory />
+        <Cart />
       </Grid>
     </Box>
   );
 };
-
-export default OrderHistory;

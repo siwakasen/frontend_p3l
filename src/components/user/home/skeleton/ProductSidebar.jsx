@@ -1,33 +1,36 @@
-import React from 'react';
-import { Drawer, useMediaQuery } from '@mui/material';
+import React from "react";
+import { Drawer, useMediaQuery } from "@mui/material";
 
-import ProductFilter from './ProductFilter';
+import ProductFilter from "./ProductFilter";
 
 const drawerWidth = 250;
 
-
-const ProductSidebar = ({ isMobileSidebarOpen, onSidebarClose }) => {
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+const ProductSidebar = ({
+  isMobileSidebarOpen,
+  onSidebarClose,
+  setSortBy,
+  setFilters,
+}) => {
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
   return (
     <Drawer
       open={isMobileSidebarOpen}
       onClose={onSidebarClose}
-      variant={lgUp ? 'permanent' : 'temporary'}
+      variant={lgUp ? "permanent" : "temporary"}
       sx={{
         width: drawerWidth,
         flexShrink: 0,
         zIndex: lgUp ? 0 : 1,
-        [`& .MuiDrawer-paper`]: { position: 'relative' },
+        [`& .MuiDrawer-paper`]: { position: "relative" },
       }}
     >
       {/* ------------------------------------------- */}
       {/* Filter Sidebar */}
       {/* ------------------------------------------- */}
-      <ProductFilter />
+      <ProductFilter setFilters={setFilters} setSortBy={setSortBy} />
     </Drawer>
   );
 };
-
 
 export default ProductSidebar;

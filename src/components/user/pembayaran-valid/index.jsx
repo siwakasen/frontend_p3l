@@ -13,9 +13,9 @@ import Balance from "../../../assets/icons/balance.png";
 import Poin from "../../../assets/icons/poin.svg";
 import Image from "next/image";
 import Link from "next/link";
-import ContainerOrderHistory from "./ContainerOrderHistory";
+import { PembayaranValid } from "@/components/user/pembayaran-valid/PembayaranValid";
 
-const OrderHistory = () => {
+export const PembayaranValidHistory = () => {
   const data = useSelector((state) => state.user);
   return (
     <Box mt={2}>
@@ -127,10 +127,8 @@ const OrderHistory = () => {
             </List>
           </Box>
         </Grid>
-        <ContainerOrderHistory />
+        <PembayaranValid />
       </Grid>
     </Box>
   );
 };
-
-export default OrderHistory;

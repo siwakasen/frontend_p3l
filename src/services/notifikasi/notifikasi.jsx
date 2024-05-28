@@ -1,17 +1,17 @@
 import { API_URL } from "@/utils/constants";
 import Cookies from "js-cookie";
 
-export async function getAllBahanBaku() {
+export async function getNotifikasiData() {
     try {
         const token = Cookies.get('token');
-        const res = await fetch(`${API_URL}/administrator/bahan-baku`, {
+        const response = await fetch(`${API_URL}/administrator/notifikasi`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         });
-        const data = await res.json();
+        const data = await response.json();
         return data;
     } catch (error) {
         return error;

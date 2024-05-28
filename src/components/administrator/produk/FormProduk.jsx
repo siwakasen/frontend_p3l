@@ -15,7 +15,7 @@ import FormField from "@/components/auth/shared/OutlineTextFormField";
 import { useRouter } from "next/navigation";
 import CustomBoxModal from "@/components/shared/CustomBoxModalConfirm";
 import { getAllPenitip } from "@/services/penitip/penitip";
-import { getAllResep } from "@/services/resep/resep";
+import { getAllResepData } from "@/services/resep/resep";
 import { getAllKategori } from "@/services/kategori/kategori";
 import CustomCheckbox from "@/components/shared/CustomCheckbox";
 import { IconPhotoFilled, IconX } from "@tabler/icons-react";
@@ -60,7 +60,7 @@ export const FormProduk = ({
     const fetchData = async () => {
       let response = await getAllPenitip();
       setDataPentip(response.data);
-      response = await getAllResep();
+      response = await getAllResepData();
       setDataResep(response.data);
       response = await getAllKategori();
       setDataKategori(response.data);

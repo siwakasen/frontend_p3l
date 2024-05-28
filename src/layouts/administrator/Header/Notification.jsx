@@ -10,17 +10,32 @@ import {
   Button,
   Chip,
 } from '@mui/material';
-import * as dropdownData from './data';
 import Scrollbar from '@/components/custom-scroll/Scrollbar';
 
 import { IconBellRinging } from '@tabler/icons-react';
+import { getNotifikasiData } from '@/services/notifikasi/notifikasi';
 import { Stack } from '@mui/system';
+import { IconBell } from '@tabler/icons-react';
 import Link from 'next/link';
 
 const Notifications = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  
+
+  const handleGetNotifications = () => {
+    getNotifikasiData().then((response) => {
+      setNotifications(response.data);
+    });
+  }
+
+  React.useEffect(() => {
+    handleGetNotifications();
+  }, []);
+  
 
   const handleClick2 = (event) => {
+    handleGetNotifications();
     setAnchorEl2(event.currentTarget);
   };
 
@@ -32,7 +47,7 @@ const Notifications = () => {
     <Box>
       <IconButton
         size="large"
-        aria-label="show 11 new notifications"
+        aria-label={notifications.length > 0 ? `show ${notifications.length} notifikasi baru` : 'no notifikasi baru'}
         color="inherit"
         aria-controls="msgs-menu"
         aria-haspopup="true"
@@ -41,9 +56,9 @@ const Notifications = () => {
         }}
         onClick={handleClick2}
       >
-        <Badge variant="dot" color="primary">
-          <IconBellRinging size="21" stroke="1.5" />
-        </Badge>
+          <Badge variant={notifications.length > 0 ? 'dot' : 'standard'} color="primary">
+            <IconBellRinging size="21" stroke="1.5" />
+          </Badge>
       </IconButton>
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
@@ -63,22 +78,26 @@ const Notifications = () => {
         }}
       >
         <Stack direction="row" py={2} px={4} justifyContent="space-between" alignItems="center">
-          <Typography variant="h6">Notifications</Typography>
-          <Chip label="5 new" color="primary" size="small" />
+          <Typography variant="h6">Notifikasi</Typography>
+          { notifications.length > 0 && (
+            <Chip label={`${notifications.length} Notifikasi Baru`} color="primary" size="small" />
+          )}
         </Stack>
-        <Scrollbar sx={{ height: '385px' }}>
-          {dropdownData.notifications.map((notification, index) => (
-            <Box key={index}>
+        { notifications.length === 0 && (
+          <MenuItem sx={{ py: 2, justifyContent: 'center' }}>
+            <Typography variant="subtitle2" color="textPrimary" fontWeight={600} noWrap>
+              Tidak ada notifikasi
+            </Typography>
+          </MenuItem>
+        )}
+        <Scrollbar>
+          {notifications.map((notification, index) => (
+            <Box key={index} component={Link} href={notification.link}>
               <MenuItem sx={{ py: 2, px: 4 }}>
-                <Stack direction="row" spacing={2}>
-                  <Avatar
-                    src={notification.avatar}
-                    alt={notification.avatar}
-                    sx={{
-                      width: 48,
-                      height: 48,
-                    }}
-                  />
+                <Stack direction="row" spacing={2}
+                  alignItems="center"
+                >
+                  <IconBell size="24" stroke="1.5" />
                   <Box>
                     <Typography
                       variant="subtitle2"
@@ -89,7 +108,7 @@ const Notifications = () => {
                         width: '240px',
                       }}
                     >
-                      {notification.title}
+                      {notification.title}, {notification.user && notification.user.nama}
                     </Typography>
                     <Typography
                       color="textSecondary"
@@ -99,7 +118,7 @@ const Notifications = () => {
                       }}
                       noWrap
                     >
-                      {notification.subtitle}
+                      {notification.message}
                     </Typography>
                   </Box>
                 </Stack>
@@ -107,11 +126,6 @@ const Notifications = () => {
             </Box>
           ))}
         </Scrollbar>
-        <Box p={3} pb={1}>
-          <Button href="/apps/email" variant="outlined" component={Link} color="primary" fullWidth>
-            See all Notifications
-          </Button>
-        </Box>
       </Menu>
     </Box>
   );

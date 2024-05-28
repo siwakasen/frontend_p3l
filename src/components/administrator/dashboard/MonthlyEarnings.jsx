@@ -7,7 +7,7 @@ import { IconArrowDownRight, IconCurrencyDollar, IconArrowUpLeft } from '@tabler
 
 import DashboardCard from '../shared/DashboardCard';
 import SkeletonMonthlyEarningsTwoCard from "./skeleton/MonthlyEarningsTwoCard";
-import { getDefaultData } from "@/services/administrator/dashboard/getData";
+import { getDefaultData } from "@/services/dashboard/getData";
 
 
 const MonthlyEarnings = ({isLoading}) => {

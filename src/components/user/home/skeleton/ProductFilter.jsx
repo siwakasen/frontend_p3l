@@ -1,87 +1,73 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   ListItemText,
   ListItemButton,
   List,
   Divider,
-  FormGroup,
   ListItemIcon,
-  FormControlLabel,
-  Radio,
   Typography,
   Box,
-  Avatar,
   Button,
-  Stack
-} from '@mui/material';
-import { IconCheck } from '@tabler/icons-react';
+  Stack,
+} from "@mui/material";
 import {
-  IconHanger,
+  IconCake,
   IconCircles,
-  IconNotebook,
-  IconMoodSmile,
-  IconDeviceLaptop,
+  IconBread,
+  IconBeer,
+  IconGift,
+  IconFriends,
   IconSortAscending2,
   IconSortDescending2,
   IconAd2,
-} from '@tabler/icons-react';
+} from "@tabler/icons-react";
+import CustomTextField from "@/components/administrator/forms/CustomTextField";
 
-import { products } from './productData';
-
-const ProductFilter = () => {
-  const dispatch = useDispatch();
+const ProductFilter = ({ setSortBy, setFilters }) => {
   const customizer = useSelector((state) => state.customizer);
   const br = `${customizer.borderRadius}px`;
-
-  const getUniqueData = (data, attr) => {
-    let newVal = data.map((curElem) => {
-      return curElem[attr];
-    });
-    if (attr === 'colors') {
-      newVal = newVal.flat();
-    }
-
-    return (newVal = ['All', ...Array.from(new Set(newVal))]);
-  };
-
-  const filterbyGender = getUniqueData(products, 'gender');
-  const filterbyColors = getUniqueData(products, 'colors');
 
   const filterCategory = [
     {
       id: 1,
-      filterbyTitle: 'Filter by Category',
+      filterbyTitle: "Filter by Category",
     },
     {
       id: 2,
-      name: 'All',
-      sort: 'All',
+      name: "All",
+      sort: "All",
       icon: IconCircles,
     },
     {
       id: 3,
-      name: 'Fashion',
-      sort: 'fashion',
-      icon: IconHanger,
+      name: "Cake",
+      sort: "cake",
+      icon: IconCake,
     },
     {
       id: 9,
-      name: 'Books',
-      sort: 'books',
-      icon: IconNotebook,
+      name: "Roti",
+      sort: "roti",
+      icon: IconBread,
     },
     {
       id: 10,
-      name: 'Toys',
-      sort: 'toys',
-      icon: IconMoodSmile,
+      name: "Minuman",
+      sort: "minuman",
+      icon: IconBeer,
     },
     {
       id: 11,
-      name: 'Electronics',
-      sort: 'electronics',
-      icon: IconDeviceLaptop,
+      name: "Hampers",
+      sort: "hampers",
+      icon: IconGift,
+    },
+    {
+      id: 12,
+      name: "Titipan",
+      sort: "titipan",
+      icon: IconFriends,
     },
     {
       id: 6,
@@ -89,49 +75,24 @@ const ProductFilter = () => {
     },
   ];
   const filterbySort = [
-    { id: 1, value: 'newest', label: 'Newest', icon: IconAd2 },
-    { id: 2, value: 'priceDesc', label: 'Price: High-Low', icon: IconSortAscending2 },
-    { id: 3, value: 'priceAsc', label: 'Price: Low-High', icon: IconSortDescending2 },
-    { id: 4, value: 'discount', label: 'Discounted', icon: IconAd2 },
-  ];
-  const filterbyPrice = [
+    { id: 1, value: "newest", label: "Newest", icon: IconAd2 },
     {
-      id: 0,
-      label: 'All',
-      value: 'All',
-    },
-    {
-      id: 1,
-      label: '0-50',
-      value: '0-50',
+      id: 2,
+      value: "priceDesc",
+      label: "Price: High-Low",
+      icon: IconSortAscending2,
     },
     {
       id: 3,
-      label: '50-100',
-      value: '50-100',
-    },
-    {
-      id: 4,
-      label: '100-200',
-      value: '100-200',
-    },
-    {
-      id: 5,
-      label: 'Over 200',
-      value: '200-99999',
+      value: "priceAsc",
+      label: "Price: Low-High",
+      icon: IconSortDescending2,
     },
   ];
 
-  const handlerGenderFilter = (value) => {
-    if (value.target.checked) {
-      dispatch(sortByGender({ gender: value.target.value }));
-    }
-  };
-  const handlerPriceFilter = (value) => {
-    if (value.target.checked) {
-      dispatch(sortByPrice({ price: value.target.value }));
-    }
-  };
+  function handlePriceFilter(e) {
+    setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 
   return (
     <>
@@ -142,7 +103,14 @@ const ProductFilter = () => {
         {filterCategory.map((filter) => {
           if (filter.filterbyTitle) {
             return (
-              <Typography variant="subtitle2" fontWeight={600} px={3} mt={2} pb={2} key={filter.id}>
+              <Typography
+                variant="subtitle2"
+                fontWeight={600}
+                px={3}
+                mt={2}
+                pb={2}
+                key={filter.id}
+              >
                 {filter.filterbyTitle}
               </Typography>
             );
@@ -153,10 +121,12 @@ const ProductFilter = () => {
           return (
             <ListItemButton
               sx={{ mb: 1, mx: 3, borderRadius: br }}
-              onClick={() => dispatch(filterProducts({ category: `${filter.sort}` }))}
+              onClick={() =>
+                setFilters((prev) => ({ ...prev, category: filter.name }))
+              }
               key={filter.id}
             >
-              <ListItemIcon sx={{ minWidth: '30px' }}>
+              <ListItemIcon sx={{ minWidth: "30px" }}>
                 <filter.icon stroke="1.5" size="19" />
               </ListItemIcon>
               <ListItemText>{filter.name}</ListItemText>
@@ -173,10 +143,10 @@ const ProductFilter = () => {
           return (
             <ListItemButton
               sx={{ mb: 1, mx: 3, borderRadius: br }}
-              onClick={() => dispatch(sortByProducts(`${filter.value}`))}
+              onClick={() => setSortBy(filter.value)}
               key={filter.id + filter.label + filter.value}
             >
-              <ListItemIcon sx={{ minWidth: '30px' }}>
+              <ListItemIcon sx={{ minWidth: "30px" }}>
                 <filter.icon stroke="1.5" size={19} />
               </ListItemIcon>
               <ListItemText>{filter.label}</ListItemText>
@@ -184,88 +154,36 @@ const ProductFilter = () => {
           );
         })}
         <Divider></Divider>
-        {/* ------------------------------------------- */}
-        {/* Filter By Gender */}
-        {/* ------------------------------------------- */}
-        <Box p={3}>
-          <Typography variant="subtitle2" fontWeight={600}>
-            By Gender
-          </Typography>
-          <br />
-          <FormGroup>
-            {filterbyGender.map((gen) => (
-              <FormControlLabel
-                key={gen}
-                control={
-                  <Radio
-                    value={gen}
-                    onChange={handlerGenderFilter}
-                  />
-                }
-                label={gen}
-              />
-            ))}
-          </FormGroup>
-        </Box>
-        <Divider></Divider>
-        {/* ------------------------------------------- */}
-        {/* Filter By Pricing */}
-        {/* ------------------------------------------- */}
         <Typography variant="h6" px={3} mt={3} pb={2}>
           By Pricing
         </Typography>
         <Box p={3} pt={0}>
-          <FormGroup>
-            {filterbyPrice.map((price) => (
-              <FormControlLabel
-                key={price.label}
-                control={
-                  <Radio
-                    value={price.value}
-                    onChange={handlerPriceFilter}
-                  />
-                }
-                label={price.label}
-              />
-            ))}
-          </FormGroup>
-        </Box>
-        <Divider></Divider>
-        <Typography variant="h6" px={3} mt={3} pb={2}>
-          By Colors
-        </Typography>
-        {/* ------------------------------------------- */}
-        {/* Filter By colors */}
-        {/* ------------------------------------------- */}
-        <Box p={3} pt={0}>
-          <Stack direction={'row'} flexWrap="wrap" gap={1}>
-            {filterbyColors.map((curColor) => {
-              if (curColor !== 'All') {
-                return (
-                  <Avatar
-                    sx={{
-                      backgroundColor: curColor,
-                      width: 24,
-                      height: 24,
-                      cursor: 'pointer',
-                    }}
-                    aria-label={curColor}
-                    key={curColor}
-                  >
-                  </Avatar>
-                );
-              } else {
-                return <Box key={curColor} sx={{ display: 'none' }}></Box>;
-              }
-            })}
+          <Stack direction="row" spacing={1} alignItems="center">
+            <CustomTextField
+              placeholder="Rp MIN"
+              name="minPrice"
+              type="number"
+              onChange={handlePriceFilter}
+            />
+            <Box>-</Box>
+            <CustomTextField
+              placeholder="Rp MAX"
+              name="maxPrice"
+              type="number"
+              onChange={handlePriceFilter}
+            />
           </Stack>
         </Box>
         <Divider></Divider>
-        {/* ------------------------------------------- */}
-        {/* Reset */}
-        {/* ------------------------------------------- */}
         <Box p={3}>
-          <Button variant="contained" onClick={() => dispatch(filterReset())} fullWidth>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setSortBy("newest");
+              setFilters({ category: "All", minPrice: "", maxPrice: "" });
+            }}
+            fullWidth
+          >
             Reset Filters
           </Button>
         </Box>

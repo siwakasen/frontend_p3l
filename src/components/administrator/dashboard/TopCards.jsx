@@ -4,7 +4,7 @@ import { Box, CardContent, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 // api services
-import { getDefaultData } from "@/services/administrator/dashboard/getData";
+import { getDefaultData } from "@/services/dashboard/getData";
 
 const topcards = [
   {

@@ -24,7 +24,7 @@ import { visuallyHidden } from '@mui/utils';
 
 import CustomSwitch from '../forms/CustomSwitch';
 import { IconSearch, IconEdit, IconTrash } from '@tabler/icons-react';
-import { getAllKaryawanData } from '@/services/administrator/karyawan/karyawan';
+import { getAllKaryawanData } from '@/services/karyawan/karyawan';
 import { useDelete, useBonus } from './useKaryawan';
 import Link from 'next/link';
 import ResponsiveDialog from '../shared/ResponsiveDialog';

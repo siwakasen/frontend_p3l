@@ -27,7 +27,7 @@ import { visuallyHidden } from '@mui/utils';
 import CustomSwitch from '../forms/CustomSwitch';
 import { IconSearch, IconEdit, IconTrash } from '@tabler/icons-react';
 import { useInsert, useUpdate, useDelete, useUpdateSalary } from './useJabatan';
-import { getAllRoleData } from '@/services/administrator/role/role';
+import { getAllRoleData } from '@/services/role/role';
 import ResponsiveDialog from '../shared/ResponsiveDialog';
 import CustomFormLabel from '../forms/CustomFormLabel';
 import CustomTextField from '../forms/CustomTextField';
@@ -395,6 +395,9 @@ const RolesTableList = () => {
             };
             fetchData();
           },
+          cancelAction: () => {
+            setTempData({});
+          },
           onClick: () => {
             if (tempData.nama_role) {
               handleInsert(tempData);
@@ -440,6 +443,9 @@ const RolesTableList = () => {
             };
             fetchData();
           },
+          cancelAction: () => {
+            setTempData({});
+          },
           onClick: () => {
             handleUpdate(selectedId, tempData);
             setTempData({});
@@ -480,6 +486,9 @@ const RolesTableList = () => {
               setGetJabatan(response.data.filter((item) => item.nama_role !== 'Owner'));
             };
             fetchData();
+          },
+          cancelAction: () => {
+            setTempSalaryData({});
           },
           onClick: () => {
             handleUpdateSalary(selectedId, tempSalaryData.nominal_gaji);

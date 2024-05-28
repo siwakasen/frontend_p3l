@@ -8,8 +8,12 @@ import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { store, persistor } from "@/utils/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { createContext, useState } from "react";
+
+export const UserContext = createContext();
 
 export default function RootLayout({ children }) {
+  const [change, setChange] = useState(0);
   const theme = ThemeSettings();
   return (
     <ThemeProvider theme={theme}>
@@ -18,7 +22,9 @@ export default function RootLayout({ children }) {
           <CssBaseline />
           <PersistGate loading={null} persistor={persistor}>
             <Provider store={store}>
-              {children}
+              <UserContext.Provider value={{ change, setChange }}>
+                {children}
+              </UserContext.Provider>
               <ToastContainer
                 position="bottom-right"
                 autoClose={3000}

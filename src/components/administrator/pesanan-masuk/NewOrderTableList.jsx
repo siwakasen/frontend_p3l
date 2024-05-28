@@ -33,6 +33,8 @@ import ResponsiveDialog from '../shared/ResponsiveDialog';
 import CustomFormLabel from '../forms/CustomFormLabel';
 import CustomTextField from '../forms/CustomTextField';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { API_URL_IMAGE } from '@/utils/constants';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -448,7 +450,7 @@ const NewOrderTableList = () => {
               <CustomFormLabel htmlFor="metode_pembayaran">
                 Bukti Pembayaran
               </CustomFormLabel>
-              <img src={'https://www.paper.id/blog/wp-content/uploads/2019/03/kwitansi.jpeg'} alt="Bukti Pembayaran" style={{ width: '100%' }} />
+              <Image src={API_URL_IMAGE + selectedData.bukti_pembayaran} width={200} height={200} />
               <Typography
                 id="metode_pembayaran"
                 sx={{ width: '100%' }}
@@ -478,9 +480,7 @@ const NewOrderTableList = () => {
                 type="number"
                 placeholder="Masukkan Total Bayar"
                 onChange={(e) => {
-                  if (e.target.value < selectedData.total_harga) {
-                    setTempData({ ...tempData, total_bayar: '' });
-                  } else setTempData({ ...tempData, total_bayar: e.target.value })}
+                  setTempData({ ...tempData, total_bayar: e.target.value })}
                 }
                 InputProps={{
                   startAdornment: <InputAdornment position="start">Rp</InputAdornment>,
@@ -489,6 +489,10 @@ const NewOrderTableList = () => {
                 sx={{ mb: 2, width: '100%' }}
                 required
               />
+              {
+                tempData.total_bayar && tempData.total_bayar < selectedData.total_harga && 
+                <Typography color="error">Total Bayar harus lebih dari atau sama dengan Total Harga Pesanan</Typography>
+              }
           </>
         }
         action={{
@@ -507,7 +511,7 @@ const NewOrderTableList = () => {
             handleUpdateTotalBayar(selectedId, tempData);
             setTempData({});
           },
-          props: { color: 'primary', disabled: !tempData.total_bayar }
+          props: { color: 'primary', disabled: !tempData.total_bayar || tempData.total_bayar < selectedData.total_harga },
         }}
       />
     </>

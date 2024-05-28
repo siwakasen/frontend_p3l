@@ -98,6 +98,13 @@ const MenuItem = [
     icon: IconUsersGroup,
     href: "/administrator/data-customer",
     access: "Admin",
+  },
+  {
+    id: uniqueId(),
+    title: "Pesanan",
+    icon: IconUsersGroup,
+    href: "/administrator/pesanan/konfirmasi",
+    access: "Manajer Operasional",
   }
 ];
 

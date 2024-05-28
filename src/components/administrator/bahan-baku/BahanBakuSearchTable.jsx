@@ -16,8 +16,8 @@ import {
     Modal,
     Button,
     InputAdornment,
-    
-  } from "@mui/material";
+
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import CustomCheckbox from "../../shared/CustomCheckbox";
 import CustomSwitch from "../../shared/CustomSwitch";
@@ -26,16 +26,17 @@ import { alpha } from "@mui/material/styles";
 import { IconEdit, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
 import CustomBoxModal from "../../shared/CustomBoxModalConfirm";
 import {
-getComparator,
-stableSort,
+    getComparator,
+    stableSort,
 } from "@/components/shared/search-table/SearchTableFunction";
 import { useRouter } from "next/navigation";
 import { useDelete } from "./useBahanBaku";
 import { searchBahanBaku } from "@/services/bahan-baku/bahanBaku";
-
+import { usePathname } from 'next/navigation'
 
 export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) => {
-    const { handleDelete } = useDelete({setLoading, loading});
+    const pathname = usePathname()
+    const { handleDelete } = useDelete({ setLoading, loading });
     const router = useRouter();
     const [orderBy, setOrderBy] = useState("id_bahan_baku");
     const [open, setOpen] = useState(false);
@@ -50,28 +51,28 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
 
     useEffect(() => {
         setRows(data);
-    },[data]);
+    }, [data]);
 
     useEffect(() => {
         setRows(thisData);
-    },[thisData]);
+    }, [thisData]);
 
-    function handleOpen(){
+    function handleOpen() {
         setOpen(!open);
     }
 
-    function handleDeleteAction(id){
+    function handleDeleteAction(id) {
         handleDelete(id);
         setSelected([]);
         handleOpen();
         setPage(0);
     }
 
-    function handleEdit(id){
+    function handleEdit(id) {
         router.push(`/administrator/bahan-baku/ubah/${id}`);
     }
 
-    function handleAdd(){
+    function handleAdd() {
         router.push('/administrator/bahan-baku/tambah');
     }
 
@@ -89,28 +90,28 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
         if (event.key === 'Enter') {
             handleSearch(search);
         }
-      };
+    };
 
     const handleChangeSearch = (e) => {
         setSearch(e.target.value);
     }
 
     const handleRequestSort = (event, property) => {
-        if(property === 'nama_bahan_baku'){
+        if (property === 'nama_bahan_baku') {
             property = 'id_bahan_baku';
         }
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
-    };  
+    };
 
     const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-        const newSelecteds = rows.map((n) => n.id_bahan_baku);
-        setSelected(newSelecteds);
-        return;
-    }
-    setSelected([]);
+        if (event.target.checked) {
+            const newSelecteds = rows.map((n) => n.id_bahan_baku);
+            setSelected(newSelecteds);
+            return;
+        }
+        setSelected([]);
     };
 
     const handleClick = (event, name) => {
@@ -125,8 +126,8 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
             newSelected = newSelected.concat(selected.slice(0, -1));
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
-            selected.slice(0, selectedIndex),
-            selected.slice(selectedIndex + 1)
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1)
             );
         }
         setSelected(newSelected);
@@ -134,7 +135,7 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        };
+    };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
@@ -143,93 +144,93 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
     const handleChangeDense = (event) => {
         setDense(event.target.checked);
     };
-   const isSelected = (name) => selected.indexOf(name) !== -1;
+    const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    return(
+    return (
         <Box>
-            <Box>
-            <Toolbar
-                sx={{
-                    borderRadius: 1,
-                    pl: { sm: 2 },
-                    pr: { xs: 1, sm: 1 },
-                    ...(selected.length > 0 && {
-                    bgcolor: (theme) =>
-                        alpha(
-                        theme.palette.primary.main,
-                        theme.palette.action.activatedOpacity
-                        ),
-                    }),
-                }}
+            <Box sx={{ flex: "1 1 100%", ml: 2, mr: 2 }}>
+                <Toolbar
+                    sx={{
+                        borderRadius: 1,
+                        pl: { sm: 2 },
+                        pr: { xs: 1, sm: 1 },
+                        ...(selected.length > 0 && {
+                            bgcolor: (theme) =>
+                                alpha(
+                                    theme.palette.primary.main,
+                                    theme.palette.action.activatedOpacity
+                                ),
+                        }),
+                    }}
                 >
-                {/* Search input / selected item */}
-                {selected.length > 0 ? (
-                    <Typography
-                    sx={{ flex: "1 1 100%" }}
-                    color="inherit"
-                    variant="subtitle2"
-                    component="div"
-                    >
-                    {selected.length} selected
-                    </Typography>
-                ) : (
-                    <Box sx={{ flex: "1 1 100%"}}>
-                        <TextField
-                            InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                <IconSearch size="1.1rem" />
-                                </InputAdornment>
-                            ),
-                            }}
-                            placeholder="Search Bahan Baku"
-                            size="small"
-                            onChange={(event) => handleChangeSearch(event)}
-                            onKeyDown={(event)=> handleKeyDown(event)}
-                            value={search}
-                            sx={{mr: "0.2rem"}}
-                        />
-                    </Box>
-                )}
-                
-                {/* Filter icon / delete icon */}
-                {selected.length > 0 ? (
-                    <Tooltip title="Hapus data">
-                    <IconButton onClick={handleOpen}>
-                        <IconTrash width="18" className="text-red-400" />
-                    </IconButton>
-                    </Tooltip>
-                ) : (
-                    <Tooltip title="Tambah data">
-                    <Button onClick={handleAdd}>
-                        <IconPlus width="18" /> Tambah
-                    </Button>
-                    </Tooltip>
-                )}
-                <Modal open={open} onClose={handleOpen}>
-                    <div>
-                    <CustomBoxModal
-                        title="Hapus Bahan Baku"
-                        description="Data yang dihapus tidak dapat dikembalikan!"
-                        footer={
-                        <Button
-                            color="error"
-                            size="small"
-                            sx={{ mt: 2 }}
-                            onClick={()=>handleDeleteAction(selected)}
+                    {/* Search input / selected item */}
+                    {selected.length > 0 ? (
+                        <Typography
+                            sx={{ flex: "1 1 100%" }}
+                            color="inherit"
+                            variant="subtitle2"
+                            component="div"
                         >
-                            Hapus
-                        </Button>
-                        }
-                    />
-                    </div>
-                </Modal>
+                            {selected.length} selected
+                        </Typography>
+                    ) : (
+                        <Box sx={{ flex: "1 1 100%" }}>
+                            <TextField
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <IconSearch size="1.1rem" />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                placeholder="Search Bahan Baku"
+                                size="small"
+                                onChange={(event) => handleChangeSearch(event)}
+                                onKeyDown={(event) => handleKeyDown(event)}
+                                value={search}
+                                sx={{ mr: "0.2rem" }}
+                            />
+                        </Box>
+                    )}
+
+                    {/* Filter icon / delete icon */}
+                    {selected.length > 0 ? (
+                        <Tooltip title="Hapus data">
+                            <IconButton onClick={handleOpen}>
+                                <IconTrash width="18" className="text-red-400" />
+                            </IconButton>
+                        </Tooltip>
+                    ) : (
+                        <Tooltip title="Tambah data">
+                            <Button onClick={handleAdd}>
+                                <IconPlus width="18" /> Tambah
+                            </Button>
+                        </Tooltip>
+                    )}
+                    <Modal open={open} onClose={handleOpen}>
+                        <div>
+                            <CustomBoxModal
+                                title="Hapus Bahan Baku"
+                                description="Data yang dihapus tidak dapat dikembalikan!"
+                                footer={
+                                    <Button
+                                        color="error"
+                                        size="small"
+                                        sx={{ mt: 2 }}
+                                        onClick={() => handleDeleteAction(selected)}
+                                    >
+                                        Hapus
+                                    </Button>
+                                }
+                            />
+                        </div>
+                    </Modal>
                 </Toolbar>
 
-                <Paper variant="outlined" sx={{mx:2, mt:1}}>
+                <Paper variant="outlined" sx={{ mx: 2, mt: 1 }}>
                     <TableContainer>
                         <Table
                             sx={{ minWidth: 750 }}
@@ -251,7 +252,6 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
                                     .map((row, index) => {
                                         const isItemSelected = isSelected(row.id_bahan_baku);
                                         const labelId = `enhanced-table-checkbox-${index}`;
-
                                         return (
                                             <TableRow
                                                 hover
@@ -275,11 +275,11 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
                                                         variant="subtitle2"
                                                         sx={{
                                                             ml: 2,
-                                                          }}
+                                                        }}
                                                     >
-                                                    {row.nama_bahan_baku
-                                                     .charAt(0)
-                                                     .toUpperCase() + row.nama_bahan_baku.slice(1)}
+                                                        {row.nama_bahan_baku
+                                                            .charAt(0)
+                                                            .toUpperCase() + row.nama_bahan_baku.slice(1)}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell >
@@ -287,17 +287,17 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
                                                         color="textSecondary"
                                                         variant="subtitle2"
                                                     >
-                                                    {row.stok}
+                                                        {pathname == '/administrator/bahan-baku' ? row.stok < 0 ? 0 : Math.abs(row.stok) : Math.abs(row.stok)}
                                                     </Typography>
-                                                    </TableCell>
+                                                </TableCell>
                                                 <TableCell >
                                                     <Typography
                                                         color="textSecondary"
                                                         variant="subtitle2"
                                                     >
-                                                    {row.satuan
-                                                    .charAt(0)
-                                                    .toUpperCase() + row.satuan.slice(1)}
+                                                        {row.satuan
+                                                            .charAt(0)
+                                                            .toUpperCase() + row.satuan.slice(1)}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell >
@@ -326,15 +326,15 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
-                        />
+                    />
                 </Paper>
                 <Box ml={2}>
                     <FormControlLabel
                         control={
                             <CustomSwitch checked={dense} onChange={handleChangeDense} />
-                          }
-                          label="Remove padding"
-                    /> 
+                        }
+                        label="Remove padding"
+                    />
                 </Box>
             </Box>
         </Box>

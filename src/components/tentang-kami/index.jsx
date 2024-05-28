@@ -5,7 +5,7 @@ const TentangKami = () => {
     return (
         <Box mt={2}>
             <Grid item xs={12} container spacing={2}>
-                <Box bgcolor={'primary.light'} p={2} width="100%">
+                <Box bgcolor={'secondary.light'} p={2} width="100%">
                     <Typography variant="h2" gutterBottom>
                         Tentang Kami
                     </Typography>

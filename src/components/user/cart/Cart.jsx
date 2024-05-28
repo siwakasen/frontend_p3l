@@ -157,28 +157,25 @@ export const Cart = () => {
       .filter((id_hampers) => id_hampers !== null)
       .toString();
 
-    return `?${
-      produkParams.length === 0
+    return `?${produkParams.length === 0
         ? ""
         : `produk=${produkParams
-            .split(",")
-            .filter((item) => item !== "")
-            .join("+")}`
-    }${
-      hampersParams.length === 0
+          .split(",")
+          .filter((item) => item !== "")
+          .join("+")}`
+      }${hampersParams.length === 0
         ? ""
         : produkParams.length !== 0
-        ? `&hampers=${hampersParams
+          ? `&hampers=${hampersParams
             .split(",")
             .filter((item) => item !== "")
             .join("+")}`
-        : `hampers=${hampersParams
+          : `hampers=${hampersParams
             .split(",")
             .filter((item) => item !== "")
             .join("+")}`
-    }&date=${date.format("YYYY-MM-DD")}&statusPesanan=${
-      compareDate(date) ? `Ready` : `PO`
-    }&isCart=true`;
+      }&date=${date.format("YYYY-MM-DD")}&statusPesanan=${compareDate(date) ? `Ready` : `PO`
+      }&isCart=true`;
   }
 
   function getKoutaByDate(id_produk) {
@@ -280,8 +277,8 @@ export const Cart = () => {
                             findIsAllReady()
                               ? date.isBefore(dayjs().startOf("day"))
                               : date.isBefore(
-                                  dayjs().startOf("day").add(2, "day")
-                                )
+                                dayjs().startOf("day").add(2, "day")
+                              )
                           }
                           value={date}
                           onChange={handleChangeDate}
@@ -309,8 +306,8 @@ export const Cart = () => {
                     checklist.length === 0
                       ? true
                       : selectValue === null
-                      ? true
-                      : false
+                        ? true
+                        : false
                   }
                   sx={{ height: buttonHeight }}
                 >

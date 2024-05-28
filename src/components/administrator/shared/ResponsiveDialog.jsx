@@ -6,6 +6,7 @@ const ResponsiveDialog = ({ open, type, title, content, action }) => {
     const theme = useTheme();
 
     const handleClose = () => {
+        if(action.cancelAction) action.cancelAction();
         open.setOpen(false);
     };
 
@@ -35,7 +36,7 @@ const ResponsiveDialog = ({ open, type, title, content, action }) => {
             <DialogActions>
                 {action ? (
                     <>
-                        <Button autoFocus onClick={handleClose}>
+                        <Button autoFocus onClick={handleClose} color="error">
                             Batal
                         </Button>
                         <Button onClick={handleAction} {...action.props}>

@@ -1,5 +1,5 @@
 import Toast from "@/components/shared/Toast";
-import { createRoleData, updateRoleData, deleteRoleData } from "@/services/administrator/role/role";
+import { createRoleData, updateRoleData, deleteRoleData } from "@/services/role/role";
 
 export const useInsert = () => {
     const { toastSuccess, toastError } = Toast();

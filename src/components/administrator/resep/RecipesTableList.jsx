@@ -26,7 +26,7 @@ import { visuallyHidden } from '@mui/utils';
 
 import CustomSwitch from '../forms/CustomSwitch';
 import { IconSearch, IconEdit, IconTrash } from '@tabler/icons-react';
-import { getAllResepData } from '@/services/administrator/resep/resep';
+import { getAllResepData } from '@/services/resep/resep';
 import Link from 'next/link';
 import { useDelete } from './useResep';
 import ResponsiveDialog from '../shared/ResponsiveDialog';

@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import * as yup from 'yup';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/shared/Toast';
-import { addResep, updateResep, deleteResep, getResepById } from '@/services/administrator/resep/resep';
-import { getAllBahanBaku } from '@/services/administrator/bahan_baku/bahan_baku';
+import { addResep, updateResep, deleteResep, getResepById } from '@/services/resep/resep';
+import { getAllBahanBaku } from '@/services/bahan-baku/bahanBaku';
 
 export const useInsert = () => {
     const router = useRouter();

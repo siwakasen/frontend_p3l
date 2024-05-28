@@ -2,7 +2,8 @@ import {
   IconHome,
   IconPackage,
   IconGift,
-  IconSpeakerphone
+  IconSpeakerphone,
+  IconAccessPoint,
 } from '@tabler/icons-react';
 import { uniqueId } from 'lodash';
 
@@ -31,6 +32,12 @@ const Menuitems = [
     icon: IconSpeakerphone,
     href: '/promo'
   },
-  
+  {
+    id: uniqueId(),
+    title: 'Tentang Kami',
+    icon: IconAccessPoint,
+    href: '/tentang-kami'
+  }
+
 ];
 export default Menuitems;

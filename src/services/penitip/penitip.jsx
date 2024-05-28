@@ -18,7 +18,7 @@ export async function getAllPenitip() {
   }
 }
 
-export async function getPenitip(id){
+export async function getPenitip(id) {
   try {
     const token = Cookies.get("token");
     const response = await fetch(`${API_URL}/administrator/penitip/${id}`, {
@@ -34,7 +34,7 @@ export async function getPenitip(id){
   }
 }
 
-export async function searchPenitip(query){
+export async function searchPenitip(query) {
   try {
     const token = Cookies.get("token");
     const response = await fetch(`${API_URL}/administrator/penitip/search?query=${query}`, {
@@ -50,7 +50,7 @@ export async function searchPenitip(query){
   }
 }
 
-export async function insertPenitip(formData){
+export async function insertPenitip(formData) {
   try {
     const token = Cookies.get("token");
     const response = await fetch(`${API_URL}/administrator/penitip`, {
@@ -67,14 +67,14 @@ export async function insertPenitip(formData){
   }
 }
 
-export async function updatePenitip(id, input){
+export async function updatePenitip(id, input) {
   console.log(input);
   try {
     const token = Cookies.get("token");
     console.log(token);
     const response = await fetch(`${API_URL}/administrator/penitip/${id}`, {
       method: "PUT",
-      headers: {  
+      headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -86,14 +86,14 @@ export async function updatePenitip(id, input){
       }),
     });
     const data = await response.json();
-    console.log(data.data);
+    console.log(response.status);
     return { data, code: response.status };
-  }catch (error){
+  } catch (error) {
     return error;
   }
 }
 
-export async function deletePenitip(id){
+export async function deletePenitip(id) {
   try {
     const token = Cookies.get("token");
     const response = await fetch(`${API_URL}/administrator/penitip/${id}`, {
@@ -103,7 +103,7 @@ export async function deletePenitip(id){
       },
     });
     const data = await response.json();
-    return {data, code: response.status};
+    return { data, code: response.status };
   } catch (error) {
     return error;
   }

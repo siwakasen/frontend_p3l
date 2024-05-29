@@ -24,6 +24,7 @@ const Shop = () => {
   useEffect(() => {
     async function fetchDataProduk() {
       const response = await getAllProduk();
+      console.log(response);
       setProduk(
         response.data?.filter((_data) => !_data.nama_produk.includes("1/2"))
       );

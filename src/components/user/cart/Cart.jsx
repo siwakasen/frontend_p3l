@@ -23,7 +23,7 @@ export const Cart = () => {
   const [produk, setProduk] = useState([]);
   const [checklist, setChecklist] = useState([]);
   const [limitHampers, setLimitHampers] = useState([]);
-  const [selectValue, setSelectValue] = useState(null);
+  const [selectValue, setSelectValue] = useState("");
   const { toastWarning } = Toast();
 
   const datePickerRef = useRef(null);
@@ -49,8 +49,6 @@ export const Cart = () => {
     return isAvailReadyPO;
   };
 
-  // console.log(findIsAvailReadyPO());
-
   const findIsOnlyPO = () => {
     if (checklist.length === 0) return false;
     return checklist.some((item) => {
@@ -59,23 +57,14 @@ export const Cart = () => {
     });
   };
 
-  // useEffect(() => {
-  //   setChecklist([]);
-  // }, [date]);
-
   useEffect(() => {
     const isAvailReadyPO = findIsAvailReadyPO();
     const isOnlyPO = findIsOnlyPO();
     const isAllReady = findIsAllReady();
 
     setSelectValue(
-      isAvailReadyPO ? null : isOnlyPO ? "PO" : isAllReady ? "Ready" : null
+      isAvailReadyPO ? "" : isOnlyPO ? "PO" : isAllReady ? "Ready" : ""
     );
-    // setDate(
-    //   findIsAllReady()
-    //     ? dayjs().startOf("day")
-    //     : dayjs().startOf("day").add(2, "day")
-    // );
   }, [checklist]);
 
   useEffect(() => {
@@ -133,8 +122,6 @@ export const Cart = () => {
       kouta = getKoutaByDate(id_produk) || "0";
     }
 
-    console.log(kouta);
-
     if (isExist) {
       const newChecklist = checklist.filter((item) => item !== isExist);
       setChecklist(newChecklist);
@@ -157,25 +144,28 @@ export const Cart = () => {
       .filter((id_hampers) => id_hampers !== null)
       .toString();
 
-    return `?${produkParams.length === 0
+    return `?${
+      produkParams.length === 0
         ? ""
         : `produk=${produkParams
-          .split(",")
-          .filter((item) => item !== "")
-          .join("+")}`
-      }${hampersParams.length === 0
+            .split(",")
+            .filter((item) => item !== "")
+            .join("+")}`
+    }${
+      hampersParams.length === 0
         ? ""
         : produkParams.length !== 0
-          ? `&hampers=${hampersParams
+        ? `&hampers=${hampersParams
             .split(",")
             .filter((item) => item !== "")
             .join("+")}`
-          : `hampers=${hampersParams
+        : `hampers=${hampersParams
             .split(",")
             .filter((item) => item !== "")
             .join("+")}`
-      }&date=${date.format("YYYY-MM-DD")}&statusPesanan=${compareDate(date) ? `Ready` : `PO`
-      }&isCart=true`;
+    }&date=${date.format(
+      "YYYY-MM-DD"
+    )}&statusPesanan=${selectValue}&isCart=true`;
   }
 
   function getKoutaByDate(id_produk) {
@@ -251,12 +241,12 @@ export const Cart = () => {
       <Grid container item spacing={1} md={9} lg={9}>
         <Grid container item lg={12} xs={12}>
           <Grid container item>
-            <Grid item lg={12}>
+            <Grid item lg={12} md={12} xs={12}>
               <Typography variant="h4" fontWeight={600} mb={1}>
                 Keranjang Belanja
               </Typography>
             </Grid>
-            <Grid item lg={12} mb={12}>
+            <Grid item lg={12} md={12} xs={12} mb={2}>
               <Box
                 sx={{
                   display: "flex",
@@ -277,8 +267,8 @@ export const Cart = () => {
                             findIsAllReady()
                               ? date.isBefore(dayjs().startOf("day"))
                               : date.isBefore(
-                                dayjs().startOf("day").add(2, "day")
-                              )
+                                  dayjs().startOf("day").add(2, "day")
+                                )
                           }
                           value={date}
                           onChange={handleChangeDate}
@@ -296,6 +286,7 @@ export const Cart = () => {
                       onChange={handleSelectedValue}
                       sx={{ height: buttonHeight, mt: 1, width: "100px" }}
                     >
+                      <MenuItem hidden value=""></MenuItem>
                       <MenuItem value="PO">PO</MenuItem>
                       <MenuItem value="Ready">Ready</MenuItem>
                     </Select>
@@ -306,8 +297,8 @@ export const Cart = () => {
                     checklist.length === 0
                       ? true
                       : selectValue === null
-                        ? true
-                        : false
+                      ? true
+                      : false
                   }
                   sx={{ height: buttonHeight }}
                 >

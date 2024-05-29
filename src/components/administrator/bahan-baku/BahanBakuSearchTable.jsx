@@ -152,83 +152,86 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
     return (
         <Box>
             <Box sx={{ flex: "1 1 100%", ml: 2, mr: 2 }}>
-                <Toolbar
-                    sx={{
-                        borderRadius: 1,
-                        pl: { sm: 2 },
-                        pr: { xs: 1, sm: 1 },
-                        ...(selected.length > 0 && {
-                            bgcolor: (theme) =>
-                                alpha(
-                                    theme.palette.primary.main,
-                                    theme.palette.action.activatedOpacity
-                                ),
-                        }),
-                    }}
-                >
-                    {/* Search input / selected item */}
-                    {selected.length > 0 ? (
-                        <Typography
-                            sx={{ flex: "1 1 100%" }}
-                            color="inherit"
-                            variant="subtitle2"
-                            component="div"
-                        >
-                            {selected.length} selected
-                        </Typography>
-                    ) : (
-                        <Box sx={{ flex: "1 1 100%" }}>
-                            <TextField
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <IconSearch size="1.1rem" />
-                                        </InputAdornment>
+                {
+                    pathname != '/administrator/bahan-baku' ? <></> : <Toolbar
+                        sx={{
+                            borderRadius: 1,
+                            pl: { sm: 2 },
+                            pr: { xs: 1, sm: 1 },
+                            ...(selected.length > 0 && {
+                                bgcolor: (theme) =>
+                                    alpha(
+                                        theme.palette.primary.main,
+                                        theme.palette.action.activatedOpacity
                                     ),
-                                }}
-                                placeholder="Search Bahan Baku"
-                                size="small"
-                                onChange={(event) => handleChangeSearch(event)}
-                                onKeyDown={(event) => handleKeyDown(event)}
-                                value={search}
-                                sx={{ mr: "0.2rem" }}
-                            />
-                        </Box>
-                    )}
+                            }),
+                        }}
+                    >
+                        {/* Search input / selected item */}
+                        {selected.length > 0 ? (
+                            <Typography
+                                sx={{ flex: "1 1 100%" }}
+                                color="inherit"
+                                variant="subtitle2"
+                                component="div"
+                            >
+                                {selected.length} selected
+                            </Typography>
+                        ) : (
+                            <Box sx={{ flex: "1 1 100%" }}>
+                                <TextField
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <IconSearch size="1.1rem" />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    placeholder="Search Bahan Baku"
+                                    size="small"
+                                    onChange={(event) => handleChangeSearch(event)}
+                                    onKeyDown={(event) => handleKeyDown(event)}
+                                    value={search}
+                                    sx={{ mr: "0.2rem" }}
+                                />
+                            </Box>
+                        )}
 
-                    {/* Filter icon / delete icon */}
-                    {selected.length > 0 ? (
-                        <Tooltip title="Hapus data">
-                            <IconButton onClick={handleOpen}>
-                                <IconTrash width="18" className="text-red-400" />
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                        <Tooltip title="Tambah data">
-                            <Button onClick={handleAdd}>
-                                <IconPlus width="18" /> Tambah
-                            </Button>
-                        </Tooltip>
-                    )}
-                    <Modal open={open} onClose={handleOpen}>
-                        <div>
-                            <CustomBoxModal
-                                title="Hapus Bahan Baku"
-                                description="Data yang dihapus tidak dapat dikembalikan!"
-                                footer={
-                                    <Button
-                                        color="error"
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                        onClick={() => handleDeleteAction(selected)}
-                                    >
-                                        Hapus
-                                    </Button>
-                                }
-                            />
-                        </div>
-                    </Modal>
-                </Toolbar>
+                        {/* Filter icon / delete icon */}
+                        {selected.length > 0 ? (
+                            <Tooltip title="Hapus data">
+                                <IconButton onClick={handleOpen}>
+                                    <IconTrash width="18" className="text-red-400" />
+                                </IconButton>
+                            </Tooltip>
+                        ) : (
+                            <Tooltip title="Tambah data">
+                                <Button onClick={handleAdd}>
+                                    <IconPlus width="18" /> Tambah
+                                </Button>
+                            </Tooltip>
+                        )}
+                        <Modal open={open} onClose={handleOpen}>
+                            <div>
+                                <CustomBoxModal
+                                    title="Hapus Bahan Baku"
+                                    description="Data yang dihapus tidak dapat dikembalikan!"
+                                    footer={
+                                        <Button
+                                            color="error"
+                                            size="small"
+                                            sx={{ mt: 2 }}
+                                            onClick={() => handleDeleteAction(selected)}
+                                        >
+                                            Hapus
+                                        </Button>
+                                    }
+                                />
+                            </div>
+                        </Modal>
+                    </Toolbar>
+                }
+
 
                 <Paper variant="outlined" sx={{ mx: 2, mt: 1 }}>
                     <TableContainer>
@@ -300,13 +303,18 @@ export const BahanBakuSearchTable = ({ data, headCells, setLoading, loading }) =
                                                             .toUpperCase() + row.satuan.slice(1)}
                                                     </Typography>
                                                 </TableCell>
-                                                <TableCell >
-                                                    <Tooltip title="Edit">
-                                                        <IconButton onClick={() => handleEdit(row.id_bahan_baku)}>
-                                                            <IconEdit size={24} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </TableCell>
+                                                {
+                                                    pathname != '/administrator/bahan-baku' ? <>
+                                                    </> :
+                                                        <TableCell >
+                                                            <Tooltip title="Edit">
+                                                                <IconButton onClick={() => handleEdit(row.id_bahan_baku)}>
+                                                                    <IconEdit size={24} />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </TableCell>
+                                                }
+
                                             </TableRow>
                                         );
                                     })}

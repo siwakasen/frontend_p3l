@@ -488,7 +488,7 @@ const ContainerMenungguPembayaran = () => {
                                         {new Intl.NumberFormat('id-ID', {
                                             style: 'currency',
                                             currency: 'IDR',
-                                        }).format(data.total_harga)}
+                                        }).format(data.total_harga + data.ongkir)}
                                     </Typography>
                                 </Stack>
                                 <Stack direction="row" spacing={2} mt={2} justifyContent={smDown ? "space-between" : "end"}>

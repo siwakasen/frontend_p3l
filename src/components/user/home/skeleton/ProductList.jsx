@@ -134,6 +134,8 @@ const ProductList = ({
     setSearch(e.target.value);
   }
 
+  // console.log(produk);
+
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between" pb={3}>

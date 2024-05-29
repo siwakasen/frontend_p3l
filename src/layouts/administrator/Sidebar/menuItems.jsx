@@ -11,6 +11,7 @@ import {
   IconCarrot,
   IconTruckLoading,
   IconPackageImport,
+  IconShoppingBag
 } from "@tabler/icons-react";
 
 const MenuItem = [
@@ -101,13 +102,16 @@ const MenuItem = [
     access: "Admin",
   },
   {
+    navLabel: true,
+    subheader: "Operasional",
+  },
+  {
     id: uniqueId(),
     title: "Pesanan",
-    icon: IconUsersGroup,
+    icon: IconShoppingBag,
     href: "/administrator/pesanan/konfirmasi",
     access: "Manajer Operasional",
-    navLabel: true,
-    subheader: "Operasional"
+
   },
   {
     id: uniqueId(),

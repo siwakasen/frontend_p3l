@@ -472,6 +472,28 @@ export const PembayaranValid = () => {
                   }).format(data.total_harga)}
                 </Typography>
               </Stack>
+              <Stack direction="row" spacing={2} justifyContent="space-between">
+                <Typography variant="subtitle1" fontWeight={600}>
+                  Ongkos Kirim
+                </Typography>
+                <Typography variant="subtitle1" fontWeight={800}>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(data.ongkir)}
+                </Typography>
+              </Stack>
+              <Stack direction="row" spacing={2} justifyContent="space-between">
+                <Typography variant="subtitle1" fontWeight={600}>
+                  Total Bayar
+                </Typography>
+                <Typography variant="subtitle1" fontWeight={800}>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(data.total_harga + data.ongkir)}
+                </Typography>
+              </Stack>
               <Stack
                 direction="row"
                 spacing={2}

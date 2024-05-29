@@ -192,6 +192,7 @@ export const Cart = () => {
   function isDisable(item) {
     let result;
 
+
     if (item.data.id_kategori != 4 && item.data.id_produk) {
       if (item.data?.stok_produk > 0) {
         result = false;

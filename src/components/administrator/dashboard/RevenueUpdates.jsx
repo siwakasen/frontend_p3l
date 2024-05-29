@@ -7,7 +7,7 @@ import DashboardCard from '../shared/DashboardCard';
 import CustomSelect from '../forms/CustomSelect';
 import SkeletonRevenueUpdatesTwoCard from './skeleton/RevenueUpdatesTwoCard';
 
-import { getDefaultData } from '@/services/administrator/dashboard/getData';
+import { getDefaultData } from '@/services/dashboard/getData';
 
 const RevenueUpdates = ({isLoading}) => {
   const [defaultMonth, setdefaultMonth] = React.useState(

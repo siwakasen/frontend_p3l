@@ -1,8 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { addKaryawan, getKaryawanById, updateKaryawan, deleteKaryawan } from '@/services/administrator/karyawan/karyawan';
-import { getAllRoleData } from '@/services/administrator/role/role';
+import { addKaryawan, getKaryawanById, updateKaryawan, deleteKaryawan } from '@/services/karyawan/karyawan';
+import { getAllRoleData } from '@/services/role/role';
 import Toast from '@/components/shared/Toast';
 import { useRouter } from 'next/navigation';
 

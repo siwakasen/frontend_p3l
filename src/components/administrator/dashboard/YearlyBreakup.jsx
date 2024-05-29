@@ -8,7 +8,7 @@ import { IconArrowUpLeft, IconArrowDownRight } from '@tabler/icons-react';
 import DashboardCard from '../shared/DashboardCard';
 import SkeletonYearlyBreakupCard from "./skeleton/YearlyBreakupCard";
 
-import { getDefaultData } from "@/services/administrator/dashboard/getData";
+import { getDefaultData } from "@/services/dashboard/getData";
 
 
 const YearlyBreakup = ({ isLoading }) => {

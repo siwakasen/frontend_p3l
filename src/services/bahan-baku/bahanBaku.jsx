@@ -17,7 +17,7 @@ export async function getAllBahanBaku() {
   }
 }
 
-export async function getBahanBaku(id){
+export async function getBahanBaku(id) {
   try {
     const token = Cookies.get("token");
     const response = await fetch(`${API_URL}/administrator/bahan-baku/${id}`, {
@@ -66,14 +66,15 @@ export async function insertBahanBaku(formData) {
   }
 }
 
-export async function updateBahanBaku(id, input){
+
+export async function updateBahanBaku(id, input) {
   console.log(input);
   try {
     const token = Cookies.get("token");
     console.log(token);
     const response = await fetch(`${API_URL}/administrator/bahan-baku/${id}`, {
       method: "PUT",
-      headers: {  
+      headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -87,12 +88,12 @@ export async function updateBahanBaku(id, input){
     const data = await response.json();
     console.log(data.data);
     return { data, code: response.status };
-  }catch (error){
+  } catch (error) {
     return error;
   }
 }
 
-export async function deleteBahanBaku(id){
+export async function deleteBahanBaku(id) {
   console.log(id);
   try {
     const token = Cookies.get("token");
@@ -104,7 +105,7 @@ export async function deleteBahanBaku(id){
     });
     const data = await response.json();
     return { data, code: response.status };
-  } catch (error){
+  } catch (error) {
     return error;
   }
 }

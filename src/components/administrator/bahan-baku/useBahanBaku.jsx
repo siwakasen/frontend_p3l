@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { insertBahanBaku, updateBahanBaku, getBahanBaku, deleteBahanBaku} from "@/services/bahan-baku/bahanBaku";
+import { insertBahanBaku, updateBahanBaku, getBahanBaku, deleteBahanBaku } from "@/services/bahan-baku/bahanBaku";
 import Toast from "@/components/shared/Toast";
 import { useRouter } from "next/navigation";
 
@@ -11,28 +11,29 @@ export const useInsert = () => {
     const router = useRouter();
 
 
-    function handleSubmit(){
+    function handleSubmit() {
         let formData = new FormData();
-        if(!bahanBakuInput.stok){
+        if (!bahanBakuInput.stok) {
             bahanBakuInput.stok = 0;
         }
 
-        for(let key in bahanBakuInput){
+        for (let key in bahanBakuInput) {
             formData.append(key, bahanBakuInput[key]);
         }
 
         handleInsert(formData);
     }
 
-    async function handleInsert(formData){
+
+    async function handleInsert(formData) {
         try {
             const { data, code } = await insertBahanBaku(formData);
-            if(code === 200){
+            if (code === 200) {
                 toastSuccess(data.message);
                 router.push('/administrator/bahan-baku');
                 return;
-            }else{
-                for(let key in data.message){
+            } else {
+                for (let key in data.message) {
                     toastWarning(`${data.message[key]}`);
                     setOpen(!open);
                     return;
@@ -80,22 +81,22 @@ export const useUpdate = (id) => {
         });
     }
 
-    function handleSubmit(){
-        if(!bahanBakuInput.stok){
+    function handleSubmit() {
+        if (!bahanBakuInput.stok) {
             bahanBakuInput.stok = 0;
         }
         handleUpdate(bahanBakuInput);
     }
 
-    async function handleUpdate(formData){
+    async function handleUpdate(formData) {
         try {
             const { data, code } = await updateBahanBaku(id, formData);
-            if(code === 200){
+            if (code === 200) {
                 toastSuccess(data.message);
                 router.push('/administrator/bahan-baku');
                 return;
-            }else{
-                for(let key in data.message){
+            } else {
+                for (let key in data.message) {
                     toastWarning(`${data.message[key]}`);
                     setOpen(!open);
                     return;
@@ -106,7 +107,7 @@ export const useUpdate = (id) => {
         }
     }
 
-    function handleOpen(){
+    function handleOpen() {
         setOpen(!open);
     }
 
@@ -119,18 +120,18 @@ export const useUpdate = (id) => {
     };
 }
 
-export const useDelete = ({loading, setLoading}) => {
+export const useDelete = ({ loading, setLoading }) => {
     const { toastSuccess, toastError } = Toast();
 
-    async function handleDelete(id){
+    async function handleDelete(id) {
         try {
-        Array.from(id).forEach(async (id) => {
-            const { data, code } = await deleteBahanBaku(id);
-                if(code === 200){
+            Array.from(id).forEach(async (id) => {
+                const { data, code } = await deleteBahanBaku(id);
+                if (code === 200) {
                     toastSuccess(data.message);
                     setLoading(!loading);
                     return;
-                }else{
+                } else {
                     toastError(data.message);
                 }
             });
@@ -140,5 +141,5 @@ export const useDelete = ({loading, setLoading}) => {
         setLoading(!loading);
     }
 
-    return {handleDelete};
+    return { handleDelete };
 }

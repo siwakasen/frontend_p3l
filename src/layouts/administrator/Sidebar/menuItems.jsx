@@ -101,13 +101,16 @@ const MenuItem = [
     access: "Admin",
   },
   {
+    navLabel: true,
+    subheader: "Operasional",
+  },
+  {
     id: uniqueId(),
     title: "Pesanan",
     icon: IconUsersGroup,
     href: "/administrator/pesanan/konfirmasi",
     access: "Manajer Operasional",
-    navLabel: true,
-    subheader: "Operasional"
+
   },
   {
     id: uniqueId(),

@@ -58,19 +58,36 @@ const MenungguPembayaran = () => {
                         <Divider />
                         <List>
                             <ListItem>
-                                <Typography fontWeight={600} variant="subtitle1">Pemesanan</Typography>
+                                <Typography fontWeight={600} variant="subtitle1">
+                                Pemesanan
+                                </Typography>
                             </ListItem>
                             <ListItem>
-                                <Typography fontWeight={400} variant="subtitle2">Keranjang</Typography>
+                                <Link href="/user/cart">
+                                <Typography fontWeight={400} variant="subtitle2">
+                                    Keranjang
+                                </Typography>
+                                </Link>
                             </ListItem>
                             <ListItem>
-                                <Link href={"/user/menunggu-pembayaran"}>
-                                    <Typography fontWeight={400} variant="subtitle2">Menunggu Pembayaran</Typography>
+                                <Link href="/user/menunggu-pembayaran">
+                                <Typography fontWeight={400} variant="subtitle2">
+                                    Menunggu Pembayaran
+                                </Typography>
+                                </Link>
+                            </ListItem>
+                            <ListItem>
+                                <Link href="/user/pembayaran-valid">
+                                <Typography fontWeight={400} variant="subtitle2">
+                                    Pembayaran Valid
+                                </Typography>
                                 </Link>
                             </ListItem>
                             <ListItem>
                                 <Link href="/user/histori-pesanan">
-                                    <Typography fontWeight={400} variant="subtitle2">Histori Pesanan</Typography>
+                                <Typography fontWeight={400} variant="subtitle2">
+                                    Histori Pesanan
+                                </Typography>
                                 </Link>
                             </ListItem>
                         </List>

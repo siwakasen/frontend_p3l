@@ -458,7 +458,7 @@ const NewOrderTableList = () => {
                 {selectedData.metode_pembayaran}
               </Typography>
               <CustomFormLabel htmlFor="total_harga">
-                Total Harga Pesanan
+                Total yang harus dibayar
               </CustomFormLabel>
               <Typography
                 id="total_harga"
@@ -468,7 +468,7 @@ const NewOrderTableList = () => {
                   new Intl.NumberFormat('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
-                  }).format(selectedData.total_harga)
+                  }).format(selectedData.total_harga + selectedData.ongkir)
                 }
               </Typography>
               <CustomFormLabel htmlFor="tota_bayar">
@@ -490,8 +490,8 @@ const NewOrderTableList = () => {
                 required
               />
               {
-                tempData.total_bayar && tempData.total_bayar < selectedData.total_harga && 
-                <Typography color="error">Total Bayar harus lebih dari atau sama dengan Total Harga Pesanan</Typography>
+                tempData.total_bayar && tempData.total_bayar < (selectedData.total_harga + selectedData.ongkir) &&
+                <Typography color="error">Total Bayar harus lebih dari atau sama dengan Total yang harus dibayar</Typography>
               }
           </>
         }

@@ -84,6 +84,13 @@ const MenungguPembayaran = () => {
                                 </Link>
                             </ListItem>
                             <ListItem>
+                                <Link href="/user/pembayaran-valid">
+                                    <Typography fontWeight={400} variant="subtitle2">
+                                        Pembayaran Valid
+                                    </Typography>
+                                </Link>
+                            </ListItem>
+                            <ListItem>
                                 <Link href="/user/histori-pesanan">
                                 <Typography fontWeight={400} variant="subtitle2">
                                     Histori Pesanan

@@ -450,7 +450,7 @@ const NewOrderTableList = () => {
               <CustomFormLabel htmlFor="metode_pembayaran">
                 Bukti Pembayaran
               </CustomFormLabel>
-              <Image src={API_URL_IMAGE + selectedData.bukti_pembayaran} width={200} height={200} />
+              <Image src={API_URL_IMAGE+'/bukti_pembayaran/'+selectedData.bukti_pembayaran} width={200} height={200} />
               <Typography
                 id="metode_pembayaran"
                 sx={{ width: '100%' }}

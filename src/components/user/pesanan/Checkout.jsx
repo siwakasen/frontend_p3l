@@ -233,7 +233,7 @@ export const Checkout = ({ produk, user, date, isCart, statusPesanan }) => {
     const dataPesanan = {
       ...data,
       id_user: user?.id,
-      status_transaksi: data.metode_pengiriman === "Pick Up"
+      status_transaksi: data.metode_pengiriman === "Pick Up" || data.metode_pengiriman === "Pick Up Ojek Online"
         ? "Menunggu Pembayaran"
         : "Menunggu Konfirmasi Pesanan",
       tanggal_pesanan: dayjs().format("YYYY-MM-DD HH:mm:ss"),

@@ -11,7 +11,11 @@ import {
   IconCarrot,
   IconTruckLoading,
   IconPackageImport,
-  IconShoppingBag
+  IconShoppingBag,
+  IconFileCheck,
+  IconFileAlert,
+  IconChartCandle,
+  IconChartDonut
 } from "@tabler/icons-react";
 
 const MenuItem = [
@@ -119,6 +123,44 @@ const MenuItem = [
     icon: IconPackageImport,
     href: "/administrator/pesanan-masuk",
     access: "Admin"
+  },
+  {
+    id: uniqueId(),
+    title: "Update Status Pesanan",
+    icon: IconFileCheck,
+    href: "/administrator/update-status-pesanan",
+    access: "Admin"
+  },
+  {
+    navLabel: true,
+    subheader: "System",
+    access: "Admin"
+  },
+  {
+    id: uniqueId(),
+    title: "Pembatalan Pesanan",
+    icon: IconFileAlert,
+    href: "/administrator/pembatalan-pesanan",
+    access: "Admin"
+  },
+  {
+    navLabel: true,
+    subheader: "Laporan",
+    access: "Owner, Manajer Operasional"
+  },
+  {
+    id: uniqueId(),
+    title: "Laporan Bulanan",
+    icon: IconChartCandle,
+    href: "/administrator/laporan/laporan-bulanan",
+    access: "Owner, Manajer Operasional"
+  },
+  {
+    id: uniqueId(),
+    title: "Penggunaan Bahan Baku",
+    icon: IconChartDonut,
+    href: "/administrator/laporan/laporan-penggunaan-bahan-baku",
+    access: "Owner, Manajer Operasional"
   }
 ];
 

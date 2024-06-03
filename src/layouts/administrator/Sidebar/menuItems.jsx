@@ -11,7 +11,17 @@ import {
   IconCarrot,
   IconTruckLoading,
   IconPackageImport,
-  IconShoppingBag
+  IconShoppingBag,
+  IconMonkeybar,
+  IconMacro,
+  IconLoadBalancer,
+  IconInbox,
+  IconInboxOff,
+  IconInputAi,
+  IconUvIndex,
+  IconCoinBitcoin,
+  IconCoinFilled,
+  IconCoin
 } from "@tabler/icons-react";
 
 const MenuItem = [
@@ -118,6 +128,13 @@ const MenuItem = [
     title: "Pesanan Masuk",
     icon: IconPackageImport,
     href: "/administrator/pesanan-masuk",
+    access: "Admin"
+  },
+  {
+    id: uniqueId(),
+    title: "Pengajuan Penarikan Saldo",
+    icon: IconCoin,
+    href: "/administrator/penarikan-saldo",
     access: "Admin"
   }
 ];

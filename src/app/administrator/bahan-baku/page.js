@@ -17,7 +17,7 @@ export default function Page() {
     };
     fetchData();
   }, [loading]);
-  
+
   const headCells = [
     {
       id: "nama_bahan_baku",

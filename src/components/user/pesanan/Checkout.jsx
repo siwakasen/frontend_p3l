@@ -233,14 +233,15 @@ export const Checkout = ({ produk, user, date, isCart, statusPesanan }) => {
     const dataPesanan = {
       ...data,
       id_user: user?.id,
-      status_transaksi: data.metode_pengiriman === "Pick Up" || data.metode_pengiriman === "Pick Up Ojek Online"
-        ? "Menunggu Pembayaran"
-        : "Menunggu Konfirmasi Pesanan",
+      status_transaksi:
+        data.metode_pengiriman === "Pick Up" ||
+        data.metode_pengiriman === "Pick Up Ojek Online"
+          ? "Menunggu Pembayaran"
+          : "Menunggu Konfirmasi Pesanan",
       tanggal_pesanan: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     };
 
     checkout(dataPesanan, isCart, statusPesanan).then((res) => {
-      // console.log(res);
       if (res.code === 200) {
         toastSuccess("Pesanan berhasil dibuat");
         router.push("/user/menunggu-pembayaran");

@@ -11,7 +11,9 @@ import {
   IconCarrot,
   IconTruckLoading,
   IconPackageImport,
-  IconShoppingBag
+  IconShoppingBag,
+  IconReport,
+  IconGrill,
 } from "@tabler/icons-react";
 
 const MenuItem = [
@@ -111,15 +113,40 @@ const MenuItem = [
     icon: IconShoppingBag,
     href: "/administrator/pesanan/konfirmasi",
     access: "Manajer Operasional",
-
   },
   {
     id: uniqueId(),
     title: "Pesanan Masuk",
     icon: IconPackageImport,
     href: "/administrator/pesanan-masuk",
-    access: "Admin"
-  }
+    access: "Admin",
+  },
+  {
+    id: uniqueId(),
+    title: "Pesanan Diproses",
+    icon: IconGrill,
+    href: "/administrator/pesanan/diproses",
+    access: "Manajer Operasional",
+  },
+  {
+    navLabel: true,
+    subheader: "Laporan",
+    access: "Manajer Operasional, Owner",
+  },
+  {
+    id: uniqueId(),
+    title: "Penjualan Bulanan Produk",
+    icon: IconReport,
+    href: "/administrator/laporan/penjualan-bulanan-produk",
+    access: "Manajer Operasional, Owner",
+  },
+  {
+    id: uniqueId(),
+    title: "Stok Bahan Baku",
+    icon: IconReport,
+    href: "/administrator/laporan/stok-bahan-baku",
+    access: "Manajer Operasional, Owner",
+  },
 ];
 
 export default MenuItem;

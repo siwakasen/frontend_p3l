@@ -40,9 +40,17 @@ const SidebarItems = () => {
       <List sx={{ pt: 0 }} className="sidebarNav">
         {Menuitems.map((item) => {
           if (item.subheader) {
-            return (
-              <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />
-            );
+            if (item.access === undefined) {
+              return (
+                <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />
+              );
+            } else {
+              if (item.access.includes(role) || item.access == "All") {
+                return (
+                  <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />
+                );
+              }
+            }
           } else if (item.children) {
             return (
               <NavCollapse

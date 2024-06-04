@@ -20,21 +20,17 @@ import {
   InputAdornment,
   Paper,
   Button,
+  MenuItem,
 } from '@mui/material';
 
 import { visuallyHidden } from '@mui/utils';
 
 import CustomSwitch from '../forms/CustomSwitch';
-import { IconSearch, IconEdit, IconEye, IconCheck } from '@tabler/icons-react';
-import { getPesananMasukData } from '@/services/pesanan-masuk/pesanan-masuk';
-import { useUpdateJarak, useUpdateTotalBayar } from './useNewOrder';
+import { IconSearch, IconEye } from '@tabler/icons-react';
+import { getPesananData } from '@/services/update-status-pesanan/update-status-pesanan';
+import { useUpdateStatusPesanan } from './useUpdateOrder';
 import Link from 'next/link';
-import ResponsiveDialog from '../shared/ResponsiveDialog';
-import CustomFormLabel from '../forms/CustomFormLabel';
-import CustomTextField from '../forms/CustomTextField';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { API_URL_IMAGE } from '@/utils/constants';
+import CustomSelect from '../forms/CustomSelect';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -173,41 +169,35 @@ const EnhancedTableToolbar = (props) => {
   );
 };
 
-const NewOrderTableList = () => {
+const UpdateOrderStatusTableList = () => {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('nama');
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const [getPesananMasuk, setGetPesananMasuk] = React.useState([]);
+  const [getPesanan, setGetPesanan] = React.useState([]);
 
-  const [updateInputJarak, setUpdateInputJarak] = React.useState(false);
-  const [updatePembayaran, setUpdatePembayaran] = React.useState(false);
-  const [selectedId, setSelectedId] = React.useState('');
-  const [selectedData, setSelectedData] = React.useState({});
-  const [tempData, setTempData] = React.useState({});
+  const { handleUpdateStatusPesanan } = useUpdateStatusPesanan();
 
-  const { handleUpdateJarak } = useUpdateJarak();
-  const { handleUpdateTotalBayar } = useUpdateTotalBayar();
+  const fetchData = async () => {
+    const response = await getPesananData();
+    setGetPesanan(response.data);
+  };
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      const response = await getPesananMasukData();
-      setGetPesananMasuk(response.data);
-    };
     fetchData();
   }, []);
 
-  const [rows, setRows] = React.useState(getPesananMasuk);
+  const [rows, setRows] = React.useState(getPesanan);
   const [search, setSearch] = React.useState('');
 
   React.useEffect(() => {
-    setRows(getPesananMasuk);
-  }, [getPesananMasuk]);
+    setRows(getPesanan);
+  }, [getPesanan]);
 
   const handleSearch = (event) => {
-    const filteredRows = getPesananMasuk.filter((row) => {
+    const filteredRows = getPesanan.filter((row) => {
       return (
         row.user.nama.toLowerCase().includes(event.target.value.toLowerCase()) ||
         row.metode_pemesanan.toLowerCase().includes(event.target.value.toLowerCase()) ||
@@ -310,9 +300,32 @@ const NewOrderTableList = () => {
                           <TableCell>
                             <Box display="flex" alignItems="center">
                               <Box>
-                                <Typography variant="h6" fontWeight="600">
-                                  {row.status_transaksi}
-                                </Typography>
+                                  <CustomSelect
+                                    labelId="status_transaksi"
+                                    id="status_transaksi"
+                                    size="small"
+                                    value={row.status_transaksi}
+                                    onChange={(e) => {
+                                      handleUpdateStatusPesanan(row.id_pesanan, {status_transaksi: e.target.value});
+                                      fetchData();
+                                    }}
+                                  >
+                                    <MenuItem value={row.status_transaksi} disabled>
+                                      {row.status_transaksi}
+                                    </MenuItem>
+                                    <MenuItem value='Pesanan Siap Di Pick Up'>
+                                      Pesanan Siap Di Pick Up
+                                    </MenuItem>
+                                    <MenuItem value='Pesanan Sedang Diantar Kurir'>
+                                      Pesanan Sedang Diantar Kurir
+                                    </MenuItem>
+                                    <MenuItem value='Pesanan Sudah Di Pick Up'>
+                                      Pesanan Sudah Di Pick Up
+                                    </MenuItem>
+                                    <MenuItem value='Pesanan Sudah Diambil'>
+                                      Pesanan Sudah Diambil
+                                    </MenuItem>
+                                  </CustomSelect>
                               </Box>
                             </Box>
                           </TableCell>
@@ -330,28 +343,6 @@ const NewOrderTableList = () => {
                                   <IconEye size="1.25rem" />
                                 </IconButton>
                               </Tooltip>
-                              {row.status_transaksi === 'Menunggu Konfirmasi Pesanan' && (
-                              <Tooltip title="Input Jarak Pengiriman">
-                                <IconButton size="small" onClick={() => {
-                                    setSelectedId(row.id_pesanan);
-                                    setUpdateInputJarak(true);
-                                    setSelectedData(row);
-                                  }}>
-                                  <IconEdit size="1.25rem" />
-                                </IconButton>
-                              </Tooltip>
-                              )}
-                              {row.status_transaksi === 'Menunggu Konfirmasi Pembayaran' && (
-                              <Tooltip title="Konfirmasi Pembayaran">
-                                <IconButton size="small" onClick={() => {
-                                    setSelectedId(row.id_pesanan);
-                                    setUpdatePembayaran(true);
-                                    setSelectedData(row);
-                                  }}>
-                                  <IconCheck size="1.25rem" />
-                                </IconButton>
-                              </Tooltip>
-                              )}
                             </Box>
                           </TableCell>
                         </TableRow>
@@ -387,135 +378,8 @@ const NewOrderTableList = () => {
           </Box>
         </Box>
       </Box>
-
-      <ResponsiveDialog
-        open={{ open: updateInputJarak, setOpen: setUpdateInputJarak }}
-        type="cu"
-        title="Input Jarak Pengiriman"
-        content={
-          <>
-              <CustomFormLabel htmlFor="alamat_pengiriman">
-                Alamat Pengiriman
-              </CustomFormLabel>
-              <Typography
-                id="alamat_pengiriman"
-                sx={{ width: '100%' }}
-              >
-                {selectedData.alamat_pengiriman}
-              </Typography>
-              <CustomFormLabel htmlFor="jarak_pengiriman">
-                Jarak Pengiriman (Km)
-              </CustomFormLabel>
-              <CustomTextField
-                id="jarak_pengiriman"
-                name="jarak_pengiriman"
-                type="number"
-                placeholder="Masukkan Jarak Pengiriman"
-                onChange={(e) => setTempData({ ...tempData, jarak_pengiriman: e.target.value })}
-                sx={{ mb: 2, width: '100%' }}
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">Km</InputAdornment>,
-                  inputProps: { 
-                      min: 0.1,
-                      step: 0.1
-                  }
-              }}
-                required
-              />
-          </>
-        }
-        action={{
-          text: "Simpan",
-          refreshData: () => {
-            const fetchData = async () => {
-              const response = await getPesananMasukData();
-              setGetPesananMasuk(response.data);
-            };
-            fetchData();
-          },
-          onClick: () => {
-            handleUpdateJarak(selectedId, tempData);
-            setTempData({});
-          },
-          props: { color: 'primary', disabled: !tempData.jarak_pengiriman },
-        }}
-      />
-
-      <ResponsiveDialog
-        open={{ open: updatePembayaran, setOpen: setUpdatePembayaran }}
-        type="cu"
-        title="Konfirmasi Pembayaran"
-        content={
-          <>
-              <CustomFormLabel htmlFor="metode_pembayaran">
-                Bukti Pembayaran
-              </CustomFormLabel>
-              <Image src={API_URL_IMAGE+'/bukti_pembayaran/'+selectedData.bukti_pembayaran} width={200} height={200} />
-              <Typography
-                id="metode_pembayaran"
-                sx={{ width: '100%' }}
-              >
-                {selectedData.metode_pembayaran}
-              </Typography>
-              <CustomFormLabel htmlFor="total_harga">
-                Total yang harus dibayar
-              </CustomFormLabel>
-              <Typography
-                id="total_harga"
-                sx={{ width: '100%', mb: -1 }}
-              >
-                {
-                  new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                  }).format(selectedData.total_harga + selectedData.ongkir)
-                }
-              </Typography>
-              <CustomFormLabel htmlFor="tota_bayar">
-                Total Bayar
-              </CustomFormLabel>
-              <CustomTextField
-                id="total_bayar"
-                name="total_bayar"
-                type="number"
-                placeholder="Masukkan Total Bayar"
-                onChange={(e) => {
-                  setTempData({ ...tempData, total_bayar: e.target.value })}
-                }
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">Rp</InputAdornment>,
-                  inputProps: { min: 1 }
-                }}
-                sx={{ mb: 2, width: '100%' }}
-                required
-              />
-              {
-                tempData.total_bayar && tempData.total_bayar < (selectedData.total_harga + selectedData.ongkir) &&
-                <Typography color="error">Total Bayar harus lebih dari atau sama dengan Total yang harus dibayar</Typography>
-              }
-          </>
-        }
-        action={{
-          text: "Konfirmasi Pembayaran",
-          refreshData: () => {
-            const fetchData = async () => {
-              const response = await getPesananMasukData();
-              setGetPesananMasuk(response.data);
-            };
-            fetchData();
-          },
-          cancelAction: () => {
-            setTempData({});
-          },
-          onClick: () => {
-            handleUpdateTotalBayar(selectedId, tempData);
-            setTempData({});
-          },
-          props: { color: 'primary', disabled: !tempData.total_bayar || tempData.total_bayar < selectedData.total_harga },
-        }}
-      />
     </>
   );
 };
 
-export default NewOrderTableList;
+export default UpdateOrderStatusTableList;

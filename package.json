@@ -23,6 +23,7 @@
     "dayjs": "^1.11.11",
     "formik": "^2.4.6",
     "framer-motion": "^11.1.1",
+    "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "next": "14.1.4",

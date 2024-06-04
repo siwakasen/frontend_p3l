@@ -62,7 +62,7 @@ export async function checkout(dataPesanan, isCart, statusPesanan) {
   try {
     const token = Cookies.get("token");
     const response = await fetch(
-      `${API_URL}/customer/pesanan/checkout?isCart=${isCart}&statusPesanan=${statusPesanan}`,
+      `${API_URL}/customer/pesanan/checkout?${isCart ? "isCart=true&" : ''}&statusPesanan=${statusPesanan}`,
       {
         method: "POST",
         headers: {

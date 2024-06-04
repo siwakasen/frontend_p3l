@@ -12,6 +12,8 @@ import {
   IconTruckLoading,
   IconPackageImport,
   IconShoppingBag,
+  IconReport,
+  IconGrill,
   IconMonkeybar,
   IconMacro,
   IconLoadBalancer,
@@ -131,7 +133,14 @@ const MenuItem = [
     title: "Pesanan Masuk",
     icon: IconPackageImport,
     href: "/administrator/pesanan-masuk",
-    access: "Admin"
+    access: "Admin",
+  },
+  {
+    id: uniqueId(),
+    title: "Pesanan Diproses",
+    icon: IconGrill,
+    href: "/administrator/pesanan/diproses",
+    access: "Manajer Operasional",
   },
   {
     id: uniqueId(),
@@ -162,7 +171,21 @@ const MenuItem = [
   {
     navLabel: true,
     subheader: "Laporan",
-    access: "Owner, Manajer Operasional"
+    access: "Manajer Operasional, Owner",
+  },
+  {
+    id: uniqueId(),
+    title: "Penjualan Bulanan Produk",
+    icon: IconReport,
+    href: "/administrator/laporan/penjualan-bulanan-produk",
+    access: "Manajer Operasional, Owner",
+  },
+  {
+    id: uniqueId(),
+    title: "Stok Bahan Baku",
+    icon: IconReport,
+    href: "/administrator/laporan/stok-bahan-baku",
+    access: "Manajer Operasional, Owner",
   },
   {
     id: uniqueId(),

@@ -90,10 +90,9 @@ export const HampersDetail = ({ item, kategori, items, value, setValue }) => {
     if (isLogin.data?.role === "User") {
       if (limit <= 0) return toastWarning("Kuota produk tidak mencukupi");
 
-      
       router.push(
         `/checkout?hampers=${item.id_hampers}&date=${value.format(
-          "YYYY-MM-DD"
+          "YYYY-MM-DD&statusPesanan=PO"
         )}`
       );
     } else {
@@ -160,8 +159,6 @@ export const HampersDetail = ({ item, kategori, items, value, setValue }) => {
       </LocalizationProvider>
     );
   }
-
-  
 
   return (
     <Box p={2}>

@@ -1,23 +1,20 @@
 "use client"
 import PageContainer from "@/components/container/PageContainer";
 import Breadcrumb from "@/layouts/administrator/Shared/breadcrumb/Breadcrumb";
-import { getLaporanPresensi } from "@/services/laporan/laporan-presensi/laporan-presensi";
-import { LaporanPresensiTable } from "@/components/administrator/laporan/laporan-presensi/LaporanPresensiTable";
+import { getLaporanCashflow } from "@/services/laporan/cashflow/cashflow";
 import { Box, Button, MenuItem, FormControl, Select, TextField } from "@mui/material";
 import PrintIcon from '@mui/icons-material/Print';
-import ReportPDF from "@/components/administrator/laporan/laporan-presensi/laporanPresensiLayout";
+import ReportPDF from "@/components/administrator/laporan/cashflow/cashflowLayout";
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useState, useEffect } from "react";
-
+import { CashflowTable } from "@/components/administrator/laporan/cashflow/cashflowTable";
 export default function Page() {
     const [laporan, setLaporan] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
-    const currentYear = currentDate.getFullYear(); // getFullYear() returns the 4-digit year
-    const [total, setTotal] = useState(0);
-    const [totalAll, setTotalAll] = useState(0);
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
     const [bulan, setBulan] = useState(currentMonth);
     const [tahun, setTahun] = useState(currentYear);
 
@@ -26,26 +23,14 @@ export default function Page() {
         console.log(tahun);
         const fetchData = async () => {
             setLoading(true);
-            const response = await getLaporanPresensi(tahun, bulan);
-            setData(response.data);
-            console.log(response);
+            const response = await getLaporanCashflow(tahun, bulan);
+            setData(response.data || []);
+            console.log(response.data);
             setLoading(false);
-            setLaporan(response.data);
+            setLaporan(response.data || []);
         };
         fetchData();
-
     }, [tahun, bulan]);
-
-    useEffect(() => {
-        const temp = data.map((item) => {
-            return item.role.nominal_gaji + item.bonus_gaji;
-        });
-        setTotal(temp);
-        const sum = temp.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-        setTotalAll(sum);
-        console.log(temp);
-        console.log(sum);
-    }, [data]);
 
     const handleChangeMonth = (event) => {
         setBulan(event.target.value);
@@ -54,42 +39,25 @@ export default function Page() {
     const handleChangeYear = (event) => {
         setTahun(event.target.value);
     };
+
     const headCells = [
         {
-            id: "nama_karyawan",
+            id: "",
             numeric: false,
             disablePadding: false,
-            label: "Nama",
+            label: "",
         },
         {
-            id: "jumlah_hadir",
+            id: "pemasukan",
             numeric: false,
             disablePadding: false,
-            label: "Jumlah Hadir",
+            label: "Pemasukan",
         },
         {
-            id: "jumlah_bolos",
+            id: "pengeluaran",
             numeric: false,
             disablePadding: false,
-            label: "Jumlah Bolos",
-        },
-        {
-            id: "honor_harian",
-            numeric: false,
-            disablePadding: false,
-            label: "Honor Harian",
-        },
-        {
-            id: "bonus_rajin",
-            numeric: false,
-            disablePadding: false,
-            label: "Bonus Rajin",
-        },
-        {
-            id: "total",
-            numeric: false,
-            disablePadding: false,
-            label: "Total",
+            label: "Pengeluaran",
         }
     ];
 
@@ -99,19 +67,19 @@ export default function Page() {
             title: "Administrator",
         },
         {
-            title: "Laporan Presensi",
+            title: "Laporan",
+            to: "/administrator/dashboard",
+        },
+        {
+            title: "Cashflow",
         },
     ];
 
-
-
-
     return (
-        <PageContainer PageContainer title="Laporan Presensi" description="Data Laporan Presensi" >
-            <Breadcrumb title="Laporan Presensi" items={BCrumb} />
+        <PageContainer title="Laporan Pemasukan dan Pengeluaran" description="Data Laporan Pemasukan dan Pengeluaran">
+            <Breadcrumb title="Laporan Pemasukan dan Pengeluaran" items={BCrumb} />
             <Box sx={{ display: "flex", justifyContent: "space-between", mx: 2, my: 2 }}>
                 <Box sx={{ fontSize: "16px" }}>
-
                     <FormControl>
                         <Select value={bulan} onChange={handleChangeMonth}>
                             <MenuItem value={1}>Januari</MenuItem>
@@ -133,10 +101,10 @@ export default function Page() {
                         sx={{ ml: 2 }}
                         value={tahun}
                         onChange={handleChangeYear}
-                        InputProps={{ inputProps: { min: 1900, max: 2100 } }} // Limit year range
+                        InputProps={{ inputProps: { min: 1900, max: 2100 } }}
                     />
                 </Box>
-                <Button variant="contained" color="primary" >
+                <Button variant="contained" color="primary">
                     <PrintIcon sx={{ mr: 1 }} />
                     <PDFDownloadLink
                         document={<ReportPDF laporan={laporan} tahun={tahun} bulan={bulan} />}
@@ -146,14 +114,11 @@ export default function Page() {
                     </PDFDownloadLink>
                 </Button>
             </Box>
-            <LaporanPresensiTable
-                data={data}
-                headCells={headCells}
-            />
+            <CashflowTable data={data} headCells={headCells} />
             <Box sx={{ display: "flex", justifyContent: "space-between", mx: 2, my: 2 }}>
                 <Box />
-                <Box sx={{ fontWeight: "bold", fontSize: "20px", backgroundColor: "seashell", p: "6px" }}>
-                    Total : {totalAll}
+                <Box sx={{ fontWeight: "bold", fontSize: "16px", backgroundColor: "cornflowerblue", p: "6px", color: "white" }}>
+                    Total : {data.total}
                 </Box>
             </Box>
         </PageContainer>

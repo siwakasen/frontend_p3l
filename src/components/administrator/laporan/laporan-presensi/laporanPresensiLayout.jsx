@@ -47,7 +47,7 @@ const ReportPDF = ({ laporan, tahun, bulan }) => {
         <Document>
             <Page style={styles.page}>
                 <View style={styles.section}>
-                    <Text>Laporan Presensi</Text>
+                    <Text>Atma Kitchen</Text>
                     <Text>Jl. Centralpark No. 10 Yogyakarta</Text>
                 </View>
 

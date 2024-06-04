@@ -12,6 +12,17 @@ import {
   IconTruckLoading,
   IconPackageImport,
   IconShoppingBag,
+  IconMonkeybar,
+  IconMacro,
+  IconLoadBalancer,
+  IconInbox,
+  IconInboxOff,
+  IconInputAi,
+  IconUvIndex,
+  IconCoinBitcoin,
+  IconCoinFilled,
+  IconCoin,
+  IconBook,
   IconFileCheck,
   IconFileAlert,
   IconChartCandle,
@@ -90,7 +101,6 @@ const MenuItem = [
     href: "/administrator/bahan-baku",
     access: "Admin",
   },
-
   {
     id: uniqueId(),
     title: "Resep",
@@ -115,13 +125,19 @@ const MenuItem = [
     icon: IconShoppingBag,
     href: "/administrator/pesanan/konfirmasi",
     access: "Manajer Operasional",
-
   },
   {
     id: uniqueId(),
     title: "Pesanan Masuk",
     icon: IconPackageImport,
     href: "/administrator/pesanan-masuk",
+    access: "Admin"
+  },
+  {
+    id: uniqueId(),
+    title: "Pengajuan Penarikan Saldo",
+    icon: IconCoin,
+    href: "/administrator/penarikan-saldo",
     access: "Admin"
   },
   {
@@ -161,6 +177,13 @@ const MenuItem = [
     icon: IconChartDonut,
     href: "/administrator/laporan/laporan-penggunaan-bahan-baku",
     access: "Owner, Manajer Operasional"
+  },
+  {
+    id: uniqueId(),
+    title: "Laporan Presensi",
+    icon: IconBook,
+    href: "/administrator/laporan/laporan-presensi",
+    access: "Manajer Operasional, Owner",
   }
 ];
 

@@ -25,8 +25,7 @@ const DetailOrder = ({ id }) => {
       setData(response.data);
       const date = new Date(response.data.tanggal_pesanan);
       setCustomizeId(
-        `${date.getFullYear().toString().slice(-2)}.${
-          date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()
+        `${date.getFullYear().toString().slice(-2)}.${date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()
         }.${response.data.id_pesanan}`
       );
     };
@@ -252,12 +251,12 @@ const DetailOrder = ({ id }) => {
               <Typography variant="h6">
                 {data.ongkir
                   ? new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    }).format(data.ongkir)
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(data.ongkir)
                   : data.status_transaksi != "Pengantaran Kurir Toko"
-                  ? "Rp0,00"
-                  : "Ongkir Belum Ditentukan"}
+                    ? "Rp0,00"
+                    : "Ongkir Belum Ditentukan"}
               </Typography>
             </Stack>
             <Stack direction="row" justifyContent="space-between" mb={3}>

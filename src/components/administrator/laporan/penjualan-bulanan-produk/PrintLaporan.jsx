@@ -36,46 +36,60 @@ const Report = forwardRef(({ data }, ref) => {
         <Typography>Tahun: {dateNow.split(" ")[2]}</Typography>
         <Typography>Tanggal cetak: {dateNow}</Typography>
       </Box>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Produk</TableCell>
-              <TableCell align="center">Kuantitas</TableCell>
-              <TableCell align="center">Harga</TableCell>
-              <TableCell align="center">Jumlah Uang</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data?.map((e, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell align="center">
-                    {e.nama_produk ?? e.nama_hampers}
-                  </TableCell>
-                  <TableCell align="center">{e.jumlah}</TableCell>
-                  <TableCell align="center">{e.subtotal}</TableCell>
-                  <TableCell align="center">
-                    {e.harga_produk ?? e.harga_hampers}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-          <TableRow>
-            <TableCell colSpan={3} align="right">
-              <Typography variant="h6" component="div">
-                Total
-              </Typography>
-            </TableCell>
-            <TableCell align="center">
-              <Typography variant="h6" component="div">
-                {totalSubtotal}
-              </Typography>
-            </TableCell>
-          </TableRow>
-        </Table>
-      </TableContainer>
+
+      <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="px-6 py-3 border-r border-gray-200 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Produk
+            </th>
+            <th className="px-6 py-3 border-r border-gray-200 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Kuantitas
+            </th>
+            <th className="px-6 py-3 border-r border-gray-200 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Harga
+            </th>
+            <th className="px-6 py-3 border-r border-gray-200 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Jumlah Uang
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {data?.map((e, index) => {
+            return (
+              <tr key={index}>
+                <td className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900">
+                  {e.nama_produk ?? e.nama_hampers}
+                </td>
+                <td className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900">
+                  {e.jumlah}
+                </td>
+                <td className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900">
+                  {e.subtotal}
+                </td>
+                <td className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900">
+                  {e.harga_produk ?? e.harga_hampers}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+        <tr>
+          <td
+            colSpan={3}
+            className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900"
+          >
+            <Typography variant="h6" component="div">
+              Total
+            </Typography>
+          </td>
+          <td className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900">
+            <Typography variant="h6" component="div">
+              {totalSubtotal}
+            </Typography>
+          </td>
+        </tr>
+      </table>
       <Box textAlign="center" mt={4}>
         <Button
           sx={{ display: "none" }}

@@ -102,6 +102,11 @@ const ReportPDF = ({ laporan, tahun, bulan }) => {
                                 </View>
                             );
                         })}
+                        <View style={styles.tableRow} >
+                            <Text style={styles.tableCol}>Total</Text>
+                            <Text style={styles.tableCol}></Text>
+                            <Text style={styles.tableCol}>{`${laporan.total}`}</Text>
+                        </View>
                     </View>
                 )}
 

@@ -21,7 +21,8 @@ import {
   IconUvIndex,
   IconCoinBitcoin,
   IconCoinFilled,
-  IconCoin
+  IconCoin,
+  IconBook
 } from "@tabler/icons-react";
 
 const MenuItem = [
@@ -136,6 +137,13 @@ const MenuItem = [
     icon: IconCoin,
     href: "/administrator/penarikan-saldo",
     access: "Admin"
+  },
+  {
+    id: uniqueId(),
+    title: "Laporan Presensi",
+    icon: IconBook,
+    href: "/administrator/laporan/laporan-presensi",
+    access: "Manajer Operasional, Owner",
   }
 ];
 

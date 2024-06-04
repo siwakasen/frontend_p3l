@@ -79,7 +79,6 @@ export async function checkout(dataPesanan, isCart, statusPesanan) {
       },
       body: JSON.stringify(dataPesanan),
     });
-
     const data = await response.json();
     return { data, code: response.status };
   } catch (error) {

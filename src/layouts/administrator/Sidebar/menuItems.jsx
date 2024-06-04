@@ -14,6 +14,21 @@ import {
   IconShoppingBag,
   IconReport,
   IconGrill,
+  IconMonkeybar,
+  IconMacro,
+  IconLoadBalancer,
+  IconInbox,
+  IconInboxOff,
+  IconInputAi,
+  IconUvIndex,
+  IconCoinBitcoin,
+  IconCoinFilled,
+  IconCoin,
+  IconBook,
+  IconFileCheck,
+  IconFileAlert,
+  IconChartCandle,
+  IconChartDonut
 } from "@tabler/icons-react";
 
 const MenuItem = [
@@ -88,7 +103,6 @@ const MenuItem = [
     href: "/administrator/bahan-baku",
     access: "Admin",
   },
-
   {
     id: uniqueId(),
     title: "Resep",
@@ -129,6 +143,32 @@ const MenuItem = [
     access: "Manajer Operasional",
   },
   {
+    id: uniqueId(),
+    title: "Pengajuan Penarikan Saldo",
+    icon: IconCoin,
+    href: "/administrator/penarikan-saldo",
+    access: "Admin"
+  },
+  {
+    id: uniqueId(),
+    title: "Update Status Pesanan",
+    icon: IconFileCheck,
+    href: "/administrator/update-status-pesanan",
+    access: "Admin"
+  },
+  {
+    navLabel: true,
+    subheader: "System",
+    access: "Admin"
+  },
+  {
+    id: uniqueId(),
+    title: "Pembatalan Pesanan",
+    icon: IconFileAlert,
+    href: "/administrator/pembatalan-pesanan",
+    access: "Admin"
+  },
+  {
     navLabel: true,
     subheader: "Laporan",
     access: "Manajer Operasional, Owner",
@@ -147,6 +187,27 @@ const MenuItem = [
     href: "/administrator/laporan/stok-bahan-baku",
     access: "Manajer Operasional, Owner",
   },
+  {
+    id: uniqueId(),
+    title: "Laporan Bulanan",
+    icon: IconChartCandle,
+    href: "/administrator/laporan/laporan-bulanan",
+    access: "Owner, Manajer Operasional"
+  },
+  {
+    id: uniqueId(),
+    title: "Penggunaan Bahan Baku",
+    icon: IconChartDonut,
+    href: "/administrator/laporan/laporan-penggunaan-bahan-baku",
+    access: "Owner, Manajer Operasional"
+  },
+  {
+    id: uniqueId(),
+    title: "Laporan Presensi",
+    icon: IconBook,
+    href: "/administrator/laporan/laporan-presensi",
+    access: "Manajer Operasional, Owner",
+  }
 ];
 
 export default MenuItem;

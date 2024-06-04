@@ -129,7 +129,6 @@ export const useDelete = ({ loading, setLoading }) => {
                 const { data, code } = await deleteBahanBaku(id);
                 if (code === 200) {
                     toastSuccess(data.message);
-                    setLoading(!loading);
                     return;
                 } else {
                     toastError(data.message);

@@ -2,18 +2,18 @@
 import React from 'react'
 import PageContainer from '@/components/container/PageContainer';
 import Breadcrumb from '@/layouts/administrator/Shared/breadcrumb/Breadcrumb';
-import DetailOrder from '@/components/administrator/pesanan-masuk/DetailOrder';
+import CancelOrder from '@/components/administrator/pembatalan-pesanan/CancelOrder';
 
 const BCrum = [
     { title: 'Dashboard', to: '/administrator/dashboard'},
-    { title: 'Detail Pesanan'}
+    { title: 'Pembatalan Pesanan'}
 ]
 
-const Page = ({params}) => {
+const Page = () => {
     return (
-        <PageContainer title="Detail Pesanan" description="Detail Pesanan">
-            <Breadcrumb title="Detail Pesanan" items={BCrum} />
-            <DetailOrder id={params.id} />
+        <PageContainer title="Pembatalan Pesanan" description="Pembatalan Pesanan">
+            <Breadcrumb title="Pembatalan Pesanan" items={BCrum} />
+            <CancelOrder />
         </PageContainer>
     )
 }

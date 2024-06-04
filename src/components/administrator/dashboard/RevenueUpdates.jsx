@@ -10,15 +10,14 @@ import SkeletonRevenueUpdatesTwoCard from './skeleton/RevenueUpdatesTwoCard';
 import { getDefaultData } from '@/services/dashboard/getData';
 
 const RevenueUpdates = ({isLoading}) => {
-  const [defaultMonth, setdefaultMonth] = React.useState(
-    new Date().getMonth() + 1
-  )
+  const [defaultMonth, setdefaultMonth] = React.useState(0)
   
   const [month, setMonth] = React.useState([]);
 
   React.useEffect(() => {
     getDefaultData().then((response) => {
       setMonth(response.data.ppBulanan);
+      setdefaultMonth(response.data.ppBulanan.length);
     });
   }, []);
 
@@ -132,7 +131,7 @@ const RevenueUpdates = ({isLoading}) => {
         ) : (
           <DashboardCard
             title="Pendapatan Bulanan"
-            subtitle="Pendapatan bulanan dan pengeluaran bulanan"
+            subtitle={`Pendapatan dan pengeluaran bulan ${month[month.length - 1] !== undefined ? month[month.length - 1].bulan.split(' ')[0] : ''}`}
             action={
               <CustomSelect
                 labelId="month-dd"
@@ -194,7 +193,7 @@ const RevenueUpdates = ({isLoading}) => {
                     ></Avatar>
                     <Box>
                       <Typography variant="subtitle1" color="textSecondary">
-                        Pendapatan bulan ini
+                        Pendapatan bulan {month.length > 0 && month[defaultMonth - 1] !== undefined ? month[defaultMonth - 1].bulan.split(' ')[0] : ''}
                       </Typography>
                       <Typography variant="h5">
                         {
@@ -210,7 +209,7 @@ const RevenueUpdates = ({isLoading}) => {
                     ></Avatar>
                     <Box>
                       <Typography variant="subtitle1" color="textSecondary">
-                        Pengeluaran bulan ini
+                        Pengeluaran bulan {month.length > 0 && month[defaultMonth - 1] !== undefined ? month[defaultMonth - 1].bulan.split(' ')[0] : ''}
                       </Typography>
                       <Typography variant="h5">
                         {

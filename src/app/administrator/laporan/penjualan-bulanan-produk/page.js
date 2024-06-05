@@ -43,16 +43,16 @@ export default function Page() {
       label: "Kuantitas",
     },
     {
-      id: "jumlah uang",
-      numeric: false,
-      disablePadding: false,
-      label: "Jumlah Uang",
-    },
-    {
       id: "harga",
       numeric: false,
       disablePadding: false,
       label: "Harga",
+    },
+    {
+      id: "jumlah uang",
+      numeric: false,
+      disablePadding: false,
+      label: "Jumlah Uang",
     },
   ];
 
@@ -66,7 +66,12 @@ export default function Page() {
       description="Laporan Penjualan Bulanan Per Produk"
     >
       <Breadcrumb title="Laporan" items={BCrum} />
-      <PenjualanBulananProduk data={newArray} headCells={headCells} date={date} setDate={setDate} />
+      <PenjualanBulananProduk
+        data={newArray}
+        headCells={headCells}
+        date={date}
+        setDate={setDate}
+      />
     </PageContainer>
   );
 }

@@ -131,26 +131,22 @@ export const PenjualanBulananProduk = ({ data, headCells, date, setDate }) => {
                       <TableCell>
                         <Typography variant="h6" fontWeight="600"></Typography>
                       </TableCell>
-
                       <TableCell>
                         <Typography variant="h6" fontWeight="600">
                           {row.nama_produk}
                         </Typography>
                       </TableCell>
-
                       <TableCell>
                         <Typography>{row.jumlah}</Typography>
                       </TableCell>
-
-                      <TableCell>
-                        <Typography color="textSecondary" variant="subtitle2">
-                          {row.subtotal}
-                        </Typography>
-                      </TableCell>
-
                       <TableCell>
                         <Typography color="textSecondary" variant="subtitle2">
                           {row.harga_produk}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography color="textSecondary" variant="subtitle2">
+                          {row.harga_produk * row.jumlah}
                         </Typography>
                       </TableCell>
                     </TableRow>
@@ -166,26 +162,22 @@ export const PenjualanBulananProduk = ({ data, headCells, date, setDate }) => {
                       <TableCell>
                         <Typography variant="h6" fontWeight="600"></Typography>
                       </TableCell>
-
                       <TableCell>
                         <Typography variant="h6" fontWeight="600">
                           {row.nama_hampers}
                         </Typography>
                       </TableCell>
-
                       <TableCell>
                         <Typography>{row.jumlah}</Typography>
                       </TableCell>
-
-                      <TableCell>
-                        <Typography color="textSecondary" variant="subtitle2">
-                          {row.subtotal}
-                        </Typography>
-                      </TableCell>
-
                       <TableCell>
                         <Typography color="textSecondary" variant="subtitle2">
                           {row.harga_hampers}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography color="textSecondary" variant="subtitle2">
+                          {row.harga_hampers * row.jumlah}
                         </Typography>
                       </TableCell>
                     </TableRow>

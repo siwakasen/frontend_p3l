@@ -17,7 +17,11 @@ import dayjs from "dayjs";
 // eslint-disable-next-line react/display-name
 const Report = forwardRef(({ data }, ref) => {
   const dateNow = dayjs().format("D MMMM YYYY");
-  const totalSubtotal = data?.reduce((acc, item) => acc + item.subtotal, 0);
+  const totalSubtotal = data?.reduce(
+    (acc, item) =>
+      acc + (item.harga_produk ?? item.harga_hampers) * item.jumlah,
+    0
+  );
   return (
     <Container>
       <Box mb={4}>
@@ -65,10 +69,10 @@ const Report = forwardRef(({ data }, ref) => {
                   {e.jumlah}
                 </td>
                 <td className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900">
-                  {e.subtotal}
+                  {e.harga_produk ?? e.harga_hampers}
                 </td>
                 <td className="px-2 py-1 border-r border-gray-200 text-center text-sm text-gray-900">
-                  {e.harga_produk ?? e.harga_hampers}
+                  {(e.harga_produk ?? e.harga_hampers) * e.jumlah}
                 </td>
               </tr>
             );

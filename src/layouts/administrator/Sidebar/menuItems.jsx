@@ -30,6 +30,7 @@ import {
   IconChartCandle,
   IconChartDonut
 } from "@tabler/icons-react";
+import { id } from "date-fns/locale";
 
 const MenuItem = [
   {
@@ -206,6 +207,21 @@ const MenuItem = [
     title: "Laporan Presensi",
     icon: IconBook,
     href: "/administrator/laporan/laporan-presensi",
+    access: "Manajer Operasional, Owner",
+  },
+  {
+    id: uniqueId(),
+    title: "Laporan Transaksi Penitip",
+    title: "Laporan Transaksi Penitip",
+    icon: IconBook,
+    href: "/administrator/laporan/transaksi-penitip",
+    access: "Manajer Operasional, Owner",
+  },
+  {
+    id: uniqueId(),
+    title: "Laporan Cashflow",
+    icon: IconBook,
+    href: "/administrator/laporan/cashflow",
     access: "Manajer Operasional, Owner",
   }
 ];

@@ -12,10 +12,10 @@ import { useSelector } from "react-redux";
 import Balance from "../../../assets/icons/balance.png";
 import Poin from "../../../assets/icons/poin.svg";
 import Image from "next/image";
-import ContainerProfile from "./ContainerProfile";
 import Link from "next/link";
+import ContainerOrderOnProgress from "./ContainerOrderOnProgress";
 
-const UserProfile = () => {
+const OrderOnProgress = () => {
   const data = useSelector((state) => state.user);
   return (
     <Box mt={2}>
@@ -134,10 +134,10 @@ const UserProfile = () => {
             </List>
           </Box>
         </Grid>
-        <ContainerProfile />
+        <ContainerOrderOnProgress />
       </Grid>
     </Box>
   );
 };
 
-export default UserProfile;
+export default OrderOnProgress;

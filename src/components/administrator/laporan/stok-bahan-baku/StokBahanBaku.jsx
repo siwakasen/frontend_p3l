@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import EnhancedTableHead from "@/components/shared/search-table/EnhancedTableHead";
-import Report from "./PrintLaporan";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReportPDF from "./laporanBahanBakuLayout";
 
 export const StokBahanBaku = ({ data, headCells }) => {
   const [order, setOrder] = useState("desc");
@@ -33,39 +34,19 @@ export const StokBahanBaku = ({ data, headCells }) => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const handlePrint = (transaction) => {
-    const printContents = document.getElementById(
-      `receipt-to-print-${transaction.length}`
-    ).innerHTML;
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload();
-  };
-
   return typeof data === undefined ? (
     <></>
   ) : (
     <Box>
       <Box>
-        <Button
-          sx={{ mb: "1.25rem" }}
-          onClick={() => handlePrint(data)}
-          variant="contained"
+        <PDFDownloadLink
+          document={<ReportPDF laporan={data} />}
+          fileName="laporan-bahan-baku.pdf"
         >
-          Cetak Laporan
-        </Button>
-
-        <Box style={{ display: "none" }}>
-          <Box
-            key={data?.length}
-            id={`receipt-to-print-${data?.length}`}
-            style={{ display: "none" }}
-          >
-            <Report data={data} />
-          </Box>
-        </Box>
+          <Button sx={{ mb: "1.25rem" }} variant="contained">
+            Download PDF
+          </Button>
+        </PDFDownloadLink>
         <Paper variant="outlined">
           <TableContainer>
             <Table

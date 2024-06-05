@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const ReportPDF = ({ laporan, tahun, bulan }) => {
+const ReportPDF = ({ laporan, tahun, bulan, total }) => {
     const printDate = new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(new Date());
 
     return (
@@ -79,6 +79,11 @@ const ReportPDF = ({ laporan, tahun, bulan }) => {
                             </View>
                         );
                     })}
+                </View>
+                <View style={styles.tableRow}>
+                    <Text style={[styles.tableCol, styles.tableCellHeader]}>Total</Text>
+                    <Text style={[styles.tableCol, styles.tableCellHeader]}></Text>
+                    <Text style={[styles.tableCol, styles.tableCellHeader]}>{total}</Text>
                 </View>
             </Page>
         </Document>

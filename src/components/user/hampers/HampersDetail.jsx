@@ -92,8 +92,8 @@ export const HampersDetail = ({ item, kategori, items, value, setValue }) => {
 
       router.push(
         `/checkout?hampers=${item.id_hampers}&date=${value.format(
-          "YYYY-MM-DD&statusPesanan=PO"
-        )}`
+          "YYYY-MM-DD"
+        )}&statusPesanan=PO`
       );
     } else {
       toastInfo("Silahkan login terlebih dahulu");

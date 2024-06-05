@@ -139,7 +139,7 @@ export default function Page() {
                 <Button variant="contained" color="primary" >
                     <PrintIcon sx={{ mr: 1 }} />
                     <PDFDownloadLink
-                        document={<ReportPDF laporan={laporan} tahun={tahun} bulan={bulan} />}
+                        document={<ReportPDF laporan={laporan} tahun={tahun} bulan={bulan} total={totalAll} />}
                         fileName="laporan-presensi.pdf"
                     >
                         {({ loading }) => (loading ? 'Loading document...' : 'Download Pdf')}

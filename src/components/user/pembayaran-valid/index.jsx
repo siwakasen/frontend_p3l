@@ -118,6 +118,13 @@ export const PembayaranValidHistory = () => {
                 </Link>
               </ListItem>
               <ListItem>
+                <Link href="/user/pesanan-berjalan">
+                  <Typography fontWeight={400} variant="subtitle2">
+                    Pesanan Berjalan
+                  </Typography>
+                </Link>
+              </ListItem>
+              <ListItem>
                 <Link href="/user/histori-pesanan">
                   <Typography fontWeight={400} variant="subtitle2">
                     Histori Pesanan

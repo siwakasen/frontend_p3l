@@ -12,12 +12,13 @@ import {
 } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import EnhancedTableHead from "@/components/shared/search-table/EnhancedTableHead";
-import Report from "./PrintLaporan";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReportPDF from "./laporanPenjualanBulananProdukLayout";
 
 export const PenjualanBulananProduk = ({ data, headCells, date, setDate }) => {
   const [order, setOrder] = useState("desc");
@@ -41,17 +42,6 @@ export const PenjualanBulananProduk = ({ data, headCells, date, setDate }) => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const handlePrint = (transaction) => {
-    const printContents = document.getElementById(
-      `receipt-to-print-${transaction.length}`
-    ).innerHTML;
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload();
-  };
-
   const handleDateChange = (date) => {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
     setDate(formattedDate);
@@ -72,14 +62,21 @@ export const PenjualanBulananProduk = ({ data, headCells, date, setDate }) => {
             mb: "1.25rem",
           }}
         >
-          <Button
+          <PDFDownloadLink
             sx={{ height: buttonHeight }}
-            onClick={() => handlePrint(data)}
-            variant="contained"
-            size="large"
+            document={
+              <ReportPDF
+                laporan={data}
+                bulan={dayjs(date).format("MMMM")}
+                tahun={dayjs(date).year()}
+              />
+            }
+            fileName="laporan-penjualan-produk-per-produk.pdf"
           >
-            Cetak Laporan
-          </Button>
+            <Button sx={{ mb: "1.25rem" }} variant="contained">
+              Download PDF
+            </Button>
+          </PDFDownloadLink>
           <LocalizationProvider dateAdapter={AdapterDayjs} sx={{}}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
@@ -92,15 +89,6 @@ export const PenjualanBulananProduk = ({ data, headCells, date, setDate }) => {
             </DemoContainer>
           </LocalizationProvider>
         </Container>
-        <Box style={{ display: "none" }}>
-          <Box
-            key={data?.length}
-            id={`receipt-to-print-${data?.length}`}
-            style={{ display: "none" }}
-          >
-            <Report data={data} />
-          </Box>
-        </Box>
         <Paper variant="outlined">
           <TableContainer>
             <Table
